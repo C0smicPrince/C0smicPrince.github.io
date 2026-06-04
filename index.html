@@ -17,13 +17,13 @@
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { background-color: var(--bg); color: var(--text-main); font-family: 'Inter', sans-serif; min-height: 100vh; }
+        body { background-color: var(--bg); color: var(--text-main); font-family: 'Inter', sans-serif; min-height: 100vh; display: flex; flex-direction: column; }
 
         nav { display: flex; justify-content: center; gap: 3rem; padding: 2rem; border-bottom: 1px solid var(--border); }
         nav a { color: var(--text-muted); text-transform: uppercase; font-size: 0.75rem; letter-spacing: 2px; cursor: pointer; transition: 0.3s; }
         nav a:hover, nav a.active { color: var(--accent); }
 
-        .container { max-width: 1000px; margin: 4rem auto; padding: 0 2rem; }
+        .container { max-width: 1000px; margin: 4rem auto; padding: 0 2rem; flex: 1; }
         .view { display: none; }
         .view.active-view { display: block; animation: fadeIn 0.5s; }
 
@@ -39,7 +39,7 @@
         .card h3 { margin-bottom: 0.5rem; font-weight: 600; }
         .card p { color: var(--text-muted); font-size: 0.9rem; line-height: 1.5; }
 
-        footer { text-align: center; padding: 4rem; color: var(--text-muted); }
+        footer { text-align: center; padding: 4rem; color: var(--text-muted); border-top: 1px solid var(--border); }
         .socials { font-size: 1.2rem; display: flex; justify-content: center; gap: 2rem; }
         .socials a { color: var(--text-muted); transition: 0.3s; }
         .socials a:hover { color: var(--accent); }
@@ -51,6 +51,7 @@
         <a onclick="navigate('home')" id="link-home" class="active">Home</a>
         <a onclick="navigate('writeups')" id="link-writeups">Writeups</a>
         <a onclick="navigate('malware')" id="link-malware">Malware Dev</a>
+        <a onclick="navigate('about')" id="link-about">About Me</a>
     </nav>
 
     <div class="container">
@@ -80,12 +81,20 @@
                 <a href="#" class="card"><h3>Project Beta</h3><p>Technical implementation details.</p></a>
             </div>
         </div>
+
+        <div id="about" class="view">
+            <div class="header"><h1>About Me</h1></div>
+            <div class="grid">
+                <div class="card"><h3>Background</h3><p>Dedicated to low-level Windows security, kernel-level driver development, rootkits, and advanced adversary simulation.</p></div>
+                <div class="card"><h3>Certification Roadmap</h3><p>Active: CWES. Target: CPTS -> OSCP -> OSEP -> GXPN -> OSEE.</p></div>
+            </div>
+        </div>
     </div>
 
     <footer>
         <div class="socials">
             <a href="#"><i class="fab fa-hashnode"></i></a>
-            <a href="#"><i class="fab fa-github"></i></a>
+            <a href="https://github.com/Ashbo3n" target="_blank"><i class="fab fa-github"></i></a>
             <a href="#"><i class="fab fa-medium"></i></a>
         </div>
     </footer>

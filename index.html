@@ -7,7 +7,6 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;500;700&display=swap" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
@@ -20,94 +19,28 @@
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background-color: var(--bg); color: var(--text-main); font-family: 'Manrope', sans-serif; line-height: 1.6; display: flex; flex-direction: column; min-height: 100vh; }
 
-        body {
-            background-color: var(--bg);
-            color: var(--text-main);
-            font-family: 'Manrope', sans-serif;
-            line-height: 1.6;
-            overflow-x: hidden;
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-        }
-
-        nav {
-            display: flex;
-            justify-content: center;
-            gap: 4rem;
-            padding: 2.5rem;
-            border-bottom: 1px solid var(--border);
-        }
-
-        nav a {
-            color: var(--text-muted);
-            text-decoration: none;
-            font-size: 0.95rem;
-            font-weight: 500;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            cursor: pointer;
-            transition: color 0.2s ease;
-        }
-
+        nav { display: flex; justify-content: center; gap: 4rem; padding: 2.5rem; border-bottom: 1px solid var(--border); }
+        nav a { color: var(--text-muted); text-decoration: none; font-size: 0.95rem; font-weight: 500; text-transform: uppercase; cursor: pointer; transition: color 0.2s ease; }
         nav a:hover, nav a.active { color: var(--accent); }
 
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 5rem 2rem;
-            flex: 1;
-        }
-
+        .container { max-width: 1400px; margin: 0 auto; padding: 5rem 2rem; flex: 1; }
         .view { display: none; }
         .view.active-view { display: block; }
 
-        .hero { text-align: center; margin-bottom: 6rem; }
-        .hero h1 { font-size: 5rem; font-weight: 700; margin-bottom: 1rem; }
-        .hero p { font-size: 1.5rem; color: var(--text-muted); }
-
-        .grid-layout {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-            gap: 2.5rem;
+        /* Grid Layouts with Clickable Cards */
+        .grid-layout { display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 2.5rem; }
+        .card { 
+            border: 1px solid var(--border); padding: 3rem; border-radius: 12px; background: rgba(255, 255, 255, 0.01); 
+            display: block; text-decoration: none; color: inherit; transition: border-color 0.2s;
         }
-
-        .card {
-            border: 1px solid var(--border);
-            padding: 3rem;
-            border-radius: 12px;
-            background: rgba(255, 255, 255, 0.01);
-        }
-
+        .card:hover { border-color: var(--accent); }
         .card h2 { font-size: 2rem; margin-bottom: 2rem; font-weight: 500; }
         .card h3 { font-size: 1.5rem; margin-bottom: 1rem; }
         .card p { color: var(--text-muted); margin-bottom: 1.5rem; }
-        .placeholder-text { color: var(--text-muted); font-style: italic; }
 
-        .about-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
-            gap: 2.5rem;
-        }
-
-        .about-grid .card ul {
-            list-style: none;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 0.6rem;
-            margin-top: 0.5rem;
-        }
-
-        .about-grid .card ul li { color: var(--text-muted); font-size: 0.95rem; }
-        .about-grid .card ul li::before { content: "— "; color: var(--text-main); }
-
-        /* Footer */
-        footer {
-            text-align: center;
-            padding: 3rem;
-            border-top: 1px solid var(--border);
-        }
+        footer { text-align: center; padding: 3rem; border-top: 1px solid var(--border); }
         footer .social-links { display: flex; justify-content: center; gap: 2rem; font-size: 1.5rem; }
         footer .social-links a { color: var(--text-muted); transition: color 0.2s; }
         footer .social-links a:hover { color: var(--accent); }
@@ -123,37 +56,19 @@
     </nav>
 
     <div class="container">
-        <div id="home" class="view active-view">
-            <div class="hero">
-                <h1>Ashbo3n</h1>
-                <p>Sole Exploit Developer & Researcher</p>
-            </div>
-            <div class="grid-layout">
-                <div class="card"><h2>Writeups</h2><p class="placeholder-text">[Template]</p></div>
-                <div class="card"><h2>Malware Dev</h2><p class="placeholder-text">[Template]</p></div>
-            </div>
-        </div>
-        
-        <div id="about" class="view">
-            <div class="about-grid">
-                <div class="card"><h2>About Me</h2><p class="placeholder-text">[Bio]</p></div>
-                <div class="card"><h2>Focus Areas</h2><ul><li>Exploit Dev</li><li>Malware</li></ul></div>
-            </div>
-        </div>
-
         <div id="writeups" class="view">
             <div class="grid-layout">
-                <div class="card"><h3>Blog 01</h3><p>...</p></div>
-                <div class="card"><h3>Blog 02</h3><p>...</p></div>
-                <div class="card"><h3>Blog 03</h3><p>...</p></div>
+                <a href="URL_TO_BLOG_1" class="card"><h3>Blog Entry 01</h3><p>Analysis of a recent vulnerability discovery.</p></a>
+                <a href="URL_TO_BLOG_2" class="card"><h3>Blog Entry 02</h3><p>Breakdown of custom shellcode techniques.</p></a>
+                <a href="URL_TO_BLOG_3" class="card"><h3>Blog Entry 03</h3><p>Documentation of reverse engineering steps.</p></a>
             </div>
         </div>
 
         <div id="malware" class="view">
             <div class="grid-layout">
-                <div class="card"><h3>Project 01</h3><p>...</p></div>
-                <div class="card"><h3>Project 02</h3><p>...</p></div>
-                <div class="card"><h3>Project 03</h3><p>...</p></div>
+                <a href="URL_TO_PROJECT_1" class="card"><h3>Project Alpha</h3><p>Implementation of custom injection techniques.</p></a>
+                <a href="URL_TO_PROJECT_2" class="card"><h3>Project Beta</h3><p>Research into obfuscation layers.</p></a>
+                <a href="URL_TO_PROJECT_3" class="card"><h3>Project Gamma</h3><p>Development of custom C2 modules.</p></a>
             </div>
         </div>
     </div>

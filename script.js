@@ -1,11 +1,11 @@
 const WRITEUPS = [
     {
-        title:      "Box Name 01",
-        file:       "writeups/box-name-01.md",
+        title:      "Titanic",
+        file:       "writeups/HTB_Titanic.md",
         platform:   "HTB",
         difficulty: "Easy",
         tags:       ["linux", "web"],
-        description: "Methodology overview and key findings."
+        description: "beginning with web reconnaissance that unveils a critical arbitrary file read vulnerability. leveraging this flaw to traverse the filesystem, extract sensitive configuration files, and crack database credentials for initial SSH access. Continuing with a local privilege escalation, where we identify and exploit a vulnerable version of ImageMagick to achieve root-level control."
     },
     {
         title:      "Box Name 02",

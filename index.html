@@ -3,134 +3,124 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ashbo3n</title>
+    <title>Ashbo3n | Operations</title>
     <link rel="stylesheet" href="style.css">
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 </head>
 <body>
 
-    <!-- Floating Pill Navigation -->
-    <nav class="navbar">
-        <div class="nav-logo">Ashbo3n</div>
-        <ul class="nav-links">
-            <li><a onclick="navigate('home')" id="link-home" class="active-link">Home</a></li>
-            <li><a onclick="navigate('writeups')" id="link-writeups">Writeups</a></li>
-            <li><a onclick="navigate('malware-dev')" id="link-malware-dev">Malware Dev</a></li>
-            <li><a onclick="navigate('about')" id="link-about">About Me</a></li>
-        </ul>
-    </nav>
-
-    <!-- Main Content -->
-    <main class="container">
-        
-        <!-- Home Section -->
-        <section id="home" class="section active">
-            <div class="hero-center">
-                <h1 class="hero-title">Ashbo3n</h1>
-                <p class="hero-subtitle">Sole Exploit Developer & Researcher</p>
-            </div>
-
-            <!-- Wide layout stats to fill the page nicely -->
-            <div class="stats-row">
-                <div class="stat-box">
-                    <span class="stat-label">Current Rank</span>
-                    <span class="stat-value">[Placeholder: Rank/XP]</span>
-                </div>
-                <div class="stat-box">
-                    <span class="stat-label">Focus Area</span>
-                    <span class="stat-value">[Placeholder: Specialization]</span>
-                </div>
-                <div class="stat-box">
-                    <span class="stat-label">Certifications</span>
-                    <span class="stat-value">[Placeholder: Certs/Roadmap]</span>
-                </div>
-            </div>
-
-            <div class="featured-block">
-                <div class="featured-header">
-                    <h2>Active Development</h2>
-                </div>
-                <div class="featured-body">
-                    <h3>[Placeholder: Project Name]</h3>
-                    <p>[Placeholder: A clean, 2-3 line description of your active tool development, the techniques used, and the goal of the project to fill out this central area.]</p>
-                </div>
-            </div>
-        </section>
-
-        <!-- Writeups Section -->
-        <section id="writeups" class="section">
-            <div class="section-header">
-                <h2>Writeups</h2>
-                <p>[Placeholder: Brief description of your methodology or machine focus]</p>
+    <div class="app-wrapper">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="brand">
+                <span class="brand-logo">/></span>
+                <h2>Ashbo3n</h2>
             </div>
             
-            <div class="list-wrapper">
-                <div class="list-item clickable" onclick="loadMarkdown('htb-example.md')">
-                    <div class="item-content">
-                        <h3>[Placeholder: HTB Machine Name]</h3>
-                        <p>[Placeholder: Short description of the initial foothold or exploit path]</p>
-                    </div>
-                    <div class="item-meta">
-                        <span class="badge">[Difficulty]</span>
-                    </div>
-                </div>
-                <div class="list-item clickable" onclick="loadMarkdown('htb-example2.md')">
-                    <div class="item-content">
-                        <h3>[Placeholder: HTB Machine Name]</h3>
-                        <p>[Placeholder: Short description of the initial foothold or exploit path]</p>
-                    </div>
-                    <div class="item-meta">
-                        <span class="badge">[Difficulty]</span>
-                    </div>
-                </div>
-            </div>
-        </section>
+            <nav class="side-nav">
+                <a onclick="navigate('dashboard')" id="link-dashboard" class="active">Dashboard</a>
+                <a onclick="navigate('writeups')" id="link-writeups">HTB Writeups</a>
+                <a onclick="navigate('malware')" id="link-malware">Malware Dev</a>
+                <a onclick="navigate('system')" id="link-system">System & OS</a>
+            </nav>
 
-        <!-- Malware Dev Section -->
-        <section id="malware-dev" class="section">
-            <div class="section-header">
-                <h2>Malware Dev</h2>
-                <p>[Placeholder: Brief overview of your tool development]</p>
+            <div class="sidebar-footer">
+                <div class="status-indicator"></div>
+                <span>System Online</span>
             </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
             
-            <div class="list-wrapper">
-                <div class="list-item clickable" onclick="loadMarkdown('malware.md')">
-                    <div class="item-content">
-                        <h3>[Placeholder: Tool/Project Name]</h3>
-                        <p>[Placeholder: Description of the tool's purpose and functionality]</p>
+            <!-- Dashboard View (Fills Screen) -->
+            <section id="dashboard" class="view active-view">
+                <header class="view-header">
+                    <h1>Command Center</h1>
+                    <p>Sole Exploit Developer & Researcher</p>
+                </header>
+
+                <!-- This grid stretches to fill the page -->
+                <div class="bento-grid">
+                    
+                    <!-- Main Focus Area -->
+                    <div class="panel hero-panel">
+                        <h3>Current Objective</h3>
+                        <h2 class="accent-text">Sliver C2 Encrypted Dropper</h2>
+                        <p>Developing a staged, encrypted shellcode dropper utilizing API hashing, AES-CBC decryption, and manual PE parsing to evade detection. Advanced Windows-native development initialized.</p>
                     </div>
-                    <div class="item-meta">
-                        <span class="badge">[Language]</span>
+
+                    <!-- Rank & XP -->
+                    <div class="panel stat-panel">
+                        <h3>Current Rank</h3>
+                        <div class="stat-big">Red Team Operative</div>
+                        <div class="progress-bar">
+                            <div class="progress" style="width: 35%;"></div>
+                        </div>
+                        <p class="stat-sub">12,000+ XP / Active</p>
+                    </div>
+
+                    <!-- Research Focus -->
+                    <div class="panel focus-panel">
+                        <h3>Research Vectors</h3>
+                        <ul class="tech-list">
+                            <li>Low-level Windows Security</li>
+                            <li>Kernel-level Driver Development</li>
+                            <li>Rootkits</li>
+                            <li>Adversary Simulation</li>
+                        </ul>
+                    </div>
+
+                    <!-- Certifications -->
+                    <div class="panel cert-panel">
+                        <h3>Certification Roadmap</h3>
+                        <div class="cert-active"><strong>Active:</strong> CWES</div>
+                        <div class="cert-path">
+                            <span>CPTS</span> → <span>OSCP</span> → <span>OSEP</span> → <span>GXPN</span> → <span>OSEE</span>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </section>
+            </section>
 
-        <!-- About Section -->
-        <section id="about" class="section">
-            <div class="section-header">
-                <h2>About Me</h2>
-            </div>
-            
-            <div class="featured-block">
-                <p style="color: var(--text-muted); line-height: 1.8;">
-                    [Placeholder: Paragraph detailing your professional background, mindset, open-source dedication, or career goals. Make this a solid block of text to look clean and professional.]
-                </p>
-            </div>
-        </section>
+            <!-- Markdown Views (Hidden by default) -->
+            <section id="writeups" class="view">
+                <header class="view-header">
+                    <h1>HTB Writeups</h1>
+                    <p>Tactical execution and machine exploitation.</p>
+                </header>
+                <div class="panel">
+                    <p>List your markdown files here...</p>
+                </div>
+            </section>
 
-        <!-- Dynamic Markdown Viewer -->
-        <section id="markdown-viewer" class="section">
-            <button class="back-btn" onclick="navigate('writeups')">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
-                Back
-            </button>
-            <div id="markdown-content" class="markdown-body">
-                <!-- Markdown renders here -->
-            </div>
-        </section>
+            <section id="malware" class="view">
+                <header class="view-header">
+                    <h1>Malware Development</h1>
+                    <p>Payload crafting and evasion techniques.</p>
+                </header>
+                <div class="panel">
+                    <p>List your dev projects here...</p>
+                </div>
+            </section>
 
-    </main>
+            <section id="system" class="view">
+                <header class="view-header">
+                    <h1>System Config</h1>
+                    <p>Environment details and internals.</p>
+                </header>
+                <div class="panel">
+                    <p>Current Environment: Windows 11 | IDEs: Visual Studio 2026, RustRover</p>
+                </div>
+            </section>
+
+            <!-- Markdown Render Target -->
+            <section id="markdown-viewer" class="view">
+                <button class="return-btn" onclick="navigate('dashboard')">← Return to Dashboard</button>
+                <div id="markdown-content" class="panel markdown-body"></div>
+            </section>
+
+        </main>
+    </div>
 
     <script src="main.js"></script>
 </body>

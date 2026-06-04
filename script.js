@@ -1,20 +1,36 @@
 const WRITEUPS = [
     {
-        title:      "Titanic",
-        file:       "writeups/HTB_Titanic.md",
+        title:      "Devvortex",
+        file:       "writeups/HTB_devvortex.md",
         platform:   "HTB",
         difficulty: "Easy",
         tags:       ["linux", "web"],
-        description: "beginning with web reconnaissance that unveils a critical arbitrary file read vulnerability. leveraging this flaw to traverse the filesystem, extract sensitive configuration files, and crack database credentials for initial SSH access. Continuing with a local privilege escalation, where we identify and exploit a vulnerable version of ImageMagick to achieve root-level control."
+        description: "Devvortex is an easy-difficulty Linux machine that features a Joomla CMS that is vulnerable to information disclosure. Accessing the service&#039;s configuration file reveals plaintext credentials that lead to Administrative access to the Joomla instance. With administrative access, the Joomla template is modified to include malicious PHP code and gain a shell. After gaining a shell and enumerating the database contents, hashed credentials are obtained, which are cracked and lead to SSH access to the machine. Post-exploitation enumeration reveals that the user is allowed to run apport-cli as root, which is leveraged to obtain a root shell."
     },
     {
-        title:      "Box Name 02",
-        file:       "writeups/box-name-02.md",
-        platform:   "THM",
+        title:      "Forest",
+        file:       "writeups/HTB_forest.md",
+        platform:   "HTB",
+        difficulty: "Easy",
+        tags:       ["windows", "Active Directory"],
+        description: "Forest is an easy Windows machine that showcases a Domain Controller (DC) for a domain in which Exchange Server has been installed. The DC allows anonymous LDAP binds, which are used to enumerate domain objects. The password for a service account with Kerberos pre-authentication disabled can be cracked to gain a foothold. The service account is found to be a member of the Account Operators group, which can be used to add users to privileged Exchange groups. The Exchange group membership is leveraged to gain DCSync privileges on the domain and dump the NTLM hashes, compromising the system."
+    },
+    {
+        title:      "Sauna",
+        file:       "writeups/HTB_sauna.md",
+        platform:   "HTB",
+        difficulty: "Easy",
+        tags:       ["windows", "Active Directory"],
+        description: "Sauna is an easy difficulty Windows machine that features Active Directory enumeration and exploitation. Possible usernames can be derived from employee full names listed on the website. With these usernames, an ASREPRoasting attack can be performed, which results in hash for an account that doesn&amp;#039;t require Kerberos pre-authentication. This hash can be subjected to an offline brute force attack, in order to recover the plaintext password for a user that is able to WinRM to the box. Running WinPEAS reveals that another system user has been configured to automatically login and it identifies their password. This second user also has Windows remote management permissions. BloodHound reveals that this user has the DS-Replication-Get-Changes-All extended right, which allows them to dump password hashes from the Domain Controller in a DCSync attack"
+    },
+    {
+        title:      "Heal",
+        file:       "writeups/HTB_heal.md",
+        platform:   "HTB",
         difficulty: "Medium",
-        tags:       ["windows", "privesc"],
-        description: "Methodology overview and key findings."
-    }
+        tags:       ["Linux", "Web"],
+        description: "Heal is a medium-difficult Linux machine that features a website vulnerable to arbitrary file read, allowing us to extract sensitive credentials. The server also hosts a LimeSurvey instance, where the leaked credentials can be used to log in as an administrator. Since administrators can upload plugins, we can exploit this to upload a malicious plugin and gain a reverse shell as the user. Further enumeration reveals the database password for LimeSurvey, which is reused by the system user , allowing us to escalate access. The server also runs a local instance of the Consul Agent as . By registering a malicious service via the Consul API, we can escalate privileges and gain root access."
+    },
 ];
 
 const MALWARE = [

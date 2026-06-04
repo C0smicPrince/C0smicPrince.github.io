@@ -1,7 +1,7 @@
 const WRITEUPS = [
     {
         title:      "Titanic",
-        file:       "writeups/HTB_Titanic.md",
+        file:       "https://github.com/C0smicPrince/C0smicPrince.github.io/blob/main/writeups/HTB_Titanic",
         platform:   "HTB",
         difficulty: "Easy",
         tags:       ["linux", "web"],

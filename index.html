@@ -4,69 +4,44 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ashbo3n</title>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;500;700&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 
     <style>
         :root {
-            --bg: #050505;
-            --text-main: #ffffff;
-            --text-dim: #404040;
+            --bg: #080808;
+            --text-main: #f0f0f0;
+            --text-muted: #737373;
+            --border: #1f1f1f;
             --accent: #ffffff;
-            --border: #101010;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { 
-            background-color: var(--bg); 
-            color: var(--text-main); 
-            font-family: 'Outfit', sans-serif; 
-            min-height: 100vh;
-        }
+        body { background-color: var(--bg); color: var(--text-main); font-family: 'Manrope', sans-serif; line-height: 1.6; }
 
-        nav { 
-            display: flex; 
-            justify-content: center; 
-            gap: 6rem; 
-            padding: 4rem; 
-            border-bottom: 1px solid var(--border); 
-        }
-        nav a { 
-            color: var(--text-dim); 
-            text-decoration: none; 
-            font-size: 1rem; 
-            text-transform: uppercase; 
-            letter-spacing: 4px; 
-            cursor: pointer; 
-            transition: color 0.4s;
-        }
-        nav a:hover, nav a.active { color: var(--text-main); }
+        nav { display: flex; justify-content: center; gap: 4rem; padding: 2.5rem; border-bottom: 1px solid var(--border); }
+        nav a { color: var(--text-muted); text-decoration: none; font-size: 0.95rem; font-weight: 500; text-transform: uppercase; cursor: pointer; }
+        nav a:hover, nav a.active { color: var(--accent); }
 
-        .container { 
-            max-width: 1600px; 
-            margin: 0 auto; 
-            padding: 8rem 4rem; 
-        }
-
+        .container { max-width: 1400px; margin: 0 auto; padding: 5rem 2rem; }
         .view { display: none; }
         .view.active-view { display: block; }
 
-        .hero { margin-bottom: 10rem; }
-        .hero h1 { font-size: 8rem; font-weight: 700; letter-spacing: -4px; margin-bottom: 2rem; }
-        .hero p { font-size: 2rem; color: var(--text-dim); font-weight: 300; }
+        /* Hero */
+        .hero { text-align: center; margin-bottom: 5rem; }
+        .hero h1 { font-size: 5rem; margin-bottom: 1rem; }
 
-        /* The Grid: Perfectly empty, waiting for you to populate */
-        .grid { 
-            display: grid; 
-            grid-template-columns: repeat(auto-fit, minmax(600px, 1fr)); 
-            gap: 4rem; 
-        }
-        .card { 
-            border: 1px solid var(--border); 
-            padding: 5rem; 
-            min-height: 400px;
-        }
-        .card h2 { font-size: 3rem; margin-bottom: 3rem; color: var(--text-dim); }
+        /* Grid Layouts */
+        .page-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 2rem; }
+        .card { border: 1px solid var(--border); padding: 2rem; border-radius: 12px; background: rgba(255, 255, 255, 0.01); }
+        
+        /* New Home Additions */
+        .info-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; margin-bottom: 4rem; }
+        .info-box { border: 1px solid var(--border); padding: 2rem; border-radius: 12px; }
+        .info-box h3 { font-size: 1.2rem; margin-bottom: 1rem; color: var(--text-muted); }
+
+        /* About Me Specific */
+        .about-content { max-width: 800px; margin: 0 auto; padding: 3rem; border: 1px solid var(--border); border-radius: 12px; }
     </style>
 </head>
 <body>
@@ -75,6 +50,7 @@
         <a onclick="navigate('home')" id="link-home" class="active">Home</a>
         <a onclick="navigate('writeups')" id="link-writeups">Writeups</a>
         <a onclick="navigate('malware')" id="link-malware">Malware Dev</a>
+        <a onclick="navigate('about')" id="link-about">About Me</a>
     </nav>
 
     <div class="container">
@@ -83,27 +59,34 @@
                 <h1>Ashbo3n</h1>
                 <p>Sole Exploit Developer & Researcher</p>
             </div>
-            <div class="grid">
-                <div class="card"><h2>Writeups</h2></div>
-                <div class="card"><h2>Malware Dev</h2></div>
+
+            <div class="info-row">
+                <div class="info-box"><h3>Focus</h3><p>System internals, low-level architecture, and security research.</p></div>
+                <div class="info-box"><h3>Approach</h3><p>Prioritizing manual analysis and deep-dive technical methodology.</p></div>
+            </div>
+
+            <div class="page-grid">
+                <div class="card"><h2>Recent Writeups</h2><p>Overview of latest technical findings.</p></div>
+                <div class="card"><h2>Recent Projects</h2><p>Current development research tracks.</p></div>
             </div>
         </div>
 
         <div id="writeups" class="view">
-            <div class="grid">
-                <div class="card"></div>
-                <div class="card"></div>
-                <div class="card"></div>
-                <div class="card"></div>
+            <div class="page-grid">
+                <div class="card"><h3>[Box Name]</h3><p>Description placeholder.</p></div>
             </div>
         </div>
 
         <div id="malware" class="view">
-            <div class="grid">
-                <div class="card"></div>
-                <div class="card"></div>
-                <div class="card"></div>
-                <div class="card"></div>
+            <div class="page-grid">
+                <div class="card"><h3>[Project Name]</h3><p>Description placeholder.</p></div>
+            </div>
+        </div>
+
+        <div id="about" class="view">
+            <div class="about-content">
+                <h2 style="margin-bottom: 1.5rem;">About Me</h2>
+                <p>Add your personal bio, professional background, or general interests here. This area is designed to hold text content specifically.</p>
             </div>
         </div>
     </div>

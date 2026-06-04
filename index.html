@@ -64,7 +64,7 @@
 
         .grid-layout {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
             gap: 2.5rem;
         }
 
@@ -76,6 +76,7 @@
         }
 
         .card h2 { font-size: 2rem; margin-bottom: 2rem; font-weight: 500; }
+        .card h3 { font-size: 1.5rem; margin-bottom: 1rem; }
         .placeholder-text { color: var(--text-muted); font-style: italic; }
 
         .about-grid {
@@ -152,19 +153,17 @@
 
         <div id="writeups" class="view">
             <div class="grid-layout">
-                <div class="card">
-                    <h2>Writeups</h2>
-                    <p class="placeholder-text">[Template: Archive goes here]</p>
-                </div>
+                <div class="card"><h3>[Box Name 01]</h3><p class="placeholder-text">Methodology overview and key findings.</p></div>
+                <div class="card"><h3>[Box Name 02]</h3><p class="placeholder-text">Methodology overview and key findings.</p></div>
+                <div class="card"><h3>[Box Name 03]</h3><p class="placeholder-text">Methodology overview and key findings.</p></div>
             </div>
         </div>
 
         <div id="malware" class="view">
             <div class="grid-layout">
-                <div class="card">
-                    <h2>Malware Dev</h2>
-                    <p class="placeholder-text">[Template: Projects go here]</p>
-                </div>
+                <div class="card"><h3>[Project Name 01]</h3><p class="placeholder-text">Technical implementation details.</p></div>
+                <div class="card"><h3>[Project Name 02]</h3><p class="placeholder-text">Technical implementation details.</p></div>
+                <div class="card"><h3>[Project Name 03]</h3><p class="placeholder-text">Technical implementation details.</p></div>
             </div>
         </div>
 
@@ -172,14 +171,9 @@
 
     <script>
         function navigate(viewId) {
-            // Hide all views
             document.querySelectorAll('.view').forEach(v => v.classList.remove('active-view'));
-            // Reset active nav
             document.querySelectorAll('nav a').forEach(l => l.classList.remove('active'));
-            
-            // Show requested view
             document.getElementById(viewId).classList.add('active-view');
-            // Set nav link active
             document.getElementById('link-' + viewId).classList.add('active');
         }
     </script>

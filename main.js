@@ -9,18 +9,49 @@ function navigate(targetId) {
         link.classList.remove('active-link');
     });
 
-    // Show target section and highlight active link
+    // Show target section
     document.getElementById(targetId).classList.add('active');
-    document.getElementById('link-' + targetId).classList.add('active-link');
+    
+    // Highlight nav link if it exists (markdown-viewer doesn't have a nav link)
+    const activeLink = document.getElementById('link-' + targetId);
+    if (activeLink) {
+        activeLink.classList.add('active-link');
+    }
     
     // Update URL hash smoothly
     history.pushState(null, null, '#' + targetId);
 }
 
-// Handle page load with specific hash
+// Function to fetch and render a markdown file
+async function loadMarkdown(filename) {
+    const contentDiv = document.getElementById('markdown-content');
+    contentDiv.innerHTML = "<p>Loading...</p>";
+    
+    // Switch to the markdown viewer section immediately
+    navigate('markdown-viewer');
+
+    try {
+        // Fetch the raw markdown file from your directory
+        const response = await fetch(filename);
+        if (!response.ok) throw new Error('File not found');
+        
+        const text = await response.text();
+        
+        // Parse markdown to HTML using marked.js
+        contentDiv.innerHTML = marked.parse(text);
+        
+    } catch (error) {
+        contentDiv.innerHTML = `<p>Error loading <strong>${filename}</strong>. Ensure the file exists in the directory and you are running a local server to avoid CORS issues.</p>`;
+    }
+}
+
+// Handle page load and set default routing to Home
 window.addEventListener('DOMContentLoaded', () => {
     const hash = window.location.hash.substring(1);
     if (hash && document.getElementById(hash)) {
         navigate(hash);
+    } else {
+        // Default to Home if no valid hash is provided
+        navigate('home');
     }
 });

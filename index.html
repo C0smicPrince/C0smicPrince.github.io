@@ -4,14 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ashbo3n</title>
-    <!-- Clean, modern typography -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;500;700&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 
     <style>
-        /* ALL CSS EMBEDDED TO PREVENT LOAD FAILURES */
+        /* CSS EMBEDDED TO PREVENT EXTERNAL LOAD FAILURES */
         :root {
             --bg: #080808;
             --text-main: #f0f0f0;
@@ -28,10 +27,9 @@
             font-family: 'Manrope', sans-serif;
             line-height: 1.6;
             overflow-x: hidden;
-            -webkit-font-smoothing: antialiased;
         }
 
-        /* Top Nav Only - Centered and Minimal */
+        /* Minimal Navigation */
         nav {
             display: flex;
             justify-content: center;
@@ -51,50 +49,24 @@
             transition: color 0.2s ease;
         }
 
-        nav a:hover, nav a.active {
-            color: var(--accent);
-        }
+        nav a:hover, nav a.active { color: var(--accent); }
 
-        /* Container that stretches wide */
+        /* Container for content */
         .container {
             max-width: 1400px;
             margin: 0 auto;
             padding: 5rem 2rem;
         }
 
-        .view {
-            display: none;
-            animation: fadeUp 0.5s ease forwards;
-        }
+        .view { display: none; }
+        .view.active-view { display: block; }
 
-        .view.active-view {
-            display: block;
-        }
+        /* Hero */
+        .hero { text-align: center; margin-bottom: 6rem; }
+        .hero h1 { font-size: 5rem; font-weight: 700; margin-bottom: 1rem; }
+        .hero p { font-size: 1.5rem; color: var(--text-muted); }
 
-        /* Hero Section */
-        .hero {
-            text-align: center;
-            margin-bottom: 6rem;
-        }
-
-        .hero h1 {
-            font-size: 5rem;
-            font-weight: 700;
-            letter-spacing: -0.04em;
-            margin-bottom: 1rem;
-        }
-
-        .hero p {
-            font-size: 1.5rem;
-            color: var(--text-muted);
-            font-weight: 300;
-        }
-
-        /* 
-          This grid natively stretches to fill empty space.
-          It puts your content front-and-center so the page feels full
-          without needing filler info or sidebars.
-        */
+        /* Grid layout for custom content */
         .grid-layout {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
@@ -106,98 +78,13 @@
             padding: 3rem;
             border-radius: 12px;
             background: rgba(255, 255, 255, 0.01);
-            transition: border-color 0.3s;
         }
 
-        .card:hover {
-            border-color: #333;
-        }
-
-        .card h2 {
-            font-size: 2rem;
-            margin-bottom: 0.5rem;
-            font-weight: 500;
-            letter-spacing: -0.02em;
-        }
-
-        .card p.card-sub {
-            color: var(--text-muted);
-            font-size: 1.1rem;
-            margin-bottom: 2.5rem;
-        }
-
-        /* Clickable Lists inside cards */
-        .item-link {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 1.25rem 0;
-            border-bottom: 1px solid var(--border);
-            cursor: pointer;
-            transition: padding-left 0.2s ease, color 0.2s;
-        }
-
-        .item-link:last-child {
-            border-bottom: none;
-        }
-
-        .item-link:hover {
-            padding-left: 0.75rem;
-        }
-
-        .item-title {
-            font-size: 1.1rem;
-            font-weight: 500;
-        }
-
-        .item-meta {
-            color: var(--text-muted);
-            font-size: 0.9rem;
-            font-family: monospace;
-            background: rgba(255, 255, 255, 0.05);
-            padding: 0.3rem 0.6rem;
-            border-radius: 4px;
-        }
-
-        /* Markdown Viewer Styles */
-        .btn-back {
-            background: none;
-            border: none;
-            color: var(--text-muted);
-            font-size: 1rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            cursor: pointer;
-            margin-bottom: 3rem;
-            transition: color 0.2s;
-        }
+        .card h2 { font-size: 2rem; margin-bottom: 2rem; font-weight: 500; }
         
-        .btn-back:hover { color: var(--accent); }
+        /* Placeholder styling */
+        .placeholder-text { color: var(--text-muted); font-style: italic; }
 
-        .markdown-body {
-            max-width: 900px;
-            margin: 0 auto;
-            font-size: 1.15rem;
-        }
-        
-        .markdown-body h1 { font-size: 3rem; margin-bottom: 2rem; font-weight: 700; letter-spacing: -0.02em; }
-        .markdown-body h2 { font-size: 2rem; margin: 3rem 0 1.5rem 0; font-weight: 500; border-bottom: 1px solid var(--border); padding-bottom: 0.5rem; }
-        .markdown-body p { color: var(--text-muted); margin-bottom: 1.5rem; }
-        .markdown-body pre { background: #111; padding: 2rem; border-radius: 8px; overflow-x: auto; margin: 2rem 0; border: 1px solid var(--border); }
-        .markdown-body code { font-family: monospace; color: #ccc; }
-
-        @keyframes fadeUp {
-            from { opacity: 0; transform: translateY(15px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* Mobile Adjustments */
-        @media (max-width: 768px) {
-            nav { gap: 1.5rem; padding: 1.5rem; flex-wrap: wrap; }
-            .hero h1 { font-size: 3.5rem; }
-            .grid-layout { grid-template-columns: 1fr; }
-            .card { padding: 2rem; }
-        }
     </style>
 </head>
 <body>
@@ -209,105 +96,40 @@
     </nav>
 
     <div class="container">
-        <!-- HOME VIEW -->
         <div id="home" class="view active-view">
             <div class="hero">
                 <h1>Ashbo3n</h1>
                 <p>Sole Exploit Developer & Researcher</p>
             </div>
 
-            <!-- This grid fills the screen horizontally without needing dummy panels -->
             <div class="grid-layout">
-                
                 <div class="card">
-                    <h2>HTB Writeups</h2>
-                    <p class="card-sub">[Placeholder: Brief description of your methodology]</p>
-                    
-                    <div class="item-link" onclick="loadMarkdown('htb-placeholder1.md')">
-                        <span class="item-title">[Placeholder: HTB Box Name]</span>
-                        <span class="item-meta">[Difficulty]</span>
-                    </div>
-                    <div class="item-link" onclick="loadMarkdown('htb-placeholder2.md')">
-                        <span class="item-title">[Placeholder: HTB Box Name]</span>
-                        <span class="item-meta">[Difficulty]</span>
-                    </div>
+                    <h2>Writeups</h2>
+                    <p class="placeholder-text">[Template: Add content here later]</p>
                 </div>
-
                 <div class="card">
                     <h2>Malware Dev</h2>
-                    <p class="card-sub">[Placeholder: Brief description of your dev focus]</p>
-                    
-                    <div class="item-link" onclick="loadMarkdown('malware-placeholder1.md')">
-                        <span class="item-title">[Placeholder: Project Name]</span>
-                        <span class="item-meta">[Language]</span>
-                    </div>
-                    <div class="item-link" onclick="loadMarkdown('malware-placeholder2.md')">
-                        <span class="item-title">[Placeholder: Project Name]</span>
-                        <span class="item-meta">[Language]</span>
-                    </div>
+                    <p class="placeholder-text">[Template: Add content here later]</p>
                 </div>
-
             </div>
         </div>
 
-        <!-- DEDICATED WRITEUPS VIEW -->
         <div id="writeups" class="view">
-            <div class="card">
-                <h2>All Writeups</h2>
-                <p class="card-sub">Full archive of machine exploitation.</p>
-                <div class="item-link" onclick="loadMarkdown('htb-placeholder1.md')">
-                    <span class="item-title">[Placeholder: HTB Box Name]</span>
-                    <span class="item-meta">[Difficulty]</span>
-                </div>
-            </div>
+            <div class="card"><h2>Writeups</h2><p class="placeholder-text">[Template: Archive goes here]</p></div>
         </div>
 
-        <!-- DEDICATED MALWARE VIEW -->
         <div id="malware" class="view">
-            <div class="card">
-                <h2>All Dev Projects</h2>
-                <p class="card-sub">Full archive of tools and payloads.</p>
-                <div class="item-link" onclick="loadMarkdown('malware-placeholder1.md')">
-                    <span class="item-title">[Placeholder: Project Name]</span>
-                    <span class="item-meta">[Language]</span>
-                </div>
-            </div>
-        </div>
-
-        <!-- MARKDOWN VIEWER -->
-        <div id="markdown-viewer" class="view">
-            <button class="btn-back" onclick="navigate('home')">← Back to Overview</button>
-            <div id="markdown-content" class="markdown-body"></div>
+            <div class="card"><h2>Malware Dev</h2><p class="placeholder-text">[Template: Projects go here]</p></div>
         </div>
     </div>
 
     <script>
         function navigate(viewId) {
-            // Reset views and links
             document.querySelectorAll('.view').forEach(v => v.classList.remove('active-view'));
             document.querySelectorAll('nav a').forEach(l => l.classList.remove('active'));
-            
-            // Set active
             document.getElementById(viewId).classList.add('active-view');
             const link = document.getElementById('link-' + viewId);
             if(link) link.classList.add('active');
-            
-            window.scrollTo(0, 0);
-        }
-
-        async function loadMarkdown(file) {
-            const content = document.getElementById('markdown-content');
-            content.innerHTML = '<p>Loading...</p>';
-            navigate('markdown-viewer');
-            
-            try {
-                const res = await fetch(file);
-                if (!res.ok) throw new Error();
-                const text = await res.text();
-                content.innerHTML = marked.parse(text);
-            } catch (e) {
-                content.innerHTML = `<p>Error loading <strong>${file}</strong>. Please ensure the file exists.</p>`;
-            }
         }
     </script>
 </body>

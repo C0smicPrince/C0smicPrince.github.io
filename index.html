@@ -26,20 +26,23 @@
         nav a:hover, nav a.active { color: var(--accent); }
 
         .container { max-width: 1400px; margin: 0 auto; padding: 5rem 2rem; flex: 1; }
+        
         .view { display: none; }
         .view.active-view { display: block; }
 
-        /* Corrected Grid: Now properly responsive without forcing horizontal layout */
+        .hero { text-align: center; margin-bottom: 6rem; }
+        .hero h1 { font-size: 5rem; font-weight: 700; margin-bottom: 1rem; }
+        .hero p { font-size: 1.5rem; color: var(--text-muted); }
+
         .grid-layout { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 2.5rem; }
         
         .card { 
             border: 1px solid var(--border); padding: 3rem; border-radius: 12px; background: rgba(255, 255, 255, 0.01); 
-            text-decoration: none; color: inherit; transition: border-color 0.2s;
+            text-decoration: none; color: inherit; transition: border-color 0.2s; display: flex; flex-direction: column;
         }
         .card:hover { border-color: var(--accent); }
-        .card h2 { font-size: 2rem; margin-bottom: 2rem; font-weight: 500; }
         .card h3 { font-size: 1.5rem; margin-bottom: 1rem; }
-        .card p { color: var(--text-muted); margin-bottom: 1.5rem; }
+        .card p { color: var(--text-muted); }
 
         footer { text-align: center; padding: 3rem; border-top: 1px solid var(--border); }
         footer .social-links { display: flex; justify-content: center; gap: 2rem; font-size: 1.5rem; }
@@ -57,28 +60,42 @@
     </nav>
 
     <div class="container">
+        <div id="home" class="view active-view">
+            <div class="hero">
+                <h1>Ashbo3n</h1>
+                <p>Sole Exploit Developer & Researcher</p>
+            </div>
+            <div class="grid-layout">
+                <div class="card"><h3>Dashboard</h3><p>Select a section to begin.</p></div>
+            </div>
+        </div>
+
+        <div id="about" class="view">
+            <div class="grid-layout"><div class="card"><h3>About Me</h3><p>Your bio goes here.</p></div></div>
+        </div>
+
         <div id="writeups" class="view">
             <div class="grid-layout">
-                <a href="#" class="card"><h3>Blog Entry 01</h3><p>Analysis of a recent vulnerability discovery.</p></a>
-                <a href="#" class="card"><h3>Blog Entry 02</h3><p>Breakdown of custom shellcode techniques.</p></a>
-                <a href="#" class="card"><h3>Blog Entry 03</h3><p>Documentation of reverse engineering steps.</p></a>
+                <a href="#" class="card"><h3>Blog 01</h3><p>Analysis of a vulnerability.</p></a>
+                <a href="#" class="card"><h3>Blog 02</h3><p>Shellcode breakdown.</p></a>
+                <a href="#" class="card"><h3>Blog 03</h3><p>Reverse engineering documentation.</p></a>
             </div>
         </div>
 
         <div id="malware" class="view">
             <div class="grid-layout">
-                <a href="#" class="card"><h3>Project Alpha</h3><p>Implementation of custom injection techniques.</p></a>
-                <a href="#" class="card"><h3>Project Beta</h3><p>Research into obfuscation layers.</p></a>
-                <a href="#" class="card"><h3>Project Gamma</h3><p>Development of custom C2 modules.</p></a>
+                <a href="#" class="card"><h3>Project Alpha</h3><p>Stealth injection research.</p></a>
+                <a href="#" class="card"><h3>Project Beta</h3><p>Obfuscation layers.</p></a>
+                <a href="#" class="card"><h3>Project Gamma</h3><p>C2 communication modules.</p></a>
             </div>
         </div>
     </div>
 
     <footer>
         <div class="social-links">
-            <a href="#" target="_blank"><i class="fab fa-hashnode"></i></a>
+            <a href="#"><i class="fab fa-hashnode"></i></a>
             <a href="https://github.com/Ashbo3n" target="_blank"><i class="fab fa-github"></i></a>
-            <a href="#" target="_blank"><i class="fab fa-medium"></i></a>
+            <a href="#"><i class="fab fa-medium"></i></a>
         </div>
     </footer>
 

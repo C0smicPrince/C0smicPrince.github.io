@@ -12,7 +12,7 @@ function navigate(targetId) {
     // Show target section
     document.getElementById(targetId).classList.add('active');
     
-    // Highlight nav link if it exists (markdown-viewer doesn't have a nav link)
+    // Highlight nav link if it exists
     const activeLink = document.getElementById('link-' + targetId);
     if (activeLink) {
         activeLink.classList.add('active-link');
@@ -31,17 +31,14 @@ async function loadMarkdown(filename) {
     navigate('markdown-viewer');
 
     try {
-        // Fetch the raw markdown file from your directory
         const response = await fetch(filename);
         if (!response.ok) throw new Error('File not found');
         
         const text = await response.text();
-        
-        // Parse markdown to HTML using marked.js
         contentDiv.innerHTML = marked.parse(text);
         
     } catch (error) {
-        contentDiv.innerHTML = `<p>Error loading <strong>${filename}</strong>. Ensure the file exists in the directory and you are running a local server to avoid CORS issues.</p>`;
+        contentDiv.innerHTML = `<p>Error loading <strong>${filename}</strong>. Ensure the file exists in the directory.</p>`;
     }
 }
 
@@ -51,7 +48,6 @@ window.addEventListener('DOMContentLoaded', () => {
     if (hash && document.getElementById(hash)) {
         navigate(hash);
     } else {
-        // Default to Home if no valid hash is provided
         navigate('home');
     }
 });

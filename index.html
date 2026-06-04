@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ashbo3n</title>
-    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;500;700&family=Fira+Code:wght@400&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 
     <style>
@@ -14,6 +14,7 @@
             --text-muted: #737373;
             --border: #1f1f1f;
             --accent: #ffffff;
+            --code-bg: #0f0f0f;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -27,18 +28,28 @@
         .view { display: none; }
         .view.active-view { display: block; }
 
-        /* Hero */
-        .hero { text-align: center; margin-bottom: 5rem; }
+        /* Enhanced Hero */
+        .hero { text-align: center; margin-bottom: 6rem; }
         .hero h1 { font-size: 5rem; margin-bottom: 1rem; }
+        .hero p { font-size: 1.5rem; color: var(--text-muted); max-width: 600px; margin: 0 auto; }
 
-        /* Grid Layouts */
-        .page-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 2rem; }
-        .card { border: 1px solid var(--border); padding: 2rem; border-radius: 12px; background: rgba(255, 255, 255, 0.01); }
+        /* Content Sections */
+        .section-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 2rem; margin-top: 4rem; }
+        .card { border: 1px solid var(--border); padding: 3rem; border-radius: 12px; background: rgba(255, 255, 255, 0.01); }
         
-        /* New Home Additions */
-        .info-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; margin-bottom: 4rem; }
-        .info-box { border: 1px solid var(--border); padding: 2rem; border-radius: 12px; }
-        .info-box h3 { font-size: 1.2rem; margin-bottom: 1rem; color: var(--text-muted); }
+        /* Terminal Log Style */
+        .terminal {
+            background: var(--code-bg);
+            border: 1px solid var(--border);
+            padding: 2rem;
+            border-radius: 8px;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-top: 2rem;
+        }
+        .term-line { margin-bottom: 0.5rem; }
+        .term-accent { color: var(--accent); }
     </style>
 </head>
 <body>
@@ -54,33 +65,45 @@
         <div id="home" class="view active-view">
             <div class="hero">
                 <h1>Ashbo3n</h1>
-                <p>Sole Exploit Developer & Researcher</p>
+                <p>Sole Exploit Developer & Researcher focused on low-level system architecture and security primitives.</p>
             </div>
 
-            <div class="info-row">
-                <div class="info-box"><h3>Focus</h3><p>System internals, low-level architecture, and security research.</p></div>
-                <div class="info-box"><h3>Approach</h3><p>Prioritizing manual analysis and deep-dive technical methodology.</p></div>
-            </div>
-
-            <div class="page-grid">
-                <div class="card"><h2>Recent Writeups</h2><p>Overview of latest technical findings.</p></div>
-                <div class="card"><h2>Recent Projects</h2><p>Current development research tracks.</p></div>
+            <!-- Added substance: Terminal Log and Tech Overview -->
+            <div class="section-grid">
+                <div class="card">
+                    <h2>System Status</h2>
+                    <div class="terminal">
+                        <div class="term-line"><span class="term-accent">></span> Initializing environment...</div>
+                        <div class="term-line"><span class="term-accent">></span> Environment: Windows 11 / x64</div>
+                        <div class="term-line"><span class="term-accent">></span> Status: Analysis & Development active</div>
+                        <div class="term-line"><span class="term-accent">></span> Idle threads: 0</div>
+                    </div>
+                </div>
+                <div class="card">
+                    <h2>Development Stack</h2>
+                    <p style="margin-top: 1rem;">Primary tooling and language environment for ongoing research.</p>
+                    <div style="margin-top: 2rem; display: flex; gap: 1rem;">
+                        <span style="border: 1px solid var(--border); padding: 0.5rem 1rem;">C/C++</span>
+                        <span style="border: 1px solid var(--border); padding: 0.5rem 1rem;">Assembly</span>
+                        <span style="border: 1px solid var(--border); padding: 0.5rem 1rem;">Rust</span>
+                    </div>
+                </div>
             </div>
         </div>
 
         <!-- WRITEUPS VIEW (GRID) -->
         <div id="writeups" class="view">
-            <div class="page-grid">
-                <div class="card"><h3>[Box Name]</h3><p>Description placeholder.</p></div>
-                <div class="card"><h3>[Box Name]</h3><p>Description placeholder.</p></div>
+            <div class="section-grid">
+                <div class="card"><h3>[Placeholder]</h3><p>Description.</p></div>
+                <div class="card"><h3>[Placeholder]</h3><p>Description.</p></div>
             </div>
         </div>
 
         <!-- MALWARE VIEW (GRID) -->
         <div id="malware" class="view">
-            <div class="page-grid">
-                <div class="card"><h3>[Project Name]</h3><p>Description placeholder.</p></div>
-                <div class="card"><h3>[Project Name]</h3><p>Description placeholder.</p></div>
+            <div class="section-grid">
+                <div class="card"><h3>[Placeholder]</h3><p>Description.</p></div>
+                <div class="card"><h3>[Placeholder]</h3><p>Description.</p></div>
             </div>
         </div>
     </div>

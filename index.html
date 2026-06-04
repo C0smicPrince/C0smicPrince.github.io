@@ -1,269 +1,63 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>C0smicPrince — Red teaming</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@300;400;500&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="./style.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>C0smicPrince - Red Teaming Blogs</title>
+    <link rel="stylesheet" href="./style.css">
 </head>
 <body>
 
-  <!-- NAV -->
-  <nav class="nav" id="nav">
-    <div class="nav-inner">
-      <a class="nav-logo" href="#" data-page="home">
-        <span class="logo-mark">C</span>
-        <span class="logo-text">0smicPrince</span>
-      </a>
-      <ul class="nav-links">
-        <li><a href="#" class="nav-link" data-page="writeups">Writeups</a></li>
-        <li><a href="#" class="nav-link" data-page="malware">Malware Dev</a></li>
-        <li><a href="#" class="nav-link" data-page="about">About</a></li>
-      </ul>
-      <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">
-        <span></span><span></span><span></span>
-      </button>
-    </div>
-  </nav>
+    <nav class="navbar">
+        <div class="nav-logo">C0smicPrince</div>
+        <ul class="nav-links">
+            <li><a onclick="navigate('writeups')" id="link-writeups" class="active-link">HTB Writeups</a></li>
+            <li><a onclick="navigate('malware-dev')" id="link-malware-dev">Malware Dev</a></li>
+            <li><a onclick="navigate('about')" id="link-about">About Me</a></li>
+        </ul>
+    </nav>
 
-  <!-- MOBILE MENU -->
-  <div class="mobile-menu" id="mobileMenu">
-    <a href="#" class="mobile-link" data-page="writeups">Writeups</a>
-    <a href="#" class="mobile-link" data-page="malware">Malware Dev</a>
-    <a href="#" class="mobile-link" data-page="about">About</a>
-  </div>
-
-  <!-- PAGES -->
-  <main id="app">
-
-    <!-- HOME -->
-    <section class="page active" id="page-home">
-      <div class="hero">
-        <div class="hero-eyebrow">
-          <span class="badge">Security Research</span>
-        </div>
-        <h1 class="hero-title">Offensive<br /><em>Windows</em><br />Security.</h1>
-        <p class="hero-sub">HTB writeups, malware dev notes, and research on Windows internals — documented in the open.</p>
-        <div class="hero-cta">
-          <a href="#" class="btn-primary" data-page="writeups">Read Writeups</a>
-          <a href="#" class="btn-ghost" data-page="about">About Me</a>
-        </div>
-      </div>
-      <div class="home-grid">
-        <div class="home-card" data-page="writeups">
-          <span class="card-tag">HTB · Writeups</span>
-          <h3>Machine Writeups</h3>
-          <p>Detailed walkthroughs covering enumeration, exploitation, and privilege escalation across HTB machines.</p>
-          <span class="card-arrow">→</span>
-        </div>
-        <div class="home-card" data-page="malware">
-          <span class="card-tag">Research · Windows</span>
-          <h3>Malware Development</h3>
-          <p>Shellcode injection, EDR evasion, process injection techniques, and Windows internals research.</p>
-          <span class="card-arrow">→</span>
-        </div>
-      </div>
-    </section>
-
-    <!-- WRITEUPS -->
-    <section class="page" id="page-writeups">
-      <div class="page-header">
-        <span class="page-eyebrow">HackTheBox</span>
-        <h2 class="page-title">Machine Writeups</h2>
-        <p class="page-desc">Step-by-step exploitation walkthroughs. Enumeration through root.</p>
-      </div>
-
-      <div class="filter-bar">
-        <button class="filter-btn active" data-filter="all">All</button>
-        <button class="filter-btn" data-filter="easy">Easy</button>
-        <button class="filter-btn" data-filter="medium">Medium</button>
-        <button class="filter-btn" data-filter="hard">Hard</button>
-        <button class="filter-btn" data-filter="insane">Insane</button>
-      </div>
-
-      <div class="writeups-grid" id="writeupsGrid">
-        <!-- Placeholder cards -->
-        <article class="writeup-card placeholder" data-difficulty="medium">
-          <div class="writeup-top">
-            <span class="diff-badge medium">Medium</span>
-            <span class="os-badge">Windows</span>
-          </div>
-          <h3 class="writeup-title">Machine Name</h3>
-          <p class="writeup-excerpt">Placeholder — writeup coming soon.</p>
-          <div class="writeup-footer">
-            <span class="writeup-tags">#placeholder</span>
-            <span class="writeup-date">—</span>
-          </div>
-        </article>
-
-        <article class="writeup-card placeholder" data-difficulty="hard">
-          <div class="writeup-top">
-            <span class="diff-badge hard">Hard</span>
-            <span class="os-badge">Linux</span>
-          </div>
-          <h3 class="writeup-title">Machine Name</h3>
-          <p class="writeup-excerpt">Placeholder — writeup coming soon.</p>
-          <div class="writeup-footer">
-            <span class="writeup-tags">#placeholder</span>
-            <span class="writeup-date">—</span>
-          </div>
-        </article>
-
-        <article class="writeup-card placeholder" data-difficulty="easy">
-          <div class="writeup-top">
-            <span class="diff-badge easy">Easy</span>
-            <span class="os-badge">Linux</span>
-          </div>
-          <h3 class="writeup-title">Machine Name</h3>
-          <p class="writeup-excerpt">Placeholder — writeup coming soon.</p>
-          <div class="writeup-footer">
-            <span class="writeup-tags">#placeholder</span>
-            <span class="writeup-date">—</span>
-          </div>
-        </article>
-
-        <article class="writeup-card placeholder" data-difficulty="insane">
-          <div class="writeup-top">
-            <span class="diff-badge insane">Insane</span>
-            <span class="os-badge">Windows</span>
-          </div>
-          <h3 class="writeup-title">Machine Name</h3>
-          <p class="writeup-excerpt">Placeholder — writeup coming soon.</p>
-          <div class="writeup-footer">
-            <span class="writeup-tags">#placeholder</span>
-            <span class="writeup-date">—</span>
-          </div>
-        </article>
-
-        <article class="writeup-card placeholder" data-difficulty="medium">
-          <div class="writeup-top">
-            <span class="diff-badge medium">Medium</span>
-            <span class="os-badge">Windows</span>
-          </div>
-          <h3 class="writeup-title">Machine Name</h3>
-          <p class="writeup-excerpt">Placeholder — writeup coming soon.</p>
-          <div class="writeup-footer">
-            <span class="writeup-tags">#placeholder</span>
-            <span class="writeup-date">—</span>
-          </div>
-        </article>
-
-        <article class="writeup-card placeholder" data-difficulty="hard">
-          <div class="writeup-top">
-            <span class="diff-badge hard">Hard</span>
-            <span class="os-badge">Windows</span>
-          </div>
-          <h3 class="writeup-title">Machine Name</h3>
-          <p class="writeup-excerpt">Placeholder — writeup coming soon.</p>
-          <div class="writeup-footer">
-            <span class="writeup-tags">#placeholder</span>
-            <span class="writeup-date">—</span>
-          </div>
-        </article>
-      </div>
-    </section>
-
-    <!-- MALWARE DEV -->
-    <section class="page" id="page-malware">
-      <div class="page-header">
-        <span class="page-eyebrow">Research</span>
-        <h2 class="page-title">Malware Development</h2>
-        <p class="page-desc">Windows internals, EDR evasion, shellcode loaders, and C2 research.</p>
-      </div>
-
-      <div class="topics-row">
-        <span class="topic-pill">Shellcode Injection</span>
-        <span class="topic-pill">EDR Evasion</span>
-        <span class="topic-pill">Process Injection</span>
-        <span class="topic-pill">Syscalls</span>
-        <span class="topic-pill">C2 Development</span>
-        <span class="topic-pill">Windows API</span>
-        <span class="topic-pill">ETW Bypass</span>
-        <span class="topic-pill">Kernel Callbacks</span>
-      </div>
-
-      <div class="posts-list">
-        <article class="post-item placeholder">
-          <div class="post-meta">
-            <span class="post-cat">Evasion</span>
-            <span class="post-date">—</span>
-          </div>
-          <h3 class="post-title">Post Title Placeholder</h3>
-          <p class="post-excerpt">Article placeholder — content coming soon. This section will host in-depth malware development research and notes.</p>
-          <span class="post-read">Coming soon</span>
-        </article>
-
-        <article class="post-item placeholder">
-          <div class="post-meta">
-            <span class="post-cat">Internals</span>
-            <span class="post-date">—</span>
-          </div>
-          <h3 class="post-title">Post Title Placeholder</h3>
-          <p class="post-excerpt">Article placeholder — content coming soon. This section will host in-depth malware development research and notes.</p>
-          <span class="post-read">Coming soon</span>
-        </article>
-      </div>
-    </section>
-
-    <!-- ABOUT -->
-    <section class="page" id="page-about">
-      <div class="about-layout">
-        <div class="about-left">
-          <span class="page-eyebrow">About</span>
-          <h2 class="about-title">Ash<br /><span class="about-handle">@ashbo3n</span></h2>
-          <p class="about-bio">Placeholder — bio coming soon.</p>
-          <div class="about-links">
-            <a href="https://github.com/Shaurya832" class="about-link" target="_blank" rel="noopener">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
-              GitHub
-            </a>
-            <a href="https://medium.com/@Ashbo3n" class="about-link" target="_blank" rel="noopener">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M13.54 12a6.8 6.8 0 01-6.77 6.82A6.8 6.8 0 010 12a6.8 6.8 0 016.77-6.82A6.8 6.8 0 0113.54 12zM20.96 12c0 3.54-1.51 6.42-3.38 6.42-1.87 0-3.39-2.88-3.39-6.42s1.52-6.42 3.39-6.42 3.38 2.88 3.38 6.42M24 12c0 3.17-.53 5.75-1.19 5.75-.66 0-1.19-2.58-1.19-5.75s.53-5.75 1.19-5.75C23.47 6.25 24 8.83 24 12z"/></svg>
-              Medium
-            </a>
-            <a href="https://ashbo3n.hashnode.dev" class="about-link" target="_blank" rel="noopener">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M22.351 8.019l-6.37-6.37a5.63 5.63 0 00-7.962 0l-6.37 6.37a5.63 5.63 0 000 7.962l6.37 6.37a5.63 5.63 0 007.962 0l6.37-6.37a5.63 5.63 0 000-7.962zM12 15.953a3.953 3.953 0 110-7.906 3.953 3.953 0 010 7.906z"/></svg>
-              Hashnode
-            </a>
-          </div>
-        </div>
-        <div class="about-right">
-          <div class="about-section">
-            <h4 class="about-section-title">Skills</h4>
-            <div class="skills-grid">
-              <span class="skill-tag">C / C++</span>
-              <span class="skill-tag">Rust</span>
-              <span class="skill-tag">Go</span>
-              <span class="skill-tag">Windows API</span>
-              <span class="skill-tag">WinDbg</span>
-              <span class="skill-tag">Ghidra</span>
-              <span class="skill-tag">Sliver C2</span>
-              <span class="skill-tag">BloodHound</span>
-              <span class="skill-tag">Active Directory</span>
+    <main class="container">
+        
+        <section id="writeups" class="section active">
+            <h1>Writeups</h1>
+            <p class="section-desc">Writeups to different machines from different platforms such as HTB, TryHackMe and More</p>
+            
+            <div class="card">
+                <h2>[Placeholder: Machine Name]</h2>
+                <p>[Placeholder: Short description of the machine, difficulty, and core concepts.]</p>
             </div>
-          </div>
-          <div class="about-section">
-            <h4 class="about-section-title">Focus Areas</h4>
-            <p class="about-focus-text">Windows security · EDR evasion · C2 framework development · Active Directory red team</p>
-          </div>
-        </div>
-      </div>
-    </section>
+            
+            <div class="card">
+                <h2>[Placeholder: Machine Name]</h2>
+                <p>[Placeholder: Short description of the machine, difficulty, and core concepts.]</p>
+            </div>
+        </section>
 
-  </main>
+        <section id="malware-dev" class="section">
+            <h1>Malware Development</h1>
+            <p class="section-desc">Blogs on explaning various malware development techniques used by real threat actors</p>
+            
+            <div class="card">
+                <h2>Staged 0 Loader</h2>
+                <p>Bypassing AV/EDR with Stage 0 Loader and direct syscalls</p>
+            </div>
+        </section>
 
-  <!-- FOOTER -->
-  <footer class="footer">
-    <span>© 2025 Ash</span>
-    <div class="footer-links">
-      <a href="https://hashnode.com/@cosmicprince" target="_blank" rel="noopener">Hashnode</a>
-        <a href="https://medium.com/@C0smicPrince" target="_blank" rel="noopener">Medium</a>
-    </div>
-  </footer>
+        <section id="about" class="section">
+            <h1>About Me</h1>
+            <p class="section-desc"></p>
+            
+            <div class="card">
+                <h2>[Placeholder: Background Header]</h2>
+                <p>[Placeholder: Paragraph detailing your professional background, certifications, or goals.]</p>
+                <br>
+                <p>[Placeholder: Contact information or links to GitHub/social profiles.]</p>
+            </div>
+        </section>
 
-  <script src="./main.js"></script>
+    </main>
+
+    <script src="./main.js"></script>
 </body>
 </html>

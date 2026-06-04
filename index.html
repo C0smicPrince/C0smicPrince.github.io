@@ -5,12 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ashbo3n</title>
     <link rel="stylesheet" href="style.css">
-    <!-- Markdown Parser -->
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 </head>
 <body>
 
-    <!-- Top Navigation Bar -->
     <nav class="navbar">
         <div class="nav-logo">Ashbo3n</div>
         <ul class="nav-links">
@@ -21,84 +19,91 @@
         </ul>
     </nav>
 
-    <!-- Main Content Area -->
     <main class="container">
         
-        <!-- Home / Landing Section -->
         <section id="home" class="section active">
             <div class="hero-header">
                 <h1>Ashbo3n</h1>
                 <p class="tagline">Sole Exploit Developer & Researcher</p>
             </div>
             
-            <div class="grid-layout">
-                <div class="card">
-                    <h2>Current Focus</h2>
-                    <p>Low-level Windows security, kernel programming, rootkits, and adversary simulation.</p>
+            <div class="bento-grid">
+                <div class="bento-card span-2 highlight-card">
+                    <div class="card-meta">Current Focus</div>
+                    <h2>Windows Internals & Kernel Security</h2>
+                    <p>Researching low-level Windows security, kernel-level driver development, rootkits, and advanced adversary simulation.</p>
                 </div>
-                <div class="card">
-                    <h2>Rank & Status</h2>
-                    <p>Red Team Operative (12,000+ XP). Advancing through rigorous internal systems and active research.</p>
+
+                <div class="bento-card center-content">
+                    <div class="card-meta">Rank</div>
+                    <h2 class="stat-text">Red Team Operative</h2>
+                    <p class="sub-stat">12,000+ XP</p>
                 </div>
-                <div class="card">
-                    <h2>Certifications</h2>
-                    <p>Current: CWES.<br>Roadmap: CPTS, OSCP, OSEP, GXPN, OSEE.</p>
+
+                <div class="bento-card">
+                    <div class="card-meta">Certifications</div>
+                    <h2>CWES Active</h2>
+                    <div class="cert-roadmap">
+                        <span>CPTS</span> → <span>OSCP</span> → <span>OSEP</span> → <span>GXPN</span> → <span>OSEE</span>
+                    </div>
                 </div>
-                <div class="card">
-                    <h2>Active Project</h2>
-                    <p>Developing a staged, encrypted shellcode dropper for the Sliver C2 framework utilizing API hashing, AES-CBC decryption, and manual PE parsing to evade detection.</p>
+
+                <div class="bento-card span-2 project-card">
+                    <div class="card-meta">Active Development</div>
+                    <h2>Sliver C2 Encrypted Dropper</h2>
+                    <p>Developing a staged, encrypted shellcode dropper utilizing API hashing, AES-CBC decryption, and manual PE parsing for evasion.</p>
                 </div>
             </div>
         </section>
 
-        <!-- Writeups Section -->
         <section id="writeups" class="section">
-            <h1>Writeups</h1>
-            <p class="section-desc">Writeups to different machines from different platforms such as HTB, TryHackMe and More</p>
-            <hr class="separator">
-            
-            <!-- Clicking these will load a markdown file dynamically -->
-            <div class="card clickable" onclick="loadMarkdown('htb-example.md')">
-                <h2>[Placeholder: Machine Name]</h2>
-                <p>[Placeholder: Short description of the machine, difficulty, and core concepts. Click to read Markdown.]</p>
+            <div class="section-header">
+                <h1>Writeups</h1>
+                <p>Detailed technical walkthroughs for HTB, TryHackMe, and custom labs.</p>
             </div>
             
-            <div class="card clickable" onclick="loadMarkdown('htb-example2.md')">
+            <div class="list-card clickable" onclick="loadMarkdown('htb-example.md')">
+                <div class="card-meta">HTB • Hard</div>
                 <h2>[Placeholder: Machine Name]</h2>
-                <p>[Placeholder: Short description of the machine, difficulty, and core concepts.]</p>
+                <p>[Placeholder: Short description of the initial foothold and privilege escalation. Click to read.]</p>
+            </div>
+            
+            <div class="list-card clickable" onclick="loadMarkdown('htb-example2.md')">
+                <div class="card-meta">HTB • Medium</div>
+                <h2>[Placeholder: Machine Name]</h2>
+                <p>[Placeholder: Short description of the machine. Click to read.]</p>
             </div>
         </section>
 
-        <!-- Malware Dev Section -->
         <section id="malware-dev" class="section">
-            <h1>Malware Dev</h1>
-            <p class="section-desc">Research, tool development, and low-level execution concepts.</p>
-            <hr class="separator">
+            <div class="section-header">
+                <h1>Malware Dev</h1>
+                <p>Research, tool development, and low-level execution concepts.</p>
+            </div>
             
-            <div class="card clickable" onclick="loadMarkdown('malware-project.md')">
+            <div class="list-card clickable" onclick="loadMarkdown('malware-project.md')">
+                <div class="card-meta">C/C++ • Windows API</div>
                 <h2>[Placeholder: Project Title]</h2>
-                <p>[Placeholder: Description of the project, techniques used, and purpose. Click to read Markdown.]</p>
+                <p>[Placeholder: Description of the project, techniques used, and purpose. Click to read.]</p>
             </div>
         </section>
 
-        <!-- About Me Section -->
         <section id="about" class="section">
-            <h1>About Me</h1>
-            <p class="section-desc">Background and Contact</p>
-            <hr class="separator">
+            <div class="section-header">
+                <h1>About Me</h1>
+                <p>Background and methodology.</p>
+            </div>
             
-            <div class="card">
-                <h2>Overview</h2>
+            <div class="list-card">
+                <h3>Overview</h3>
                 <p>Prioritizing direct technical experience and elite certifications over traditional degrees. Dedicated to open-source educational resources and mastering x86-64 Assembly and OS Internals.</p>
             </div>
         </section>
 
-        <!-- Dynamic Markdown Viewer Section -->
         <section id="markdown-viewer" class="section">
             <button class="back-btn" onclick="navigate('writeups')">← Back</button>
             <div id="markdown-content" class="markdown-body">
-                <!-- Markdown renders here -->
-            </div>
+                </div>
         </section>
 
     </main>

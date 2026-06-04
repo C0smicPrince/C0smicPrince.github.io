@@ -170,27 +170,10 @@ Developer               [Status: 200, Size: 25150, Words: 2139, Lines: 506, Dura
 
 ```
 
-**Enumeration Phase Completed for now** Lets explore the website And the discovered subdomains and directories,
+**Enumeration Phase Completed for now** Lets explore the website And the discovered subdomains and directories, There is a book now form it so probably something could be there but lets open all the discovered dir and subdomains first, on [`http://dev.titanic.htb/developer`](http://dev.titanic.htb/developer) found docker-config file and a flask app,
+also in the footer sections we can see gitea version keeping in mind that most easy boxes on htb has a CVE related exploitation i searched online for its known vulnerabilities, there was a xss but that's probably not the one, so moving to docker-config again
 
-[![image.png](http://localhost:4444/uploads/images/gallery/2026-01/scaled-1680-/uyeimage.png)](http://localhost:4444/uploads/images/gallery/2026-01/uyeimage.png)
-
-There is a book now form it so probably something could be there but lets open all the discovered dir and subdomains first, on [`http://dev.titanic.htb/developer`](http://dev.titanic.htb/developer) found docker-config file and a flask app:
-
-[![image.png](http://localhost:4444/uploads/images/gallery/2026-01/scaled-1680-/9ooimage.png)](http://localhost:4444/uploads/images/gallery/2026-01/9ooimage.png)
-
-Also in the footer sections we can see gitea version keeping in mind that most easy boxes on htb has a CVE related exploitation i searched online for its known vulnerabilities, there was a xss but that's probably not the one, so moving to docker-config again
-
-Flask-app is the source code for the titanic app, reading app.py:
-
-[![image.png](http://localhost:4444/uploads/images/gallery/2026-01/scaled-1680-/HbBimage.png)](http://localhost:4444/uploads/images/gallery/2026-01/HbBimage.png)
-
-On reading app.py, \\book generates the ticket and when its generated it is returned to /download and ticket is downloaded, Now i created a ticket with book ticket section on the main website:
-
-[![image.png](http://localhost:4444/uploads/images/gallery/2026-01/scaled-1680-/Tt9image.png)](http://localhost:4444/uploads/images/gallery/2026-01/Tt9image.png)
-
-And intercepted it to my burpsuite send /download ticket request to burp repeater and on ?ticket= function enter this value: ../../../../../../etc/passwd and <span class="chip__text htb-body-md htb-text-primary htb-font-medium">Arbitrary File Read</span> Confirmed.
-
-[![image.png](http://localhost:4444/uploads/images/gallery/2026-01/scaled-1680-/QbJimage.png)](http://localhost:4444/uploads/images/gallery/2026-01/QbJimage.png)
+Flask-app is the source code for the titanic app, reading app.py, on reading app.py, \\book generates the ticket and when its generated it is returned to /download and ticket is downloaded, Now i created a ticket with book ticket section on the main website, and intercepted it to my burpsuite send /download ticket request to burp repeater and on ?ticket= function enter this value: ../../../../../../etc/passwd and <span class="chip__text htb-body-md htb-text-primary htb-font-medium">Arbitrary File Read</span> Confirmed.
 
 Because of dev subdomain we know gitea is running, every gitea app has a app.ini but finding its path can be tricky cause we only have file read not file listing, but luckily for us we downloaded the app source code and docker-config from `<a href="http://dev.titanic.htb/developer">http://dev.titanic.htb/developer</a>` so looking at the docker-config of gitea we can see clearly app.ini path:
 
@@ -215,8 +198,6 @@ services:
 ```
 
 which is /home/developer/gitea/data/gitea/conf/app.ini so our payload will become `../../../home/developer/gitea/data/gitea/conf/app.ini`
-
-[![image.png](http://localhost:4444/uploads/images/gallery/2026-01/scaled-1680-/qV5image.png)](http://localhost:4444/uploads/images/gallery/2026-01/qV5image.png)
 
 in app.ini we can see the .db path, let's retrieve the creds:
 
@@ -260,9 +241,7 @@ sha256:50000:i/PjRSt4VE+L7pQA1pNtNA==:5THTmJRhN7rqcO1qaApUOF7P8TEwnAvY8iXyhEBrfL
 aCYZJjRE6llM+1Y=:redacted
 ```
 
-Connect with ssh:
-
-[![image.png](http://localhost:4444/uploads/images/gallery/2026-01/scaled-1680-/Zayimage.png)](http://localhost:4444/uploads/images/gallery/2026-01/Zayimage.png)
+Connect with ssh.
 
 ## Root Flag - CVE-2024-41817
 
@@ -314,11 +293,7 @@ exit(0);
 EOF
 ```
 
-After a min you will se sh in tmp which should be owned by root, now /tmp/sh -p we can enter the root shell:
-
-[![image.png](http://localhost:4444/uploads/images/gallery/2026-01/scaled-1680-/dxDimage.png)](http://localhost:4444/uploads/images/gallery/2026-01/dxDimage.png)
-
-Root flag Owned!
+After a min you will se sh in tmp which should be owned by root, now /tmp/sh -p we can enter the root shell.
 
 ## Mitigations
 

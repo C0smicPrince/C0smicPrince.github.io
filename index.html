@@ -10,9 +10,8 @@
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 
     <style>
-        /* CSS EMBEDDED TO PREVENT EXTERNAL LOAD FAILURES */
         :root {
-            --bg: #080808;
+            --bg: #141414;
             --text-main: #f0f0f0;
             --text-muted: #737373;
             --border: #1f1f1f;
@@ -29,7 +28,6 @@
             overflow-x: hidden;
         }
 
-        /* Minimal Navigation */
         nav {
             display: flex;
             justify-content: center;
@@ -51,7 +49,6 @@
 
         nav a:hover, nav a.active { color: var(--accent); }
 
-        /* Container for content */
         .container {
             max-width: 1400px;
             margin: 0 auto;
@@ -61,12 +58,10 @@
         .view { display: none; }
         .view.active-view { display: block; }
 
-        /* Hero */
         .hero { text-align: center; margin-bottom: 6rem; }
         .hero h1 { font-size: 5rem; font-weight: 700; margin-bottom: 1rem; }
         .hero p { font-size: 1.5rem; color: var(--text-muted); }
 
-        /* Grid layout for custom content */
         .grid-layout {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
@@ -81,21 +76,44 @@
         }
 
         .card h2 { font-size: 2rem; margin-bottom: 2rem; font-weight: 500; }
-        
-        /* Placeholder styling */
         .placeholder-text { color: var(--text-muted); font-style: italic; }
 
+        .about-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+            gap: 2.5rem;
+        }
+
+        .about-grid .card ul {
+            list-style: none;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.6rem;
+            margin-top: 0.5rem;
+        }
+
+        .about-grid .card ul li {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        .about-grid .card ul li::before {
+            content: "— ";
+            color: var(--text-main);
+        }
     </style>
 </head>
 <body>
 
     <nav>
         <a onclick="navigate('home')" id="link-home" class="active">Home</a>
+        <a onclick="navigate('about')" id="link-about">About</a>
         <a onclick="navigate('writeups')" id="link-writeups">Writeups</a>
         <a onclick="navigate('malware')" id="link-malware">Malware Dev</a>
     </nav>
 
     <div class="container">
+
         <div id="home" class="view active-view">
             <div class="hero">
                 <h1>Ashbo3n</h1>
@@ -114,22 +132,55 @@
             </div>
         </div>
 
+        <div id="about" class="view">
+            <div class="about-grid">
+                <div class="card">
+                    <h2>About Me</h2>
+                    <p class="placeholder-text">[Template: Bio goes here]</p>
+                </div>
+                <div class="card">
+                    <h2>Focus Areas</h2>
+                    <ul>
+                        <li class="placeholder-text">Exploit Development</li>
+                        <li class="placeholder-text">Malware Research</li>
+                        <li class="placeholder-text">Reverse Engineering</li>
+                        <li class="placeholder-text">Vulnerability Research</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
         <div id="writeups" class="view">
-            <div class="card"><h2>Writeups</h2><p class="placeholder-text">[Template: Archive goes here]</p></div>
+            <div class="grid-layout">
+                <div class="card">
+                    <h2>Writeups</h2>
+                    <p class="placeholder-text">[Template: Archive goes here]</p>
+                </div>
+            </div>
         </div>
 
         <div id="malware" class="view">
-            <div class="card"><h2>Malware Dev</h2><p class="placeholder-text">[Template: Projects go here]</p></div>
+            <div class="grid-layout">
+                <div class="card">
+                    <h2>Malware Dev</h2>
+                    <p class="placeholder-text">[Template: Projects go here]</p>
+                </div>
+            </div>
         </div>
+
     </div>
 
     <script>
         function navigate(viewId) {
+            // Hide all views
             document.querySelectorAll('.view').forEach(v => v.classList.remove('active-view'));
+            // Reset active nav
             document.querySelectorAll('nav a').forEach(l => l.classList.remove('active'));
+            
+            // Show requested view
             document.getElementById(viewId).classList.add('active-view');
-            const link = document.getElementById('link-' + viewId);
-            if(link) link.classList.add('active');
+            // Set nav link active
+            document.getElementById('link-' + viewId).classList.add('active');
         }
     </script>
 </body>

@@ -140,10 +140,16 @@ nav a:hover, nav a.active { color: var(--accent); }
 .post-content hr { border: none; border-top: 1px solid var(--border); margin: 2rem 0; }
 .post-content strong { color: var(--text-main); }
 .post-content table { width: 100%; border-collapse: collapse; margin: 1rem 0; }
-.post-content th, .post-content td { border: 1px solid var(--border); padding: 0.6rem 1rem; text-align: left; }
+.post-content td { 
+    color: var(--text-muted); 
+    padding: 0.6rem 1rem; 
+    text-align: left;
+}
 .post-content th { background: #2a2a2a; color: var(--text-main); }
-.post-content td { color: var(--text-muted); }
-
+.post-content td strong { 
+    color: var(--text-main);
+    font-weight: 600;
+}
 .loading { color: var(--text-muted); font-size: 0.9rem; padding: 2rem 0; }
 
 footer { text-align: center; padding: 2rem; color: var(--text-muted); border-top: 1px solid var(--border); margin-top: auto; }

@@ -1,33 +1,29 @@
 function navigate(targetId) {
-    // Hide all sections
-    document.querySelectorAll('.section').forEach(section => {
-        section.classList.remove('active');
+    // Hide all views
+    document.querySelectorAll('.view').forEach(view => {
+        view.classList.remove('active-view');
     });
     
-    // Remove active styling from all links
-    document.querySelectorAll('.nav-links a').forEach(link => {
-        link.classList.remove('active-link');
+    // Remove active styling from all side nav links
+    document.querySelectorAll('.side-nav a').forEach(link => {
+        link.classList.remove('active');
     });
 
-    // Show target section
-    document.getElementById(targetId).classList.add('active');
+    // Show target view
+    document.getElementById(targetId).classList.add('active-view');
     
-    // Highlight nav link if it exists
+    // Highlight side nav link if it exists
     const activeLink = document.getElementById('link-' + targetId);
     if (activeLink) {
-        activeLink.classList.add('active-link');
+        activeLink.classList.add('active');
     }
-    
-    // Update URL hash smoothly
-    history.pushState(null, null, '#' + targetId);
 }
 
 // Function to fetch and render a markdown file
 async function loadMarkdown(filename) {
     const contentDiv = document.getElementById('markdown-content');
-    contentDiv.innerHTML = "<p>Loading...</p>";
+    contentDiv.innerHTML = "<p>Loading module...</p>";
     
-    // Switch to the markdown viewer section immediately
     navigate('markdown-viewer');
 
     try {
@@ -38,16 +34,11 @@ async function loadMarkdown(filename) {
         contentDiv.innerHTML = marked.parse(text);
         
     } catch (error) {
-        contentDiv.innerHTML = `<p>Error loading <strong>${filename}</strong>. Ensure the file exists in the directory.</p>`;
+        contentDiv.innerHTML = `<p style="color: var(--accent-red);">Error loading <strong>${filename}</strong>.</p>`;
     }
 }
 
-// Handle page load and set default routing to Home
+// Default route
 window.addEventListener('DOMContentLoaded', () => {
-    const hash = window.location.hash.substring(1);
-    if (hash && document.getElementById(hash)) {
-        navigate(hash);
-    } else {
-        navigate('home');
-    }
+    navigate('dashboard');
 });

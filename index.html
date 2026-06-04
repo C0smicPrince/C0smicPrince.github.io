@@ -9,101 +9,95 @@
 </head>
 <body>
 
+    <!-- Top Navigation -->
     <nav class="navbar">
         <div class="nav-logo">Ashbo3n</div>
         <ul class="nav-links">
             <li><a onclick="navigate('home')" id="link-home" class="active-link">Home</a></li>
-            <li><a onclick="navigate('writeups')" id="link-writeups">HTB Writeups</a></li>
+            <li><a onclick="navigate('writeups')" id="link-writeups">Writeups</a></li>
             <li><a onclick="navigate('malware-dev')" id="link-malware-dev">Malware Dev</a></li>
             <li><a onclick="navigate('about')" id="link-about">About Me</a></li>
         </ul>
     </nav>
 
+    <!-- Main Content -->
     <main class="container">
         
+        <!-- Home Section -->
         <section id="home" class="section active">
-            <div class="hero-header">
-                <h1>Ashbo3n</h1>
-                <p class="tagline">Sole Exploit Developer & Researcher</p>
+            <div class="hero">
+                <h1>Ashbo3n.</h1>
+                <p class="hero-sub">[Placeholder: A single, powerful sentence about your role or focus.]</p>
             </div>
             
-            <div class="bento-grid">
-                <div class="bento-card span-2 highlight-card">
-                    <div class="card-meta">Current Focus</div>
-                    <h2>Windows Internals & Kernel Security</h2>
-                    <p>Researching low-level Windows security, kernel-level driver development, rootkits, and advanced adversary simulation.</p>
+            <div class="info-blocks">
+                <div class="block">
+                    <h3>[Placeholder: Focus Area]</h3>
+                    <p>[Placeholder: Keep this to one brief sentence.]</p>
                 </div>
-
-                <div class="bento-card center-content">
-                    <div class="card-meta">Rank</div>
-                    <h2 class="stat-text">Red Team Operative</h2>
-                    <p class="sub-stat">12,000+ XP</p>
+                <div class="block">
+                    <h3>[Placeholder: Current Status]</h3>
+                    <p>[Placeholder: Keep this to one brief sentence.]</p>
                 </div>
-
-                <div class="bento-card">
-                    <div class="card-meta">Certifications</div>
-                    <h2>CWES Active</h2>
-                    <div class="cert-roadmap">
-                        <span>CPTS</span> → <span>OSCP</span> → <span>OSEP</span> → <span>GXPN</span> → <span>OSEE</span>
-                    </div>
-                </div>
-
-                <div class="bento-card span-2 project-card">
-                    <div class="card-meta">Active Development</div>
-                    <h2>Sliver C2 Encrypted Dropper</h2>
-                    <p>Developing a staged, encrypted shellcode dropper utilizing API hashing, AES-CBC decryption, and manual PE parsing for evasion.</p>
+                <div class="block">
+                    <h3>[Placeholder: Active Project]</h3>
+                    <p>[Placeholder: Keep this to one brief sentence.]</p>
                 </div>
             </div>
         </section>
 
+        <!-- Writeups Section -->
         <section id="writeups" class="section">
             <div class="section-header">
-                <h1>Writeups</h1>
-                <p>Detailed technical walkthroughs for HTB, TryHackMe, and custom labs.</p>
+                <h2>Writeups.</h2>
+                <p>[Placeholder: Brief description of your writeup methodology.]</p>
             </div>
             
-            <div class="list-card clickable" onclick="loadMarkdown('htb-example.md')">
-                <div class="card-meta">HTB • Hard</div>
-                <h2>[Placeholder: Machine Name]</h2>
-                <p>[Placeholder: Short description of the initial foothold and privilege escalation. Click to read.]</p>
-            </div>
-            
-            <div class="list-card clickable" onclick="loadMarkdown('htb-example2.md')">
-                <div class="card-meta">HTB • Medium</div>
-                <h2>[Placeholder: Machine Name]</h2>
-                <p>[Placeholder: Short description of the machine. Click to read.]</p>
+            <div class="list-container">
+                <div class="row-link" onclick="loadMarkdown('htb-example.md')">
+                    <span class="row-title">[Placeholder: Machine Name]</span>
+                    <span class="row-meta">[Placeholder: Difficulty/Platform]</span>
+                </div>
+                <div class="row-link" onclick="loadMarkdown('htb-example2.md')">
+                    <span class="row-title">[Placeholder: Machine Name]</span>
+                    <span class="row-meta">[Placeholder: Difficulty/Platform]</span>
+                </div>
             </div>
         </section>
 
+        <!-- Malware Dev Section -->
         <section id="malware-dev" class="section">
             <div class="section-header">
-                <h1>Malware Dev</h1>
-                <p>Research, tool development, and low-level execution concepts.</p>
+                <h2>Malware Dev.</h2>
+                <p>[Placeholder: Brief description of your dev focus.]</p>
             </div>
             
-            <div class="list-card clickable" onclick="loadMarkdown('malware-project.md')">
-                <div class="card-meta">C/C++ • Windows API</div>
-                <h2>[Placeholder: Project Title]</h2>
-                <p>[Placeholder: Description of the project, techniques used, and purpose. Click to read.]</p>
+            <div class="list-container">
+                <div class="row-link" onclick="loadMarkdown('malware.md')">
+                    <span class="row-title">[Placeholder: Project Name]</span>
+                    <span class="row-meta">[Placeholder: Language/Tech]</span>
+                </div>
             </div>
         </section>
 
+        <!-- About Section -->
         <section id="about" class="section">
             <div class="section-header">
-                <h1>About Me</h1>
-                <p>Background and methodology.</p>
+                <h2>About.</h2>
             </div>
             
-            <div class="list-card">
-                <h3>Overview</h3>
-                <p>Prioritizing direct technical experience and elite certifications over traditional degrees. Dedicated to open-source educational resources and mastering x86-64 Assembly and OS Internals.</p>
+            <div class="about-content">
+                <p>[Placeholder: A clean paragraph about who you are.]</p>
+                <p>[Placeholder: A second paragraph regarding goals or contact info.]</p>
             </div>
         </section>
 
+        <!-- Dynamic Markdown Viewer -->
         <section id="markdown-viewer" class="section">
-            <button class="back-btn" onclick="navigate('writeups')">← Back</button>
+            <button class="back-btn" onclick="navigate('writeups')">← Return</button>
             <div id="markdown-content" class="markdown-body">
-                </div>
+                <!-- Markdown renders here -->
+            </div>
         </section>
 
     </main>

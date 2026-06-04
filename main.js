@@ -13,11 +13,11 @@ function navigate(targetId) {
     document.getElementById(targetId).classList.add('active');
     document.getElementById('link-' + targetId).classList.add('active-link');
     
-    // Update URL hash without jumping page
+    // Update URL hash smoothly
     history.pushState(null, null, '#' + targetId);
 }
 
-// Handle page load with specific hash (e.g., refreshing on the About page)
+// Handle page load with specific hash
 window.addEventListener('DOMContentLoaded', () => {
     const hash = window.location.hash.substring(1);
     if (hash && document.getElementById(hash)) {

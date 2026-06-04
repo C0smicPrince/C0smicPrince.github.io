@@ -3,245 +3,200 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ashbo3n | Operations</title>
+    <title>Ashbo3n</title>
+    <!-- Clean, modern typography -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&family=Outfit:wght@300;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;500;700&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-    
+
     <style>
-        /* --- ALL CSS IS NOW EMBEDDED HERE SO IT CANNOT BREAK --- */
+        /* ALL CSS EMBEDDED TO PREVENT LOAD FAILURES */
         :root {
-            --bg-color: #050507;
-            --text-main: #f8fafc;
-            --text-dim: #94a3b8;
-            --accent: #ef4444; /* Deep Red Accent */
-            --border: rgba(255, 255, 255, 0.05);
-            /* This creates a massive, subtle red glow at the top of the screen */
-            --bg-glow: radial-gradient(circle at 50% 0%, rgba(239, 68, 68, 0.08) 0%, transparent 60%);
+            --bg: #080808;
+            --text-main: #f0f0f0;
+            --text-muted: #737373;
+            --border: #1f1f1f;
+            --accent: #ffffff;
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
-            background-color: var(--bg-color);
-            background-image: var(--bg-glow);
-            background-repeat: no-repeat;
+            background-color: var(--bg);
             color: var(--text-main);
-            font-family: 'Outfit', sans-serif;
-            min-height: 100vh;
-            overflow-x: hidden;
+            font-family: 'Manrope', sans-serif;
             line-height: 1.6;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
         }
 
-        /* --- Minimal Top Navigation (NO SIDEBARS) --- */
+        /* Top Nav Only - Centered and Minimal */
         nav {
             display: flex;
             justify-content: center;
             gap: 4rem;
-            padding: 2.5rem 2rem;
+            padding: 2.5rem;
             border-bottom: 1px solid var(--border);
         }
 
         nav a {
-            color: var(--text-dim);
+            color: var(--text-muted);
             text-decoration: none;
-            font-family: 'Fira Code', monospace;
-            font-size: 0.9rem;
+            font-size: 0.95rem;
+            font-weight: 500;
             text-transform: uppercase;
-            letter-spacing: 2px;
+            letter-spacing: 1px;
             cursor: pointer;
-            transition: color 0.3s ease;
+            transition: color 0.2s ease;
         }
 
         nav a:hover, nav a.active {
             color: var(--accent);
         }
 
-        /* --- Main Layout --- */
+        /* Container that stretches wide */
         .container {
-            max-width: 1200px; /* Very wide to fill modern screens */
+            max-width: 1400px;
             margin: 0 auto;
             padding: 5rem 2rem;
         }
 
         .view {
             display: none;
-            animation: fadeIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            animation: fadeUp 0.5s ease forwards;
         }
 
         .view.active-view {
             display: block;
         }
 
-        /* --- Home: Massive Typography & Wide Rows --- */
+        /* Hero Section */
         .hero {
             text-align: center;
-            margin-bottom: 7rem;
+            margin-bottom: 6rem;
         }
 
         .hero h1 {
-            font-size: 6rem;
+            font-size: 5rem;
             font-weight: 700;
-            letter-spacing: -3px;
+            letter-spacing: -0.04em;
             margin-bottom: 1rem;
-            color: #ffffff;
         }
 
         .hero p {
             font-size: 1.5rem;
-            color: var(--text-dim);
+            color: var(--text-muted);
             font-weight: 300;
-            letter-spacing: 1px;
         }
 
-        /* The rows that fill the screen width */
-        .info-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            border-top: 1px solid var(--border);
-            padding: 4rem 0;
-            gap: 4rem;
+        /* 
+          This grid natively stretches to fill empty space.
+          It puts your content front-and-center so the page feels full
+          without needing filler info or sidebars.
+        */
+        .grid-layout {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+            gap: 2.5rem;
         }
 
-        .info-label {
-            flex: 1;
-            font-family: 'Fira Code', monospace;
-            color: var(--accent);
-            font-size: 1.1rem;
-            text-transform: uppercase;
-            padding-top: 0.5rem; /* Aligns with the large H2 */
-        }
-
-        .info-content {
-            flex: 3;
-        }
-
-        .info-content h2 {
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
-            font-weight: 500;
-            letter-spacing: -1px;
-        }
-
-        .info-content p {
-            font-size: 1.25rem;
-            color: var(--text-dim);
-            line-height: 1.8;
-            max-width: 800px;
-        }
-
-        .tech-tags {
-            display: flex;
-            gap: 1rem;
-            flex-wrap: wrap;
-            margin-top: 1.5rem;
-        }
-
-        .tech-tags span {
-            background: rgba(255, 255, 255, 0.02);
-            padding: 0.6rem 1.2rem;
-            border-radius: 4px;
-            font-family: 'Fira Code', monospace;
-            font-size: 0.85rem;
+        .card {
             border: 1px solid var(--border);
-            color: var(--text-dim);
+            padding: 3rem;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.01);
+            transition: border-color 0.3s;
         }
 
-        /* --- Lists for Writeups & Malware --- */
-        .page-title {
-            font-size: 4rem;
-            margin-bottom: 3rem;
-            letter-spacing: -2px;
+        .card:hover {
+            border-color: #333;
         }
 
-        .list-item {
+        .card h2 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            letter-spacing: -0.02em;
+        }
+
+        .card p.card-sub {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            margin-bottom: 2.5rem;
+        }
+
+        /* Clickable Lists inside cards */
+        .item-link {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 2.5rem;
-            background: rgba(255, 255, 255, 0.01);
-            margin-bottom: 1.5rem;
-            border: 1px solid var(--border);
-            border-left: 4px solid transparent;
-            transition: all 0.3s ease;
+            padding: 1.25rem 0;
+            border-bottom: 1px solid var(--border);
             cursor: pointer;
+            transition: padding-left 0.2s ease, color 0.2s;
         }
 
-        .list-item:hover {
-            background: rgba(255, 255, 255, 0.03);
-            border-left-color: var(--accent);
-            transform: translateX(10px);
+        .item-link:last-child {
+            border-bottom: none;
         }
 
-        .list-item h3 {
-            font-size: 1.8rem;
-            margin-bottom: 0.5rem;
+        .item-link:hover {
+            padding-left: 0.75rem;
+        }
+
+        .item-title {
+            font-size: 1.1rem;
             font-weight: 500;
         }
 
-        .list-item p {
-            color: var(--text-dim);
-            font-size: 1.1rem;
-        }
-
-        .list-meta {
-            font-family: 'Fira Code', monospace;
-            color: var(--accent);
-            font-size: 1rem;
-        }
-
-        /* --- Markdown Viewer Styles --- */
-        .btn-back {
-            background: transparent;
-            border: 1px solid var(--border);
-            color: var(--text-main);
-            padding: 0.75rem 1.5rem;
-            cursor: pointer;
-            margin-bottom: 3rem;
-            font-family: 'Fira Code', monospace;
-            transition: all 0.3s;
+        .item-meta {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            font-family: monospace;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 0.3rem 0.6rem;
             border-radius: 4px;
         }
-        
-        .btn-back:hover {
-            border-color: var(--accent);
-            color: var(--accent);
+
+        /* Markdown Viewer Styles */
+        .btn-back {
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+            margin-bottom: 3rem;
+            transition: color 0.2s;
         }
+        
+        .btn-back:hover { color: var(--accent); }
 
         .markdown-body {
-            font-size: 1.2rem;
-            line-height: 1.8;
             max-width: 900px;
+            margin: 0 auto;
+            font-size: 1.15rem;
         }
         
-        .markdown-body h1, .markdown-body h2 { margin: 3rem 0 1.5rem 0; font-weight: 500; }
-        .markdown-body p { margin-bottom: 1.5rem; color: var(--text-dim); }
-        .markdown-body pre { 
-            background: #0a0a0f; 
-            padding: 2rem; 
-            border-radius: 8px; 
-            overflow-x: auto; 
-            margin: 2rem 0; 
-            border: 1px solid var(--border); 
-        }
-        .markdown-body code { font-family: 'Fira Code', monospace; color: var(--accent); }
+        .markdown-body h1 { font-size: 3rem; margin-bottom: 2rem; font-weight: 700; letter-spacing: -0.02em; }
+        .markdown-body h2 { font-size: 2rem; margin: 3rem 0 1.5rem 0; font-weight: 500; border-bottom: 1px solid var(--border); padding-bottom: 0.5rem; }
+        .markdown-body p { color: var(--text-muted); margin-bottom: 1.5rem; }
+        .markdown-body pre { background: #111; padding: 2rem; border-radius: 8px; overflow-x: auto; margin: 2rem 0; border: 1px solid var(--border); }
+        .markdown-body code { font-family: monospace; color: #ccc; }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(15px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* Mobile tweaks */
+        /* Mobile Adjustments */
         @media (max-width: 768px) {
-            .info-row { flex-direction: column; gap: 1rem; padding: 2rem 0; }
-            .hero h1 { font-size: 4rem; }
             nav { gap: 1.5rem; padding: 1.5rem; flex-wrap: wrap; }
+            .hero h1 { font-size: 3.5rem; }
+            .grid-layout { grid-template-columns: 1fr; }
+            .card { padding: 2rem; }
         }
     </style>
 </head>
@@ -254,112 +209,95 @@
     </nav>
 
     <div class="container">
-        
+        <!-- HOME VIEW -->
         <div id="home" class="view active-view">
             <div class="hero">
                 <h1>Ashbo3n</h1>
                 <p>Sole Exploit Developer & Researcher</p>
             </div>
 
-            <div class="info-row">
-                <div class="info-label">01 // Status</div>
-                <div class="info-content">
-                    <h2>Red Team Operative</h2>
-                    <p>Current Experience: 12,000+ XP. Advancing through rigorous internal systems to reach Adversary Sim Operator.</p>
-                    <div class="tech-tags">
-                        <span>CWES Certified</span>
-                        <span>Target: CPTS -> OSCP -> OSEP -> GXPN -> OSEE</span>
+            <!-- This grid fills the screen horizontally without needing dummy panels -->
+            <div class="grid-layout">
+                
+                <div class="card">
+                    <h2>HTB Writeups</h2>
+                    <p class="card-sub">[Placeholder: Brief description of your methodology]</p>
+                    
+                    <div class="item-link" onclick="loadMarkdown('htb-placeholder1.md')">
+                        <span class="item-title">[Placeholder: HTB Box Name]</span>
+                        <span class="item-meta">[Difficulty]</span>
+                    </div>
+                    <div class="item-link" onclick="loadMarkdown('htb-placeholder2.md')">
+                        <span class="item-title">[Placeholder: HTB Box Name]</span>
+                        <span class="item-meta">[Difficulty]</span>
                     </div>
                 </div>
-            </div>
 
-            <div class="info-row">
-                <div class="info-label">02 // Active Directive</div>
-                <div class="info-content">
-                    <h2>Sliver C2 Encrypted Dropper</h2>
-                    <p>Developing a staged, encrypted shellcode dropper utilizing API hashing, AES-CBC decryption, and manual PE parsing to evade detection. Advanced Windows-native development initialized.</p>
-                    <div class="tech-tags">
-                        <span>C/C++</span>
-                        <span>Windows Internals</span>
-                        <span>AV/EDR Evasion</span>
+                <div class="card">
+                    <h2>Malware Dev</h2>
+                    <p class="card-sub">[Placeholder: Brief description of your dev focus]</p>
+                    
+                    <div class="item-link" onclick="loadMarkdown('malware-placeholder1.md')">
+                        <span class="item-title">[Placeholder: Project Name]</span>
+                        <span class="item-meta">[Language]</span>
+                    </div>
+                    <div class="item-link" onclick="loadMarkdown('malware-placeholder2.md')">
+                        <span class="item-title">[Placeholder: Project Name]</span>
+                        <span class="item-meta">[Language]</span>
                     </div>
                 </div>
-            </div>
 
-            <div class="info-row">
-                <div class="info-label">03 // Research Focus</div>
-                <div class="info-content">
-                    <h2>Core Focus Vectors</h2>
-                    <p>Dedicating rigorous deep-work hours to low-level Windows security, kernel-level driver development, rootkits, and adversary simulation techniques.</p>
-                    <div class="tech-tags">
-                        <span>Assembly (x86-64)</span>
-                        <span>OS Internals</span>
-                    </div>
-                </div>
             </div>
         </div>
 
+        <!-- DEDICATED WRITEUPS VIEW -->
         <div id="writeups" class="view">
-            <h1 class="page-title">HTB Writeups</h1>
-            
-            <div class="list-item" onclick="loadMarkdown('htb-example.md')">
-                <div>
-                    <h3>[Placeholder: Machine Name]</h3>
-                    <p>Short description of the exploit path and initial foothold.</p>
+            <div class="card">
+                <h2>All Writeups</h2>
+                <p class="card-sub">Full archive of machine exploitation.</p>
+                <div class="item-link" onclick="loadMarkdown('htb-placeholder1.md')">
+                    <span class="item-title">[Placeholder: HTB Box Name]</span>
+                    <span class="item-meta">[Difficulty]</span>
                 </div>
-                <div class="list-meta">[Difficulty]</div>
-            </div>
-            
-            <div class="list-item" onclick="loadMarkdown('htb-example2.md')">
-                <div>
-                    <h3>[Placeholder: Machine Name]</h3>
-                    <p>Short description of the exploit path and initial foothold.</p>
-                </div>
-                <div class="list-meta">[Difficulty]</div>
             </div>
         </div>
 
+        <!-- DEDICATED MALWARE VIEW -->
         <div id="malware" class="view">
-            <h1 class="page-title">Malware Development</h1>
-            
-            <div class="list-item" onclick="loadMarkdown('malware.md')">
-                <div>
-                    <h3>[Placeholder: Project Name]</h3>
-                    <p>Description of the tool and evasion techniques deployed.</p>
+            <div class="card">
+                <h2>All Dev Projects</h2>
+                <p class="card-sub">Full archive of tools and payloads.</p>
+                <div class="item-link" onclick="loadMarkdown('malware-placeholder1.md')">
+                    <span class="item-title">[Placeholder: Project Name]</span>
+                    <span class="item-meta">[Language]</span>
                 </div>
-                <div class="list-meta">[Language]</div>
             </div>
         </div>
 
+        <!-- MARKDOWN VIEWER -->
         <div id="markdown-viewer" class="view">
-            <button class="btn-back" onclick="navigate('home')"><- Return</button>
-            <div id="markdown-content" class="markdown-body">
-                </div>
+            <button class="btn-back" onclick="navigate('home')">← Back to Overview</button>
+            <div id="markdown-content" class="markdown-body"></div>
         </div>
-
     </div>
 
     <script>
         function navigate(viewId) {
-            // Hide all views
+            // Reset views and links
             document.querySelectorAll('.view').forEach(v => v.classList.remove('active-view'));
-            // Remove active states from nav
             document.querySelectorAll('nav a').forEach(l => l.classList.remove('active'));
             
-            // Show new view
+            // Set active
             document.getElementById(viewId).classList.add('active-view');
-            
-            // Add active state to nav if it exists
             const link = document.getElementById('link-' + viewId);
             if(link) link.classList.add('active');
             
-            // Scroll to top
             window.scrollTo(0, 0);
         }
 
         async function loadMarkdown(file) {
             const content = document.getElementById('markdown-content');
-            content.innerHTML = '<p style="color: var(--text-dim); font-family: monospace;">[+] Loading module data...</p>';
+            content.innerHTML = '<p>Loading...</p>';
             navigate('markdown-viewer');
             
             try {
@@ -368,7 +306,7 @@
                 const text = await res.text();
                 content.innerHTML = marked.parse(text);
             } catch (e) {
-                content.innerHTML = `<p style="color: var(--accent); font-family: monospace;">[-] Error: Failed to load ${file}. Check file path.</p>`;
+                content.innerHTML = `<p>Error loading <strong>${file}</strong>. Please ensure the file exists.</p>`;
             }
         }
     </script>

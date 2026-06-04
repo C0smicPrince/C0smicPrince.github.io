@@ -1,11 +1,13 @@
 /* --- Base Variables & Reset --- */
 :root {
-    --bg-main: #070707; /* Almost pure black */
-    --bg-nav: rgba(7, 7, 7, 0.9);
-    --line-color: #1f1f1f;
-    --text-primary: #eaeaea;
-    --text-secondary: #707070;
-    --accent: #ffffff;
+    --bg-main: #000000;
+    --surface: #0a0a0a;
+    --surface-hover: #121212;
+    --border: #222222;
+    --border-highlight: #333333;
+    --text-main: #ffffff;
+    --text-muted: #888888;
+    --accent: #eaeaea;
 }
 
 * {
@@ -17,20 +19,24 @@
 body {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
     background-color: var(--bg-main);
-    color: var(--text-primary);
+    color: var(--text-main);
     line-height: 1.6;
     -webkit-font-smoothing: antialiased;
 }
 
-/* --- Navigation --- */
+/* --- Floating Pill Navigation --- */
 .navbar {
     position: fixed;
-    top: 0;
-    width: 100%;
-    background-color: var(--bg-nav);
-    backdrop-filter: blur(8px);
-    border-bottom: 1px solid var(--line-color);
-    padding: 1.5rem 4rem;
+    top: 1.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 90%;
+    max-width: 900px;
+    background: rgba(10, 10, 10, 0.7);
+    backdrop-filter: blur(16px);
+    border: 1px solid var(--border);
+    border-radius: 50px;
+    padding: 1rem 2rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -38,186 +44,249 @@ body {
 }
 
 .nav-logo {
-    font-size: 1rem;
+    font-size: 1.1rem;
     font-weight: 600;
-    letter-spacing: 1px;
-    color: var(--text-primary);
+    letter-spacing: 0.5px;
 }
 
 .nav-links {
     display: flex;
-    gap: 2.5rem;
+    gap: 2rem;
     list-style: none;
 }
 
 .nav-links a {
-    color: var(--text-secondary);
+    color: var(--text-muted);
     text-decoration: none;
-    font-size: 0.85rem;
-    transition: color 0.3s ease;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: color 0.2s ease;
     cursor: pointer;
 }
 
 .nav-links a:hover, .nav-links a.active-link {
-    color: var(--accent);
+    color: var(--text-main);
 }
 
-/* --- Container & Layout --- */
+/* --- Main Container Layout --- */
 .container {
-    max-width: 800px;
-    margin: 8rem auto 4rem auto; /* Pushed down to clear fixed nav */
+    max-width: 1000px; /* Wider to fill the screen better */
+    margin: 8rem auto 4rem auto;
     padding: 0 2rem;
 }
 
 .section {
     display: none;
-    animation: fadeIn 0.4s ease;
+    animation: fadeUp 0.4s ease forwards;
 }
 
 .section.active {
     display: block;
 }
 
-/* --- Typography & Headers --- */
-.hero {
-    margin-bottom: 5rem;
-    border-bottom: 1px solid var(--line-color);
-    padding-bottom: 3rem;
+/* --- Home Layout --- */
+.hero-center {
+    text-align: center;
+    padding: 4rem 0 5rem 0;
 }
 
-.hero h1 {
-    font-size: 4.5rem;
+.hero-title {
+    font-size: 3.5rem;
+    font-weight: 700;
+    letter-spacing: -0.04em;
+    margin-bottom: 0.5rem;
+}
+
+.hero-subtitle {
+    font-size: 1.2rem;
+    color: var(--text-muted);
+}
+
+/* Row of Stats */
+.stats-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.stat-box {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 2rem;
+    border-radius: 12px;
+    text-align: center;
+    transition: border-color 0.3s;
+}
+
+.stat-box:hover {
+    border-color: var(--border-highlight);
+}
+
+.stat-label {
+    display: block;
+    color: var(--text-muted);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 0.75rem;
+    font-weight: 600;
+}
+
+.stat-value {
+    font-size: 1.1rem;
     font-weight: 500;
-    letter-spacing: -2px;
-    line-height: 1.1;
-    margin-bottom: 1rem;
 }
 
-.hero-sub {
+/* Large Featured Block */
+.featured-block {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 3rem;
+    border-radius: 12px;
+}
+
+.featured-header h2 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 1rem;
+}
+
+.featured-body h3 {
     font-size: 1.25rem;
-    color: var(--text-secondary);
-    max-width: 600px;
+    margin-bottom: 0.5rem;
 }
 
+.featured-body p {
+    color: var(--text-muted);
+    font-size: 1.05rem;
+}
+
+/* --- Section Headers (For Writeups/Malware) --- */
 .section-header {
     margin-bottom: 3rem;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 1.5rem;
 }
 
 .section-header h2 {
-    font-size: 3rem;
-    font-weight: 500;
-    letter-spacing: -1px;
+    font-size: 2.5rem;
+    font-weight: 600;
+    letter-spacing: -0.02em;
     margin-bottom: 0.5rem;
 }
 
 .section-header p {
-    color: var(--text-secondary);
+    color: var(--text-muted);
     font-size: 1.1rem;
 }
 
-/* --- Minimal Home Blocks --- */
-.info-blocks {
+/* --- List Items --- */
+.list-wrapper {
     display: flex;
     flex-direction: column;
-    gap: 2.5rem;
+    gap: 1rem;
 }
 
-.block h3 {
-    font-size: 1rem;
-    color: var(--text-primary);
-    margin-bottom: 0.5rem;
-    font-weight: 500;
-}
-
-.block p {
-    color: var(--text-secondary);
-    font-size: 0.95rem;
-}
-
-/* --- Row Links (Replacing Cards) --- */
-.list-container {
-    border-top: 1px solid var(--line-color);
-}
-
-.row-link {
+.list-item {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.5rem 2rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 1.5rem 0;
-    border-bottom: 1px solid var(--line-color);
+    transition: background-color 0.2s, transform 0.2s;
+}
+
+.list-item.clickable {
     cursor: pointer;
-    transition: padding-left 0.3s ease, background-color 0.3s ease;
 }
 
-.row-link:hover {
-    padding-left: 1rem;
-    background-color: rgba(255, 255, 255, 0.02);
+.list-item.clickable:hover {
+    background-color: var(--surface-hover);
+    transform: translateY(-2px);
 }
 
-.row-title {
-    font-size: 1.1rem;
+.item-content h3 {
+    font-size: 1.2rem;
+    margin-bottom: 0.25rem;
     font-weight: 500;
 }
 
-.row-meta {
-    font-size: 0.85rem;
-    color: var(--text-secondary);
-    font-family: monospace;
+.item-content p {
+    color: var(--text-muted);
+    font-size: 0.95rem;
 }
 
-/* --- About Section --- */
-.about-content p {
-    font-size: 1.1rem;
-    color: var(--text-secondary);
-    margin-bottom: 1.5rem;
-    line-height: 1.8;
+.badge {
+    background: var(--border);
+    color: var(--text-main);
+    padding: 0.4rem 0.8rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    letter-spacing: 0.5px;
 }
 
-/* --- Markdown Rendering --- */
+/* --- Markdown Render Styles --- */
 .back-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
     background: none;
     border: none;
-    color: var(--text-secondary);
+    color: var(--text-muted);
     font-size: 1rem;
     cursor: pointer;
-    margin-bottom: 2rem;
+    margin-bottom: 2.5rem;
     padding: 0;
     transition: color 0.2s;
 }
 
 .back-btn:hover {
-    color: var(--accent);
+    color: var(--text-main);
 }
 
 .markdown-body h1, .markdown-body h2 {
-    font-weight: 500;
-    margin-top: 2rem;
+    font-weight: 600;
+    margin-top: 2.5rem;
     margin-bottom: 1rem;
-    border-bottom: 1px solid var(--line-color);
+    border-bottom: 1px solid var(--border);
     padding-bottom: 0.5rem;
 }
 
 .markdown-body p {
-    color: var(--text-secondary);
+    color: var(--text-muted);
     margin-bottom: 1.5rem;
+    font-size: 1.05rem;
 }
 
 .markdown-body pre {
-    background-color: #111;
-    border: 1px solid var(--line-color);
+    background-color: var(--surface);
+    border: 1px solid var(--border);
     padding: 1.5rem;
-    border-radius: 4px;
+    border-radius: 8px;
     overflow-x: auto;
     margin-bottom: 1.5rem;
 }
 
 .markdown-body code {
     font-family: "Consolas", monospace;
-    color: #ccc;
+    color: var(--accent);
     font-size: 0.9rem;
 }
 
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(10px); }
+/* --- Animations & Media Queries --- */
+@keyframes fadeUp {
+    from { opacity: 0; transform: translateY(15px); }
     to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 768px) {
+    .stats-row { grid-template-columns: 1fr; }
+    .navbar { width: 95%; padding: 1rem; }
+    .nav-links { gap: 1rem; }
 }

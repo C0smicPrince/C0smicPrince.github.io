@@ -3,47 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ashbo3n | Command Center</title>
+    <title>C0smicPrince - Blogs</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        :root {
-            --bg: #0a0a0a;
-            --card-bg: #111111;
-            --text-main: #ffffff;
-            --text-muted: #888888;
-            --accent: #ff4d4d;
-            --border: #222222;
-        }
-
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { background-color: var(--bg); color: var(--text-main); font-family: 'Inter', sans-serif; min-height: 100vh; display: flex; flex-direction: column; }
-
-        nav { display: flex; justify-content: center; gap: 3rem; padding: 2rem; border-bottom: 1px solid var(--border); }
-        nav a { color: var(--text-muted); text-transform: uppercase; font-size: 0.75rem; letter-spacing: 2px; cursor: pointer; transition: 0.3s; }
-        nav a:hover, nav a.active { color: var(--accent); }
-
-        .container { max-width: 1000px; margin: 4rem auto; padding: 0 2rem; flex: 1; }
-        .view { display: none; }
-        .view.active-view { display: block; animation: fadeIn 0.5s; }
-
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-
-        .header { text-align: center; margin-bottom: 4rem; }
-        .header h1 { font-size: 3rem; font-weight: 600; letter-spacing: -1px; }
-        .header p { color: var(--text-muted); margin-top: 0.5rem; }
-
-        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(450px, 1fr)); gap: 1.5rem; }
-        .card { background: var(--card-bg); border: 1px solid var(--border); padding: 2rem; border-radius: 4px; transition: 0.3s; text-decoration: none; color: inherit; display: block; }
-        .card:hover { border-color: var(--accent); }
-        .card h3 { margin-bottom: 0.5rem; font-weight: 600; }
-        .card p { color: var(--text-muted); font-size: 0.9rem; line-height: 1.5; }
-
-        footer { text-align: center; padding: 4rem; color: var(--text-muted); border-top: 1px solid var(--border); }
-        .socials { font-size: 1.2rem; display: flex; justify-content: center; gap: 2rem; }
-        .socials a { color: var(--text-muted); transition: 0.3s; }
-        .socials a:hover { color: var(--accent); }
-    </style>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <link rel="stylesheet" href="./style.css">
 </head>
 <body>
 
@@ -51,61 +15,52 @@
         <a onclick="navigate('home')" id="link-home" class="active">Home</a>
         <a onclick="navigate('writeups')" id="link-writeups">Writeups</a>
         <a onclick="navigate('malware')" id="link-malware">Malware Dev</a>
-        <a onclick="navigate('about')" id="link-about">About Me</a>
     </nav>
 
     <div class="container">
+
         <div id="home" class="view active-view">
             <div class="header">
                 <h1>Ashbo3n</h1>
-                <p>Sole Exploit Developer & Researcher</p>
+                <p>Windows Evasion | HTB / THM Writeups | Penetration Testing / Red Teaming</p>
             </div>
-            <div class="grid">
-                <div class="card"><h3>Status</h3><p>Red Team Operative (12,000+ XP). Advancing through internal systems.</p></div>
-                <div class="card"><h3>Active Directive</h3><p>Developing a staged, encrypted shellcode dropper for Sliver C2.</p></div>
+            <div class="card-grid">
+                <div class="card" onclick="navigate('writeups')">
+                    <h3>Writeups</h3>
+                    <p>CTF walkthroughs, machine breakdowns, and vulnerability research write-ups.</p>
+                </div>
+                <div class="card" onclick="navigate('malware')">
+                    <h3>Malware Development</h3>
+                    <p>Blogs explaning tricks and techniques used by real threat actors</p>
+                </div>
             </div>
         </div>
 
         <div id="writeups" class="view">
             <div class="header"><h1>Writeups</h1></div>
-            <div class="grid">
-                <a href="#" class="card"><h3>Box Name 01</h3><p>Methodology overview and key findings.</p></a>
-                <a href="#" class="card"><h3>Box Name 02</h3><p>Methodology overview and key findings.</p></a>
-            </div>
+            <div class="card-grid" id="writeups-grid"></div>
         </div>
 
         <div id="malware" class="view">
             <div class="header"><h1>Malware Dev</h1></div>
-            <div class="grid">
-                <a href="#" class="card"><h3>Project Alpha</h3><p>Technical implementation details.</p></a>
-                <a href="#" class="card"><h3>Project Beta</h3><p>Technical implementation details.</p></a>
-            </div>
+            <div class="card-grid" id="malware-grid"></div>
         </div>
 
-        <div id="about" class="view">
-            <div class="header"><h1>About Me</h1></div>
-            <div class="grid">
-                <div class="card"><h3>Background</h3><p>Dedicated to low-level Windows security, kernel-level driver development, rootkits, and advanced adversary simulation.</p></div>
-                <div class="card"><h3>Certification Roadmap</h3><p>Active: CWES. Target: CPTS -> OSCP -> OSEP -> GXPN -> OSEE.</p></div>
-            </div>
+        <div id="post" class="post-view">
+            <button class="back-btn" id="back-btn" onclick="closePost()">← Back</button>
+            <div class="post-content" id="post-content"></div>
         </div>
+
     </div>
 
     <footer>
         <div class="socials">
-            <a href="#"><i class="fab fa-hashnode"></i></a>
-            <a href="https://github.com/Ashbo3n" target="_blank"><i class="fab fa-github"></i></a>
-            <a href="#"><i class="fab fa-medium"></i></a>
+            <a href="https://hashnode.com/@cosmicprince"><i class="fab fa-hashnode"></i></a>
+            <a href="https://github.com/C0smicPrince" target="_blank"><i class="fab fa-github"></i></a>
+            <a href="https://medium.com/@C0smicPrince"><i class="fab fa-medium"></i></a>
         </div>
     </footer>
 
-    <script>
-        function navigate(viewId) {
-            document.querySelectorAll('.view').forEach(v => v.classList.remove('active-view'));
-            document.querySelectorAll('nav a').forEach(l => l.classList.remove('active'));
-            document.getElementById(viewId).classList.add('active-view');
-            document.getElementById('link-' + viewId).classList.add('active');
-        }
-    </script>
+    <script src="./script.js"></script>
 </body>
 </html>

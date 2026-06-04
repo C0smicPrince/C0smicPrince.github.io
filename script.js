@@ -35,16 +35,16 @@ const WRITEUPS = [
 
 const MALWARE = [
     {
-        title:      "Project Alpha",
-        file:       "Dev/project-alpha.md",
+        title:      "Adding soon...",
+        file:       "Adding soon...",
         tags:       ["shellcode", "dropper", "c2"],
-        description: "Staged encrypted shellcode dropper for Sliver C2."
+        description: "Adding soon..."
     },
     {
-        title:      "Project Beta",
+        title:      "Adding soon...",
         file:       "Dev/project-beta.md",
         tags:       ["rootkit", "kernel", "dkom"],
-        description: "Kernel-level rootkit prototype targeting Windows 10/11."
+        description: "Adding soon..."
     }
 ];
 
@@ -68,13 +68,21 @@ function buildMeta(entry) {
     return html;
 }
 
+function truncate(text, wordLimit) {
+    if (!text) return '';
+    const words = text.split(' ');
+    return words.length <= wordLimit
+        ? text
+        : words.slice(0, wordLimit).join(' ') + '…';
+}
+
 function renderGrid(entries, gridId, section) {
     const grid = document.getElementById(gridId);
     grid.innerHTML = entries.map((e, i) => `
         <div class="card" onclick="openPost('${section}', ${i})">
             ${buildMeta(e)}
             <h3>${e.title}</h3>
-            <p>${e.description || ''}</p>
+            <p>${truncate(e.description, 20)}</p>
         </div>
     `).join('');
 }

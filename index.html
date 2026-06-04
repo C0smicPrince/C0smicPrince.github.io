@@ -9,7 +9,7 @@
 </head>
 <body>
 
-    <!-- Top Navigation -->
+    <!-- Floating Pill Navigation -->
     <nav class="navbar">
         <div class="nav-logo">Ashbo3n</div>
         <ul class="nav-links">
@@ -25,23 +25,34 @@
         
         <!-- Home Section -->
         <section id="home" class="section active">
-            <div class="hero">
-                <h1>Ashbo3n.</h1>
-                <p class="hero-sub">[Placeholder: A single, powerful sentence about your role or focus.]</p>
+            <div class="hero-center">
+                <h1 class="hero-title">Ashbo3n</h1>
+                <p class="hero-subtitle">Sole Exploit Developer & Researcher</p>
             </div>
-            
-            <div class="info-blocks">
-                <div class="block">
-                    <h3>[Placeholder: Focus Area]</h3>
-                    <p>[Placeholder: Keep this to one brief sentence.]</p>
+
+            <!-- Wide layout stats to fill the page nicely -->
+            <div class="stats-row">
+                <div class="stat-box">
+                    <span class="stat-label">Current Rank</span>
+                    <span class="stat-value">[Placeholder: Rank/XP]</span>
                 </div>
-                <div class="block">
-                    <h3>[Placeholder: Current Status]</h3>
-                    <p>[Placeholder: Keep this to one brief sentence.]</p>
+                <div class="stat-box">
+                    <span class="stat-label">Focus Area</span>
+                    <span class="stat-value">[Placeholder: Specialization]</span>
                 </div>
-                <div class="block">
-                    <h3>[Placeholder: Active Project]</h3>
-                    <p>[Placeholder: Keep this to one brief sentence.]</p>
+                <div class="stat-box">
+                    <span class="stat-label">Certifications</span>
+                    <span class="stat-value">[Placeholder: Certs/Roadmap]</span>
+                </div>
+            </div>
+
+            <div class="featured-block">
+                <div class="featured-header">
+                    <h2>Active Development</h2>
+                </div>
+                <div class="featured-body">
+                    <h3>[Placeholder: Project Name]</h3>
+                    <p>[Placeholder: A clean, 2-3 line description of your active tool development, the techniques used, and the goal of the project to fill out this central area.]</p>
                 </div>
             </div>
         </section>
@@ -49,18 +60,28 @@
         <!-- Writeups Section -->
         <section id="writeups" class="section">
             <div class="section-header">
-                <h2>Writeups.</h2>
-                <p>[Placeholder: Brief description of your writeup methodology.]</p>
+                <h2>Writeups</h2>
+                <p>[Placeholder: Brief description of your methodology or machine focus]</p>
             </div>
             
-            <div class="list-container">
-                <div class="row-link" onclick="loadMarkdown('htb-example.md')">
-                    <span class="row-title">[Placeholder: Machine Name]</span>
-                    <span class="row-meta">[Placeholder: Difficulty/Platform]</span>
+            <div class="list-wrapper">
+                <div class="list-item clickable" onclick="loadMarkdown('htb-example.md')">
+                    <div class="item-content">
+                        <h3>[Placeholder: HTB Machine Name]</h3>
+                        <p>[Placeholder: Short description of the initial foothold or exploit path]</p>
+                    </div>
+                    <div class="item-meta">
+                        <span class="badge">[Difficulty]</span>
+                    </div>
                 </div>
-                <div class="row-link" onclick="loadMarkdown('htb-example2.md')">
-                    <span class="row-title">[Placeholder: Machine Name]</span>
-                    <span class="row-meta">[Placeholder: Difficulty/Platform]</span>
+                <div class="list-item clickable" onclick="loadMarkdown('htb-example2.md')">
+                    <div class="item-content">
+                        <h3>[Placeholder: HTB Machine Name]</h3>
+                        <p>[Placeholder: Short description of the initial foothold or exploit path]</p>
+                    </div>
+                    <div class="item-meta">
+                        <span class="badge">[Difficulty]</span>
+                    </div>
                 </div>
             </div>
         </section>
@@ -68,14 +89,19 @@
         <!-- Malware Dev Section -->
         <section id="malware-dev" class="section">
             <div class="section-header">
-                <h2>Malware Dev.</h2>
-                <p>[Placeholder: Brief description of your dev focus.]</p>
+                <h2>Malware Dev</h2>
+                <p>[Placeholder: Brief overview of your tool development]</p>
             </div>
             
-            <div class="list-container">
-                <div class="row-link" onclick="loadMarkdown('malware.md')">
-                    <span class="row-title">[Placeholder: Project Name]</span>
-                    <span class="row-meta">[Placeholder: Language/Tech]</span>
+            <div class="list-wrapper">
+                <div class="list-item clickable" onclick="loadMarkdown('malware.md')">
+                    <div class="item-content">
+                        <h3>[Placeholder: Tool/Project Name]</h3>
+                        <p>[Placeholder: Description of the tool's purpose and functionality]</p>
+                    </div>
+                    <div class="item-meta">
+                        <span class="badge">[Language]</span>
+                    </div>
                 </div>
             </div>
         </section>
@@ -83,18 +109,22 @@
         <!-- About Section -->
         <section id="about" class="section">
             <div class="section-header">
-                <h2>About.</h2>
+                <h2>About Me</h2>
             </div>
             
-            <div class="about-content">
-                <p>[Placeholder: A clean paragraph about who you are.]</p>
-                <p>[Placeholder: A second paragraph regarding goals or contact info.]</p>
+            <div class="featured-block">
+                <p style="color: var(--text-muted); line-height: 1.8;">
+                    [Placeholder: Paragraph detailing your professional background, mindset, open-source dedication, or career goals. Make this a solid block of text to look clean and professional.]
+                </p>
             </div>
         </section>
 
         <!-- Dynamic Markdown Viewer -->
         <section id="markdown-viewer" class="section">
-            <button class="back-btn" onclick="navigate('writeups')">← Return</button>
+            <button class="back-btn" onclick="navigate('writeups')">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+                Back
+            </button>
             <div id="markdown-content" class="markdown-body">
                 <!-- Markdown renders here -->
             </div>

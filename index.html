@@ -4,124 +4,373 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ashbo3n | Operations</title>
-    <link rel="stylesheet" href="./style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&family=Outfit:wght@300;500;700&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    
+    <style>
+        /* --- ALL CSS IS NOW EMBEDDED HERE SO IT CANNOT BREAK --- */
+        :root {
+            --bg-color: #050507;
+            --text-main: #f8fafc;
+            --text-dim: #94a3b8;
+            --accent: #ef4444; /* Deep Red Accent */
+            --border: rgba(255, 255, 255, 0.05);
+            /* This creates a massive, subtle red glow at the top of the screen */
+            --bg-glow: radial-gradient(circle at 50% 0%, rgba(239, 68, 68, 0.08) 0%, transparent 60%);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            background-image: var(--bg-glow);
+            background-repeat: no-repeat;
+            color: var(--text-main);
+            font-family: 'Outfit', sans-serif;
+            min-height: 100vh;
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* --- Minimal Top Navigation (NO SIDEBARS) --- */
+        nav {
+            display: flex;
+            justify-content: center;
+            gap: 4rem;
+            padding: 2.5rem 2rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        nav a {
+            color: var(--text-dim);
+            text-decoration: none;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        nav a:hover, nav a.active {
+            color: var(--accent);
+        }
+
+        /* --- Main Layout --- */
+        .container {
+            max-width: 1200px; /* Very wide to fill modern screens */
+            margin: 0 auto;
+            padding: 5rem 2rem;
+        }
+
+        .view {
+            display: none;
+            animation: fadeIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        .view.active-view {
+            display: block;
+        }
+
+        /* --- Home: Massive Typography & Wide Rows --- */
+        .hero {
+            text-align: center;
+            margin-bottom: 7rem;
+        }
+
+        .hero h1 {
+            font-size: 6rem;
+            font-weight: 700;
+            letter-spacing: -3px;
+            margin-bottom: 1rem;
+            color: #ffffff;
+        }
+
+        .hero p {
+            font-size: 1.5rem;
+            color: var(--text-dim);
+            font-weight: 300;
+            letter-spacing: 1px;
+        }
+
+        /* The rows that fill the screen width */
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            border-top: 1px solid var(--border);
+            padding: 4rem 0;
+            gap: 4rem;
+        }
+
+        .info-label {
+            flex: 1;
+            font-family: 'Fira Code', monospace;
+            color: var(--accent);
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            padding-top: 0.5rem; /* Aligns with the large H2 */
+        }
+
+        .info-content {
+            flex: 3;
+        }
+
+        .info-content h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            font-weight: 500;
+            letter-spacing: -1px;
+        }
+
+        .info-content p {
+            font-size: 1.25rem;
+            color: var(--text-dim);
+            line-height: 1.8;
+            max-width: 800px;
+        }
+
+        .tech-tags {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-top: 1.5rem;
+        }
+
+        .tech-tags span {
+            background: rgba(255, 255, 255, 0.02);
+            padding: 0.6rem 1.2rem;
+            border-radius: 4px;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.85rem;
+            border: 1px solid var(--border);
+            color: var(--text-dim);
+        }
+
+        /* --- Lists for Writeups & Malware --- */
+        .page-title {
+            font-size: 4rem;
+            margin-bottom: 3rem;
+            letter-spacing: -2px;
+        }
+
+        .list-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 2.5rem;
+            background: rgba(255, 255, 255, 0.01);
+            margin-bottom: 1.5rem;
+            border: 1px solid var(--border);
+            border-left: 4px solid transparent;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .list-item:hover {
+            background: rgba(255, 255, 255, 0.03);
+            border-left-color: var(--accent);
+            transform: translateX(10px);
+        }
+
+        .list-item h3 {
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        .list-item p {
+            color: var(--text-dim);
+            font-size: 1.1rem;
+        }
+
+        .list-meta {
+            font-family: 'Fira Code', monospace;
+            color: var(--accent);
+            font-size: 1rem;
+        }
+
+        /* --- Markdown Viewer Styles --- */
+        .btn-back {
+            background: transparent;
+            border: 1px solid var(--border);
+            color: var(--text-main);
+            padding: 0.75rem 1.5rem;
+            cursor: pointer;
+            margin-bottom: 3rem;
+            font-family: 'Fira Code', monospace;
+            transition: all 0.3s;
+            border-radius: 4px;
+        }
+        
+        .btn-back:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        .markdown-body {
+            font-size: 1.2rem;
+            line-height: 1.8;
+            max-width: 900px;
+        }
+        
+        .markdown-body h1, .markdown-body h2 { margin: 3rem 0 1.5rem 0; font-weight: 500; }
+        .markdown-body p { margin-bottom: 1.5rem; color: var(--text-dim); }
+        .markdown-body pre { 
+            background: #0a0a0f; 
+            padding: 2rem; 
+            border-radius: 8px; 
+            overflow-x: auto; 
+            margin: 2rem 0; 
+            border: 1px solid var(--border); 
+        }
+        .markdown-body code { font-family: 'Fira Code', monospace; color: var(--accent); }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Mobile tweaks */
+        @media (max-width: 768px) {
+            .info-row { flex-direction: column; gap: 1rem; padding: 2rem 0; }
+            .hero h1 { font-size: 4rem; }
+            nav { gap: 1.5rem; padding: 1.5rem; flex-wrap: wrap; }
+        }
+    </style>
 </head>
 <body>
 
-    <div class="app-wrapper">
-        <!-- Sidebar Navigation -->
-        <aside class="sidebar">
-            <div class="brand">
-                <span class="brand-logo">/></span>
-                <h2>Cosmic</h2>
+    <nav>
+        <a onclick="navigate('home')" id="link-home" class="active">Home</a>
+        <a onclick="navigate('writeups')" id="link-writeups">Writeups</a>
+        <a onclick="navigate('malware')" id="link-malware">Malware Dev</a>
+    </nav>
+
+    <div class="container">
+        
+        <div id="home" class="view active-view">
+            <div class="hero">
+                <h1>Ashbo3n</h1>
+                <p>Sole Exploit Developer & Researcher</p>
+            </div>
+
+            <div class="info-row">
+                <div class="info-label">01 // Status</div>
+                <div class="info-content">
+                    <h2>Red Team Operative</h2>
+                    <p>Current Experience: 12,000+ XP. Advancing through rigorous internal systems to reach Adversary Sim Operator.</p>
+                    <div class="tech-tags">
+                        <span>CWES Certified</span>
+                        <span>Target: CPTS -> OSCP -> OSEP -> GXPN -> OSEE</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="info-row">
+                <div class="info-label">02 // Active Directive</div>
+                <div class="info-content">
+                    <h2>Sliver C2 Encrypted Dropper</h2>
+                    <p>Developing a staged, encrypted shellcode dropper utilizing API hashing, AES-CBC decryption, and manual PE parsing to evade detection. Advanced Windows-native development initialized.</p>
+                    <div class="tech-tags">
+                        <span>C/C++</span>
+                        <span>Windows Internals</span>
+                        <span>AV/EDR Evasion</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="info-row">
+                <div class="info-label">03 // Research Focus</div>
+                <div class="info-content">
+                    <h2>Core Focus Vectors</h2>
+                    <p>Dedicating rigorous deep-work hours to low-level Windows security, kernel-level driver development, rootkits, and adversary simulation techniques.</p>
+                    <div class="tech-tags">
+                        <span>Assembly (x86-64)</span>
+                        <span>OS Internals</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="writeups" class="view">
+            <h1 class="page-title">HTB Writeups</h1>
+            
+            <div class="list-item" onclick="loadMarkdown('htb-example.md')">
+                <div>
+                    <h3>[Placeholder: Machine Name]</h3>
+                    <p>Short description of the exploit path and initial foothold.</p>
+                </div>
+                <div class="list-meta">[Difficulty]</div>
             </div>
             
-            <nav class="side-nav">
-                <a onclick="navigate('dashboard')" id="link-dashboard" class="active">Dashboard</a>
-                <a onclick="navigate('writeups')" id="link-writeups">HTB Writeups</a>
-                <a onclick="navigate('malware')" id="link-malware">Malware Dev</a>
-                <a onclick="navigate('system')" id="link-system">System & OS</a>
-            </nav>
-
-            <div class="sidebar-footer">
-                <div class="status-indicator"></div>
-                <span>System Online</span>
+            <div class="list-item" onclick="loadMarkdown('htb-example2.md')">
+                <div>
+                    <h3>[Placeholder: Machine Name]</h3>
+                    <p>Short description of the exploit path and initial foothold.</p>
+                </div>
+                <div class="list-meta">[Difficulty]</div>
             </div>
-        </aside>
+        </div>
 
-        <!-- Main Content Area -->
-        <main class="main-content">
+        <div id="malware" class="view">
+            <h1 class="page-title">Malware Development</h1>
             
-            <!-- Dashboard View (Fills Screen) -->
-            <section id="dashboard" class="view active-view">
-                <header class="view-header">
-                    <h1>Command Center</h1>
-                    <p>Sole Exploit Developer & Researcher</p>
-                </header>
-
-                <!-- This grid stretches to fill the page -->
-                <div class="bento-grid">
-                    
-                    <!-- Main Focus Area -->
-                    <div class="panel hero-panel">
-                        <h3>Current Objective</h3>
-                        <h2 class="accent-text">Sliver C2 Encrypted Dropper</h2>
-                        <p>Developing a staged, encrypted shellcode dropper utilizing API hashing, AES-CBC decryption, and manual PE parsing to evade detection. Advanced Windows-native development initialized.</p>
-                    </div>
-
-                    <!-- Rank & XP -->
-                    <div class="panel stat-panel">
-                        <h3>Current Rank</h3>
-                        <div class="stat-big">Red Team Operative</div>
-                        <div class="progress-bar">
-                            <div class="progress" style="width: 35%;"></div>
-                        </div>
-                        <p class="stat-sub">12,000+ XP / Active</p>
-                    </div>
-
-                    <!-- Research Focus -->
-                    <div class="panel focus-panel">
-                        <h3>Research Vectors</h3>
-                        <ul class="tech-list">
-                            <li>Low-level Windows Security</li>
-                            <li>Kernel-level Driver Development</li>
-                            <li>Rootkits</li>
-                            <li>Adversary Simulation</li>
-                        </ul>
-                    </div>
-
-                    <!-- Certifications -->
-                    <div class="panel cert-panel">
-                        <h3>Certification Roadmap</h3>
-                        <div class="cert-active"><strong>Active:</strong> CWES</div>
-                        <div class="cert-path">
-                            <span>CPTS</span> → <span>OSCP</span> → <span>OSEP</span> → <span>GXPN</span> → <span>OSEE</span>
-                        </div>
-                    </div>
+            <div class="list-item" onclick="loadMarkdown('malware.md')">
+                <div>
+                    <h3>[Placeholder: Project Name]</h3>
+                    <p>Description of the tool and evasion techniques deployed.</p>
                 </div>
-            </section>
+                <div class="list-meta">[Language]</div>
+            </div>
+        </div>
 
-            <!-- Markdown Views (Hidden by default) -->
-            <section id="writeups" class="view">
-                <header class="view-header">
-                    <h1>HTB Writeups</h1>
-                    <p>Tactical execution and machine exploitation.</p>
-                </header>
-                <div class="panel">
-                    <p>List your markdown files here...</p>
+        <div id="markdown-viewer" class="view">
+            <button class="btn-back" onclick="navigate('home')"><- Return</button>
+            <div id="markdown-content" class="markdown-body">
                 </div>
-            </section>
+        </div>
 
-            <section id="malware" class="view">
-                <header class="view-header">
-                    <h1>Malware Development</h1>
-                    <p>Payload crafting and evasion techniques.</p>
-                </header>
-                <div class="panel">
-                    <p>List your dev projects here...</p>
-                </div>
-            </section>
-
-            <section id="system" class="view">
-                <header class="view-header">
-                    <h1>System Config</h1>
-                    <p>Environment details and internals.</p>
-                </header>
-                <div class="panel">
-                    <p>Current Environment: Windows 11 | IDEs: Visual Studio 2026, RustRover</p>
-                </div>
-            </section>
-
-            <!-- Markdown Render Target -->
-            <section id="markdown-viewer" class="view">
-                <button class="return-btn" onclick="navigate('dashboard')">← Return to Dashboard</button>
-                <div id="markdown-content" class="panel markdown-body"></div>
-            </section>
-
-        </main>
     </div>
 
-    <script src="./main.js"></script>
+    <script>
+        function navigate(viewId) {
+            // Hide all views
+            document.querySelectorAll('.view').forEach(v => v.classList.remove('active-view'));
+            // Remove active states from nav
+            document.querySelectorAll('nav a').forEach(l => l.classList.remove('active'));
+            
+            // Show new view
+            document.getElementById(viewId).classList.add('active-view');
+            
+            // Add active state to nav if it exists
+            const link = document.getElementById('link-' + viewId);
+            if(link) link.classList.add('active');
+            
+            // Scroll to top
+            window.scrollTo(0, 0);
+        }
+
+        async function loadMarkdown(file) {
+            const content = document.getElementById('markdown-content');
+            content.innerHTML = '<p style="color: var(--text-dim); font-family: monospace;">[+] Loading module data...</p>';
+            navigate('markdown-viewer');
+            
+            try {
+                const res = await fetch(file);
+                if (!res.ok) throw new Error();
+                const text = await res.text();
+                content.innerHTML = marked.parse(text);
+            } catch (e) {
+                content.innerHTML = `<p style="color: var(--accent); font-family: monospace;">[-] Error: Failed to load ${file}. Check file path.</p>`;
+            }
+        }
+    </script>
 </body>
 </html>

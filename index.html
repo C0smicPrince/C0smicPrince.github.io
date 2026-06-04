@@ -4,13 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ashbo3n</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;500;700&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 
     <style>
-        /* CSS EMBEDDED TO PREVENT EXTERNAL LOAD FAILURES */
         :root {
             --bg: #080808;
             --text-main: #f0f0f0;
@@ -20,71 +17,28 @@
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background-color: var(--bg); color: var(--text-main); font-family: 'Manrope', sans-serif; line-height: 1.6; }
 
-        body {
-            background-color: var(--bg);
-            color: var(--text-main);
-            font-family: 'Manrope', sans-serif;
-            line-height: 1.6;
-            overflow-x: hidden;
-        }
-
-        /* Minimal Navigation */
-        nav {
-            display: flex;
-            justify-content: center;
-            gap: 4rem;
-            padding: 2.5rem;
-            border-bottom: 1px solid var(--border);
-        }
-
-        nav a {
-            color: var(--text-muted);
-            text-decoration: none;
-            font-size: 0.95rem;
-            font-weight: 500;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            cursor: pointer;
-            transition: color 0.2s ease;
-        }
-
+        nav { display: flex; justify-content: center; gap: 4rem; padding: 2.5rem; border-bottom: 1px solid var(--border); }
+        nav a { color: var(--text-muted); text-decoration: none; font-size: 0.95rem; font-weight: 500; text-transform: uppercase; cursor: pointer; }
         nav a:hover, nav a.active { color: var(--accent); }
 
-        /* Container for content */
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 5rem 2rem;
-        }
-
+        .container { max-width: 1400px; margin: 0 auto; padding: 5rem 2rem; }
         .view { display: none; }
         .view.active-view { display: block; }
 
         /* Hero */
-        .hero { text-align: center; margin-bottom: 6rem; }
-        .hero h1 { font-size: 5rem; font-weight: 700; margin-bottom: 1rem; }
-        .hero p { font-size: 1.5rem; color: var(--text-muted); }
+        .hero { text-align: center; margin-bottom: 5rem; }
+        .hero h1 { font-size: 5rem; margin-bottom: 1rem; }
 
-        /* Grid layout for custom content */
-        .grid-layout {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
-            gap: 2.5rem;
-        }
-
-        .card {
-            border: 1px solid var(--border);
-            padding: 3rem;
-            border-radius: 12px;
-            background: rgba(255, 255, 255, 0.01);
-        }
-
-        .card h2 { font-size: 2rem; margin-bottom: 2rem; font-weight: 500; }
+        /* Grid Layouts */
+        .page-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 2rem; }
+        .card { border: 1px solid var(--border); padding: 2rem; border-radius: 12px; background: rgba(255, 255, 255, 0.01); }
         
-        /* Placeholder styling */
-        .placeholder-text { color: var(--text-muted); font-style: italic; }
-
+        /* New Home Additions */
+        .info-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; margin-bottom: 4rem; }
+        .info-box { border: 1px solid var(--border); padding: 2rem; border-radius: 12px; }
+        .info-box h3 { font-size: 1.2rem; margin-bottom: 1rem; color: var(--text-muted); }
     </style>
 </head>
 <body>
@@ -96,30 +50,38 @@
     </nav>
 
     <div class="container">
+        <!-- HOME VIEW -->
         <div id="home" class="view active-view">
             <div class="hero">
                 <h1>Ashbo3n</h1>
                 <p>Sole Exploit Developer & Researcher</p>
             </div>
 
-            <div class="grid-layout">
-                <div class="card">
-                    <h2>Writeups</h2>
-                    <p class="placeholder-text">[Template: Add content here later]</p>
-                </div>
-                <div class="card">
-                    <h2>Malware Dev</h2>
-                    <p class="placeholder-text">[Template: Add content here later]</p>
-                </div>
+            <div class="info-row">
+                <div class="info-box"><h3>Focus</h3><p>System internals, low-level architecture, and security research.</p></div>
+                <div class="info-box"><h3>Approach</h3><p>Prioritizing manual analysis and deep-dive technical methodology.</p></div>
+            </div>
+
+            <div class="page-grid">
+                <div class="card"><h2>Recent Writeups</h2><p>Overview of latest technical findings.</p></div>
+                <div class="card"><h2>Recent Projects</h2><p>Current development research tracks.</p></div>
             </div>
         </div>
 
+        <!-- WRITEUPS VIEW (GRID) -->
         <div id="writeups" class="view">
-            <div class="card"><h2>Writeups</h2><p class="placeholder-text">[Template: Archive goes here]</p></div>
+            <div class="page-grid">
+                <div class="card"><h3>[Box Name]</h3><p>Description placeholder.</p></div>
+                <div class="card"><h3>[Box Name]</h3><p>Description placeholder.</p></div>
+            </div>
         </div>
 
+        <!-- MALWARE VIEW (GRID) -->
         <div id="malware" class="view">
-            <div class="card"><h2>Malware Dev</h2><p class="placeholder-text">[Template: Projects go here]</p></div>
+            <div class="page-grid">
+                <div class="card"><h3>[Project Name]</h3><p>Description placeholder.</p></div>
+                <div class="card"><h3>[Project Name]</h3><p>Description placeholder.</p></div>
+            </div>
         </div>
     </div>
 

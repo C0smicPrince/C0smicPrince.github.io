@@ -63,7 +63,7 @@ const GISCUS_CONFIG = {
     repoId:        "R_kgDOSv4EoQ",
     category:      "General",
     categoryId:    "DIC_kwDOSv4Eoc4C_HJI",
-    mapping:       "pathname",
+    mapping:       "specific",
     strict:        "0",
     reactionsEnabled: "1",
     emitMetadata:  "0",
@@ -132,7 +132,7 @@ function renderGrid(entries, gridId, section) {
  * recreate the script each time a new post is opened so giscus maps comments
  * to the new pathname.
  */
-function loadComments() {
+function loadComments(term) {
     const container = document.getElementById('comments-section');
     if (!container) return;
 
@@ -145,6 +145,7 @@ function loadComments() {
     script.setAttribute('data-category', GISCUS_CONFIG.category);
     script.setAttribute('data-category-id', GISCUS_CONFIG.categoryId);
     script.setAttribute('data-mapping', GISCUS_CONFIG.mapping);
+    script.setAttribute('data-term', term);
     script.setAttribute('data-strict', GISCUS_CONFIG.strict);
     script.setAttribute('data-reactions-enabled', GISCUS_CONFIG.reactionsEnabled);
     script.setAttribute('data-emit-metadata', GISCUS_CONFIG.emitMetadata);
@@ -221,7 +222,7 @@ function handleHash() {
                     '<p style="color:var(--text-muted)">Could not load post. Make sure the .md file exists at the path specified in the config.</p>';
             });
 
-        loadComments();
+        loadComments(`${view}/${slug}`);
     } else {
         // ── Normal view ──
         showView(['home', 'writeups', 'malware'].includes(view) ? view : 'home');

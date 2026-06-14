@@ -56,6 +56,22 @@ const MALWARE = [
     }
 ];
 
+// ─── Giscus comments config ─────────────────────────────────────────────────
+// Get these values from https://giscus.app after enabling Discussions on your repo
+const GISCUS_CONFIG = {
+    repo:          "C0smicPrince/C0smicPrince.github.io",
+    repoId:        "REPLACE_WITH_REPO_ID",
+    category:      "Comments",
+    categoryId:    "REPLACE_WITH_CATEGORY_ID",
+    mapping:       "pathname",
+    strict:        "0",
+    reactionsEnabled: "1",
+    emitMetadata:  "0",
+    inputPosition: "bottom",
+    theme:         "dark",
+    lang:          "en"
+};
+
 // ─── Slug helpers ────────────────────────────────────────────────────────────
 
 function toSlug(title) {
@@ -106,6 +122,39 @@ function renderGrid(entries, gridId, section) {
             <p>${truncate(e.description, 20)}</p>
         </div>
     `).join('');
+}
+
+// ─── Giscus comments ─────────────────────────────────────────────────────────
+
+/**
+ * Injects (or re-injects) the giscus comment widget into #comments-section.
+ * Since this site uses hash-based routing on a single page, we remove and
+ * recreate the script each time a new post is opened so giscus maps comments
+ * to the new pathname.
+ */
+function loadComments() {
+    const container = document.getElementById('comments-section');
+    if (!container) return;
+
+    container.innerHTML = '';
+
+    const script = document.createElement('script');
+    script.src = 'https://giscus.app/client.js';
+    script.setAttribute('data-repo', GISCUS_CONFIG.repo);
+    script.setAttribute('data-repo-id', GISCUS_CONFIG.repoId);
+    script.setAttribute('data-category', GISCUS_CONFIG.category);
+    script.setAttribute('data-category-id', GISCUS_CONFIG.categoryId);
+    script.setAttribute('data-mapping', GISCUS_CONFIG.mapping);
+    script.setAttribute('data-strict', GISCUS_CONFIG.strict);
+    script.setAttribute('data-reactions-enabled', GISCUS_CONFIG.reactionsEnabled);
+    script.setAttribute('data-emit-metadata', GISCUS_CONFIG.emitMetadata);
+    script.setAttribute('data-input-position', GISCUS_CONFIG.inputPosition);
+    script.setAttribute('data-theme', GISCUS_CONFIG.theme);
+    script.setAttribute('data-lang', GISCUS_CONFIG.lang);
+    script.setAttribute('crossorigin', 'anonymous');
+    script.async = true;
+
+    container.appendChild(script);
 }
 
 // ─── Navigation (hash-based) ─────────────────────────────────────────────────
@@ -171,6 +220,8 @@ function handleHash() {
                 document.getElementById('post-content').innerHTML =
                     '<p style="color:var(--text-muted)">Could not load post. Make sure the .md file exists at the path specified in the config.</p>';
             });
+
+        loadComments();
     } else {
         // ── Normal view ──
         showView(['home', 'writeups', 'malware'].includes(view) ? view : 'home');

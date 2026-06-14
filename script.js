@@ -60,9 +60,9 @@ const MALWARE = [
 // Get these values from https://giscus.app after enabling Discussions on your repo
 const GISCUS_CONFIG = {
     repo:          "C0smicPrince/C0smicPrince.github.io",
-    repoId:        "REPLACE_WITH_REPO_ID",
-    category:      "Comments",
-    categoryId:    "REPLACE_WITH_CATEGORY_ID",
+    repoId:        "R_kgDOSv4EoQ",
+    category:      "Announcements",
+    categoryId:    "DIC_kwDOSv4Eoc4C_HJH",
     mapping:       "pathname",
     strict:        "0",
     reactionsEnabled: "1",

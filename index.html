@@ -10,15 +10,12 @@
     <link rel="stylesheet" href="./style.css">
 </head>
 <body>
-
     <nav>
         <a onclick="navigate('home')" id="link-home" class="active">Home</a>
         <a onclick="navigate('writeups')" id="link-writeups">Writeups</a>
         <a onclick="navigate('malware')" id="link-malware">Malware Dev</a>
     </nav>
-
     <div class="container">
-
         <div id="home" class="view active-view">
             <div class="header">
                 <h1>C0smicPrince</h1>
@@ -35,24 +32,20 @@
                 </div>
             </div>
         </div>
-
         <div id="writeups" class="view">
             <div class="header"><h1>Writeups</h1></div>
             <div class="card-grid" id="writeups-grid"></div>
         </div>
-
         <div id="malware" class="view">
             <div class="header"><h1>Malware Dev</h1></div>
             <div class="card-grid" id="malware-grid"></div>
         </div>
-
         <div id="post" class="post-view">
             <button class="back-btn" id="back-btn" onclick="closePost()">← Back</button>
             <div class="post-content" id="post-content"></div>
+            <div id="comments-section"></div>
         </div>
-
     </div>
-
     <footer>
         <div class="socials">
             <a href="https://hashnode.com/@cosmicprince"><i class="fab fa-hashnode"></i></a>
@@ -60,7 +53,9 @@
             <a href="https://medium.com/@C0smicPrince"><i class="fab fa-medium"></i></a>
         </div>
     </footer>
-
     <script src="./script.js"></script>
+
+    <!-- GoatCounter analytics: replace YOURCODE with your actual GoatCounter site code -->
+    <script data-goatcounter="https://YOURCODE.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 </body>
 </html>

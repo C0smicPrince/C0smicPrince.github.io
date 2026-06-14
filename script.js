@@ -61,8 +61,8 @@ const MALWARE = [
 const GISCUS_CONFIG = {
     repo:          "C0smicPrince/C0smicPrince.github.io",
     repoId:        "R_kgDOSv4EoQ",
-    category:      "Announcements",
-    categoryId:    "DIC_kwDOSv4Eoc4C_HJH",
+    category:      "General",
+    categoryId:    "DIC_kwDOSv4Eoc4C_HJI",
     mapping:       "pathname",
     strict:        "0",
     reactionsEnabled: "1",

@@ -89,6 +89,71 @@ function findEntryBySlug(section, slug) {
     return list.findIndex(e => toSlug(e.title) === slug);
 }
 
+// ─── Toast Notifications ─────────────────────────────────────────────────────
+
+/**
+ * Show a toast notification that auto-dismisses
+ */
+function showToast(message, duration = 2000) {
+    const toast = document.createElement('div');
+    toast.className = 'toast-notification';
+    toast.textContent = message;
+    document.body.appendChild(toast);
+
+    // Trigger animation
+    setTimeout(() => {
+        toast.classList.add('fade-out');
+    }, duration);
+
+    // Remove from DOM
+    setTimeout(() => {
+        toast.remove();
+    }, duration + 300);
+}
+
+// ─── Copy button functionality ────────────────────────────────────────────────
+
+/**
+ * Add copy buttons to all code blocks after markdown is rendered
+ */
+function addCopyButtonsToCodeBlocks() {
+    const preBlocks = document.querySelectorAll('.post-content pre');
+    preBlocks.forEach(preBlock => {
+        // Only add button if it doesn't already exist
+        if (preBlock.querySelector('.copy-btn')) return;
+
+        const copyBtn = document.createElement('button');
+        copyBtn.className = 'copy-btn';
+        copyBtn.textContent = 'COPY';
+        copyBtn.type = 'button';
+        copyBtn.setAttribute('aria-label', 'Copy code to clipboard');
+
+        copyBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            const codeText = preBlock.querySelector('code')?.textContent || '';
+            
+            navigator.clipboard.writeText(codeText).then(() => {
+                // Visual feedback on button
+                copyBtn.textContent = 'COPIED!';
+                copyBtn.classList.add('copied');
+                
+                // Show toast notification
+                showToast('✓ Code copied to clipboard!', 2000);
+                
+                setTimeout(() => {
+                    copyBtn.textContent = 'COPY';
+                    copyBtn.classList.remove('copied');
+                }, 2000);
+            }).catch(err => {
+                console.error('Failed to copy:', err);
+                showToast('✗ Failed to copy code', 2000);
+            });
+        });
+
+        preBlock.appendChild(copyBtn);
+    });
+}
+
 // ─── Rendering ───────────────────────────────────────────────────────────────
 
 function buildMeta(entry) {
@@ -222,6 +287,8 @@ function handleHash() {
             })
             .then(md => {
                 document.getElementById('post-content').innerHTML = marked.parse(md);
+                // Add copy buttons after markdown is rendered
+                addCopyButtonsToCodeBlocks();
             })
             .catch(() => {
                 document.getElementById('post-content').innerHTML =

@@ -134,7 +134,7 @@ nav a:hover, nav a.active { color: var(--accent); }
 .post-content ul, .post-content ol { color: var(--text-muted); margin: 0.75rem 0 1rem 1.5rem; }
 .post-content li { margin-bottom: 0.4rem; }
 .post-content code { background: #2a2a2a; border: 1px solid var(--border); border-radius: 3px; padding: 0.15em 0.4em; font-size: 0.85em; font-family: 'Courier New', monospace; color: #f0f0f0; }
-.post-content pre { background: #151515; border: 1px solid var(--border); border-radius: 4px; padding: 1.5rem; overflow-x: auto; margin: 1rem 0; }
+.post-content pre { background: #151515; border: 1px solid var(--border); border-radius: 4px; padding: 1.5rem; overflow-x: auto; margin: 1rem 0; position: relative; }
 .post-content pre code { background: none; border: none; padding: 0; font-size: 0.9rem; }
 .post-content blockquote { border-left: 3px solid var(--accent); padding-left: 1rem; margin: 1rem 0; color: var(--text-muted); font-style: italic; }
 .post-content hr { border: none; border-top: 1px solid var(--border); margin: 2rem 0; }
@@ -150,9 +150,144 @@ nav a:hover, nav a.active { color: var(--accent); }
     color: var(--text-main);
     font-weight: 600;
 }
+
+/* Image fixes - prevent overflow */
+.post-content img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 1.5rem 0;
+    border-radius: 4px;
+    border: 1px solid var(--border);
+}
+
+/* Copy button for code blocks */
+.copy-btn {
+    position: absolute;
+    top: 0.75rem;
+    right: 0.75rem;
+    background: rgba(255, 77, 77, 0.2);
+    border: 1px solid var(--accent);
+    color: var(--accent);
+    padding: 0.5rem 1rem;
+    border-radius: 3px;
+    font-size: 0.7rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    z-index: 10;
+    white-space: nowrap;
+}
+.copy-btn:hover {
+    background: rgba(255, 77, 77, 0.3);
+    transform: scale(1.05);
+}
+.copy-btn:active {
+    transform: scale(0.98);
+}
+.copy-btn.copied {
+    background: rgba(159, 239, 0, 0.2);
+    border-color: #9fef00;
+    color: #9fef00;
+}
+
+/* Toast notification */
+.toast-notification {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    background: rgba(159, 239, 0, 0.95);
+    color: #1a1a1a;
+    padding: 1rem 1.5rem;
+    border-radius: 4px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    animation: slideInUp 0.3s ease;
+    z-index: 1000;
+}
+
+@keyframes slideInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideOutDown {
+    from {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    to {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+}
+
+.toast-notification.fade-out {
+    animation: slideOutDown 0.3s ease forwards;
+}
+
 .loading { color: var(--text-muted); font-size: 0.9rem; padding: 2rem 0; }
 
 footer { text-align: center; padding: 2rem; color: var(--text-muted); border-top: 1px solid var(--border); margin-top: auto; }
 .socials { font-size: 1.2rem; display: flex; justify-content: center; gap: 2rem; }
 .socials a { color: var(--text-muted); transition: 0.3s; }
 .socials a:hover { color: var(--accent); }
+
+/* Mobile responsive adjustments */
+@media (max-width: 768px) {
+    .copy-btn {
+        padding: 0.4rem 0.7rem;
+        font-size: 0.65rem;
+        top: 0.5rem;
+        right: 0.5rem;
+    }
+    
+    .post-content {
+        padding: 1.5rem;
+    }
+    
+    .toast-notification {
+        bottom: 1rem;
+        right: 1rem;
+        left: 1rem;
+        text-align: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .copy-btn {
+        padding: 0.4rem 0.6rem;
+        font-size: 0.6rem;
+        top: 0.4rem;
+        right: 0.4rem;
+        letter-spacing: 0.5px;
+    }
+    
+    .post-content {
+        padding: 1rem;
+        font-size: 0.95rem;
+    }
+    
+    .post-content pre {
+        padding: 1rem;
+        font-size: 0.8rem;
+    }
+    
+    .toast-notification {
+        bottom: 1rem;
+        right: 0.5rem;
+        left: 0.5rem;
+        padding: 0.8rem 1rem;
+        font-size: 0.8rem;
+    }
+}

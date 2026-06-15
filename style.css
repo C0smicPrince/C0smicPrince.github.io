@@ -164,20 +164,20 @@ nav a:hover, nav a.active { color: var(--accent); }
 /* Copy button for code blocks */
 .copy-btn {
     position: absolute;
-    top: 0.75rem;
-    right: 0.75rem;
+    top: 0.5rem;
+    right: 0.5rem;
     background: rgba(255, 77, 77, 0.2);
     border: 1px solid var(--accent);
     color: var(--accent);
-    padding: 0.5rem 1rem;
-    border-radius: 3px;
-    font-size: 0.7rem;
+    padding: 0.2rem 0.4rem;
+    border-radius: 2px;
+    font-size: 0.5rem;
     cursor: pointer;
     transition: all 0.3s ease;
     font-family: 'Inter', sans-serif;
     font-weight: 600;
     text-transform: uppercase;
-    letter-spacing: 1px;
+    letter-spacing: 0.3px;
     z-index: 10;
     white-space: nowrap;
 }
@@ -246,10 +246,11 @@ footer { text-align: center; padding: 2rem; color: var(--text-muted); border-top
 /* Mobile responsive adjustments */
 @media (max-width: 768px) {
     .copy-btn {
-        padding: 0.4rem 0.7rem;
-        font-size: 0.65rem;
-        top: 0.5rem;
-        right: 0.5rem;
+        padding: 0.2rem 0.35rem;
+        font-size: 0.48rem;
+        top: 0.4rem;
+        right: 0.4rem;
+        letter-spacing: 0.2px;
     }
     
     .post-content {
@@ -266,11 +267,11 @@ footer { text-align: center; padding: 2rem; color: var(--text-muted); border-top
 
 @media (max-width: 480px) {
     .copy-btn {
-        padding: 0.4rem 0.6rem;
-        font-size: 0.6rem;
-        top: 0.4rem;
-        right: 0.4rem;
-        letter-spacing: 0.5px;
+        padding: 0.15rem 0.3rem;
+        font-size: 0.45rem;
+        top: 0.3rem;
+        right: 0.3rem;
+        letter-spacing: 0.2px;
     }
     
     .post-content {

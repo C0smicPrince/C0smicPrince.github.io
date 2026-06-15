@@ -105,25 +105,34 @@ function showToast(message, duration = 2000) {
     }, duration + 300);
 }
 
-// ─── Copy Button Engine ──────────────────────────────────────────────────
+// ─── Stationary Copy Button Engine ──────────────────────────────────────────
 
 /**
- * Dynamically hooks independent absolute button frames inside block containers
+ * Wraps code blocks inside a structural container to prevent buttons tracking horizontal scroll shifts
  */
 function addCopyButtonsToCodeBlocks() {
     const preBlocks = document.querySelectorAll('.post-content pre');
     
     preBlocks.forEach((preBlock) => {
-        // Enforce structural idempotency on repeated rendering calls
-        if (preBlock.querySelector('.copy-btn')) return;
+        // Idempotency check: Don't wrap blocks already processed
+        if (preBlock.parentElement.classList.contains('code-wrapper')) return;
 
+        // 1. Create stationary wrapping container
+        const wrapper = document.createElement('div');
+        wrapper.className = 'code-wrapper';
+        
+        // 2. Inject wrapper frame right before target block frame
+        preBlock.parentNode.insertBefore(wrapper, preBlock);
+        wrapper.appendChild(preBlock);
+
+        // 3. Assemble target copy element directly into stationary wrapper layout context
         const copyBtn = document.createElement('button');
         copyBtn.className = 'copy-btn';
         copyBtn.textContent = 'COPY';
         copyBtn.type = 'button';
         copyBtn.setAttribute('aria-label', 'Copy code to clipboard');
         
-        preBlock.appendChild(copyBtn);
+        wrapper.appendChild(copyBtn);
         
         copyBtn.addEventListener('click', function(e) {
             e.preventDefault();
@@ -152,17 +161,17 @@ function addCopyButtonsToCodeBlocks() {
 // ─── Lightbox Overlay Engine ───────────────────────────────────────────
 
 /**
- * Handles image expansions through native overlay tracking
+ * Links static post images to a clean fullscreen magnification view layout overlay
  */
 function addImgLightboxListeners() {
     const images = document.querySelectorAll('.post-content img');
     let lightbox = document.querySelector('.lightbox-modal');
     
-    // Lazy-init lightbox structure safely onto page body
+    // Inject overlay container dynamically on page context layout frames if missing
     if (!lightbox) {
         lightbox = document.createElement('div');
         lightbox.className = 'lightbox-modal';
-        lightbox.innerHTML = '<img src="" alt="Enlarged viewport focus">';
+        lightbox.innerHTML = '<img src="" alt="Enlarged focus viewport">';
         document.body.appendChild(lightbox);
         
         lightbox.addEventListener('click', () => {
@@ -295,7 +304,7 @@ function handleHash() {
             .then(md => {
                 document.getElementById('post-content').innerHTML = marked.parse(md);
                 
-                // Initialize block specific modules safely inside static layout flow
+                // Initialize functional utilities immediately following native DOM mutations
                 addCopyButtonsToCodeBlocks();
                 addImgLightboxListeners();
             })

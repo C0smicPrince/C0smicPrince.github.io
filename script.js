@@ -63,7 +63,6 @@ const MALWARE = [
 ];
 
 // ─── Giscus comments config ─────────────────────────────────────────────────
-// Get these values from https://giscus.app after enabling Discussions on your repo
 const GISCUS_CONFIG = {
     repo:          "C0smicPrince/C0smicPrince.github.io",
     repoId:        "R_kgDOSv4EoQ",
@@ -74,7 +73,7 @@ const GISCUS_CONFIG = {
     reactionsEnabled: "1",
     emitMetadata:  "0",
     inputPosition: "bottom",
-    theme:         "dark",
+    theme:          "dark",
     lang:          "en"
 };
 
@@ -91,79 +90,51 @@ function findEntryBySlug(section, slug) {
 
 // ─── Toast Notifications ─────────────────────────────────────────────────────
 
-/**
- * Show a toast notification that auto-dismisses
- */
 function showToast(message, duration = 2000) {
     const toast = document.createElement('div');
     toast.className = 'toast-notification';
     toast.textContent = message;
     document.body.appendChild(toast);
 
-    // Trigger animation
     setTimeout(() => {
         toast.classList.add('fade-out');
     }, duration);
 
-    // Remove from DOM
     setTimeout(() => {
         toast.remove();
     }, duration + 300);
 }
 
-// ─── Copy button functionality ────────────────────────────────────────────────
+// ─── Copy Button Engine ──────────────────────────────────────────────────
 
 /**
- * Add copy buttons to all code blocks after markdown is rendered
+ * Dynamically hooks independent absolute button frames inside block containers
  */
 function addCopyButtonsToCodeBlocks() {
     const preBlocks = document.querySelectorAll('.post-content pre');
-    let copyBtn = document.querySelector('.copy-btn');
-    let currentBlock = null;
     
-    // Create one global fixed copy button if it doesn't exist
-    if (!copyBtn) {
-        copyBtn = document.createElement('button');
+    preBlocks.forEach((preBlock) => {
+        // Enforce structural idempotency on repeated rendering calls
+        if (preBlock.querySelector('.copy-btn')) return;
+
+        const copyBtn = document.createElement('button');
         copyBtn.className = 'copy-btn';
         copyBtn.textContent = 'COPY';
         copyBtn.type = 'button';
         copyBtn.setAttribute('aria-label', 'Copy code to clipboard');
-        copyBtn.style.display = 'none';
-        document.body.appendChild(copyBtn);
-    }
-    
-    preBlocks.forEach((preBlock) => {
-        // Show button on hover
-        preBlock.addEventListener('mouseenter', () => {
-            const rect = preBlock.getBoundingClientRect();
-            copyBtn.style.display = 'block';
-            copyBtn.style.top = (rect.top + window.scrollY + 0.5) + 'px';
-            copyBtn.style.left = (rect.right - 70) + 'px';
-            copyBtn.style.right = 'auto';
-            currentBlock = preBlock;
-        });
         
-        // Hide button when leaving
-        preBlock.addEventListener('mouseleave', () => {
-            copyBtn.style.display = 'none';
-            currentBlock = null;
-        });
-    });
-    
-    // Copy button click handler
-    copyBtn.addEventListener('click', function(e) {
-        e.preventDefault();
-        e.stopPropagation();
+        preBlock.appendChild(copyBtn);
         
-        if (currentBlock) {
-            const codeText = currentBlock.querySelector('code')?.textContent || '';
+        copyBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            
+            const codeText = preBlock.querySelector('code')?.textContent || '';
             
             navigator.clipboard.writeText(codeText).then(() => {
-                // Visual feedback on button
                 copyBtn.textContent = 'COPIED!';
                 copyBtn.classList.add('copied');
                 
-                // Show toast notification
                 showToast('✓ Code copied to clipboard!', 2000);
                 
                 setTimeout(() => {
@@ -174,7 +145,37 @@ function addCopyButtonsToCodeBlocks() {
                 console.error('Failed to copy:', err);
                 showToast('✗ Failed to copy code', 2000);
             });
-        }
+        });
+    });
+}
+
+// ─── Lightbox Overlay Engine ───────────────────────────────────────────
+
+/**
+ * Handles image expansions through native overlay tracking
+ */
+function addImgLightboxListeners() {
+    const images = document.querySelectorAll('.post-content img');
+    let lightbox = document.querySelector('.lightbox-modal');
+    
+    // Lazy-init lightbox structure safely onto page body
+    if (!lightbox) {
+        lightbox = document.createElement('div');
+        lightbox.className = 'lightbox-modal';
+        lightbox.innerHTML = '<img src="" alt="Enlarged viewport focus">';
+        document.body.appendChild(lightbox);
+        
+        lightbox.addEventListener('click', () => {
+            lightbox.classList.remove('active');
+        });
+    }
+    
+    images.forEach(img => {
+        img.addEventListener('click', () => {
+            const lightboxImg = lightbox.querySelector('img');
+            lightboxImg.src = img.src;
+            lightbox.classList.add('active');
+        });
     });
 }
 
@@ -221,12 +222,6 @@ function renderGrid(entries, gridId, section) {
 
 // ─── Giscus comments ─────────────────────────────────────────────────────────
 
-/**
- * Injects (or re-injects) the giscus comment widget into #comments-section.
- * Since this site uses hash-based routing on a single page, we remove and
- * recreate the script each time a new post is opened so giscus maps comments
- * to the new pathname.
- */
 function loadComments(term) {
     const container = document.getElementById('comments-section');
     if (!container) return;
@@ -255,10 +250,6 @@ function loadComments(term) {
 
 // ─── Navigation (hash-based) ─────────────────────────────────────────────────
 
-/**
- * Navigate to a view by setting the URL hash.
- * All actual DOM switching happens in handleHash(), triggered by hashchange.
- */
 function navigate(viewId) {
     window.location.hash = viewId;
 }
@@ -269,31 +260,23 @@ function openPost(section, index) {
 }
 
 function closePost() {
-    // Go back to the parent section
     const hash = window.location.hash.replace('#', '');
     const section = hash.split('/')[0];
-    // If it's a valid section, go there; otherwise home
     navigate(['writeups', 'malware'].includes(section) ? section : 'home');
 }
 
-/**
- * The single source of truth: reads the current hash and updates the DOM.
- */
 function handleHash() {
     const raw   = window.location.hash.replace('#', '') || 'home';
     const parts = raw.split('/');
     const view  = parts[0];
     const slug  = parts[1];
 
-    // Hide everything
     document.querySelectorAll('.view, .post-view').forEach(v => v.classList.remove('active-view'));
     document.querySelectorAll('nav a').forEach(l => l.classList.remove('active'));
 
     if (slug && (view === 'writeups' || view === 'malware')) {
-        // ── Post view ──
         const index = findEntryBySlug(view, slug);
         if (index === -1) {
-            // Slug not found → fall back to the section list
             showView(view);
             return;
         }
@@ -311,8 +294,10 @@ function handleHash() {
             })
             .then(md => {
                 document.getElementById('post-content').innerHTML = marked.parse(md);
-                // Add copy buttons after markdown is rendered
+                
+                // Initialize block specific modules safely inside static layout flow
                 addCopyButtonsToCodeBlocks();
+                addImgLightboxListeners();
             })
             .catch(() => {
                 document.getElementById('post-content').innerHTML =
@@ -321,7 +306,6 @@ function handleHash() {
 
         loadComments(`${view}/${slug}`);
     } else {
-        // ── Normal view ──
         showView(['home', 'writeups', 'malware'].includes(view) ? view : 'home');
     }
 }
@@ -338,4 +322,4 @@ renderGrid(WRITEUPS, 'writeups-grid', 'writeups');
 renderGrid(MALWARE,  'malware-grid',  'malware');
 
 window.addEventListener('hashchange', handleHash);
-handleHash(); // Run once on page load
+handleHash();

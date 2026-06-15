@@ -138,7 +138,8 @@ function addCopyButtonsToCodeBlocks() {
             const rect = preBlock.getBoundingClientRect();
             copyBtn.style.display = 'block';
             copyBtn.style.top = (rect.top + window.scrollY + 0.5) + 'px';
-            copyBtn.style.right = '1rem';
+            copyBtn.style.left = (rect.right - 70) + 'px';
+            copyBtn.style.right = 'auto';
             currentBlock = preBlock;
         });
         

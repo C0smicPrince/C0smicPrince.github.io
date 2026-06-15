@@ -43,15 +43,21 @@ const WRITEUPS = [
 
 const MALWARE = [
     {
-        title:      "Adding soon...",
-        file:       "Adding soon...",
-        tags:       ["shellcode", "dropper", "c2"],
+        title:      "Direct Syscalls Via SysWhispers3",
+        file:       "MalwareDev/DirectSysCalls/DirectSyscalls.md",
+        tags:       ["Direct Syscalls", "SysWhispers3", "c++"],
         description: "Adding soon..."
     },
     {
-        title:      "Adding soon...",
-        file:       "Dev/project-beta.md",
-        tags:       ["rootkit", "kernel", "dkom"],
+        title:      "How to do API Hashing: Mastering IAT Evasion And PEB Walking",
+        file:       "MalwareDev/API-Hashing/api_hashing.md",
+        tags:       ["API Hashing", "PEB Walking", "c++"],
+        description: "Adding soon..."
+    },
+    {
+        title:      "Classic DLL Injection",
+        file:       "MalwareDev/Classic_Dll_Injection/DLLInjection.md",
+        tags:       ["DLL", "Injection", "c++"],
         description: "Adding soon..."
     }
 ];

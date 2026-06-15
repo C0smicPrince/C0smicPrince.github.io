@@ -134,7 +134,7 @@ nav a:hover, nav a.active { color: var(--accent); }
 .post-content ul, .post-content ol { color: var(--text-muted); margin: 0.75rem 0 1rem 1.5rem; }
 .post-content li { margin-bottom: 0.4rem; }
 .post-content code { background: #2a2a2a; border: 1px solid var(--border); border-radius: 3px; padding: 0.15em 0.4em; font-size: 0.85em; font-family: 'Courier New', monospace; color: #f0f0f0; }
-.post-content pre { background: #151515; border: 1px solid var(--border); border-radius: 4px; padding: 1.5rem; overflow-x: auto; margin: 1rem 0; position: relative; }
+.post-content pre { background: #151515; border: 1px solid var(--border); border-radius: 4px; padding: 1.5rem; overflow-x: auto; margin: 1rem 0; }
 .post-content pre code { background: none; border: none; padding: 0; font-size: 0.9rem; }
 .post-content blockquote { border-left: 3px solid var(--accent); padding-left: 1rem; margin: 1rem 0; color: var(--text-muted); font-style: italic; }
 .post-content hr { border: none; border-top: 1px solid var(--border); margin: 2rem 0; }
@@ -163,22 +163,22 @@ nav a:hover, nav a.active { color: var(--accent); }
 
 /* Copy button for code blocks */
 .copy-btn {
-    position: absolute;
-    top: 0.5rem;
-    right: 0.5rem;
+    position: fixed;
+    top: auto;
+    right: 1rem;
     background: rgba(255, 77, 77, 0.2);
     border: 1px solid var(--accent);
     color: var(--accent);
-    padding: 0.6rem 1.2rem;
+    padding: 0.35rem 0.7rem;
     border-radius: 3px;
-    font-size: 0.7rem;
+    font-size: 0.65rem;
     cursor: pointer;
     transition: all 0.3s ease;
     font-family: 'Inter', sans-serif;
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.5px;
-    z-index: 10;
+    z-index: 100;
     white-space: nowrap;
 }
 .copy-btn:hover {

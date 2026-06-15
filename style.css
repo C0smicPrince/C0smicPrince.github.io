@@ -163,9 +163,7 @@ nav a:hover, nav a.active { color: var(--accent); }
 
 /* Copy button for code blocks */
 .copy-btn {
-    position: absolute;
-    top: 0.5rem;
-    right: 0.5rem;
+    position: fixed;
     background: rgba(255, 77, 77, 0.2);
     border: 1px solid var(--accent);
     color: var(--accent);

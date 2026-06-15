@@ -118,27 +118,43 @@ function showToast(message, duration = 2000) {
  */
 function addCopyButtonsToCodeBlocks() {
     const preBlocks = document.querySelectorAll('.post-content pre');
+    let copyBtn = document.querySelector('.copy-btn');
+    let currentBlock = null;
     
-    preBlocks.forEach((preBlock) => {
-        // Skip if button already exists
-        if (preBlock.querySelector('.copy-btn')) return;
-        
-        // Create button for this code block
-        const copyBtn = document.createElement('button');
+    // Create one global fixed copy button if it doesn't exist
+    if (!copyBtn) {
+        copyBtn = document.createElement('button');
         copyBtn.className = 'copy-btn';
         copyBtn.textContent = 'COPY';
         copyBtn.type = 'button';
         copyBtn.setAttribute('aria-label', 'Copy code to clipboard');
+        copyBtn.style.top = '1rem';
+        copyBtn.style.right = '1rem';
+        copyBtn.style.display = 'none';
+        document.body.appendChild(copyBtn);
+    }
+    
+    preBlocks.forEach((preBlock) => {
+        // Show button on hover
+        preBlock.addEventListener('mouseenter', () => {
+            copyBtn.style.display = 'block';
+            currentBlock = preBlock;
+        });
         
-        // Add the button to the code block
-        preBlock.appendChild(copyBtn);
+        // Hide button when leaving
+        preBlock.addEventListener('mouseleave', () => {
+            copyBtn.style.display = 'none';
+            currentBlock = null;
+        });
+    });
+    
+    // Copy button click handler
+    copyBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
         
-        // Click handler
-        copyBtn.addEventListener('click', function(e) {
-            e.preventDefault();
-            e.stopPropagation();
-            
-            const codeText = preBlock.querySelector('code')?.textContent || '';
+        if (currentBlock) {
+            const codeText = currentBlock.querySelector('code')?.textContent || '';
             
             navigator.clipboard.writeText(codeText).then(() => {
                 // Visual feedback on button
@@ -156,7 +172,7 @@ function addCopyButtonsToCodeBlocks() {
                 console.error('Failed to copy:', err);
                 showToast('✗ Failed to copy code', 2000);
             });
-        });
+        }
     });
 }
 

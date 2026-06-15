@@ -142,13 +142,17 @@ function addCopyButtonsToCodeBlocks() {
         });
         
         preBlock.addEventListener('mouseleave', () => {
-            copyBtn.style.display = 'none';
+            setTimeout(() => {
+                copyBtn.style.display = 'none';
+            }, 100);
         });
     });
     
-    // Copy button click handler
-    copyBtn.addEventListener('click', (e) => {
+    // Copy button click handler - outside the loop
+    copyBtn.addEventListener('click', function(e) {
         e.preventDefault();
+        e.stopPropagation();
+        
         const targetBlock = copyBtn.dataset.target;
         if (targetBlock) {
             const codeText = targetBlock.querySelector('code')?.textContent || '';

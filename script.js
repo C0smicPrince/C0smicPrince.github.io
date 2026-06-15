@@ -128,8 +128,6 @@ function addCopyButtonsToCodeBlocks() {
         copyBtn.textContent = 'COPY';
         copyBtn.type = 'button';
         copyBtn.setAttribute('aria-label', 'Copy code to clipboard');
-        copyBtn.style.top = '1rem';
-        copyBtn.style.right = '1rem';
         copyBtn.style.display = 'none';
         document.body.appendChild(copyBtn);
     }
@@ -137,7 +135,10 @@ function addCopyButtonsToCodeBlocks() {
     preBlocks.forEach((preBlock) => {
         // Show button on hover
         preBlock.addEventListener('mouseenter', () => {
+            const rect = preBlock.getBoundingClientRect();
             copyBtn.style.display = 'block';
+            copyBtn.style.top = (rect.top + window.scrollY + 0.5) + 'px';
+            copyBtn.style.right = '1rem';
             currentBlock = preBlock;
         });
         

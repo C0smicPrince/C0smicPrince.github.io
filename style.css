@@ -167,7 +167,7 @@ nav a:hover, nav a.active { color: var(--accent); }
     background: rgba(255, 77, 77, 0.2);
     border: 1px solid var(--accent);
     color: var(--accent);
-    padding: 0.4rem 0.75rem;
+    padding: 0.6rem 1.2rem;
     border-radius: 3px;
     font-size: 0.7rem;
     cursor: pointer;
@@ -244,7 +244,7 @@ footer { text-align: center; padding: 2rem; color: var(--text-muted); border-top
 /* Mobile responsive adjustments */
 @media (max-width: 768px) {
     .copy-btn {
-        padding: 0.35rem 0.6rem;
+        padding: 0.5rem 1rem;
         font-size: 0.65rem;
         letter-spacing: 0.3px;
     }
@@ -263,7 +263,7 @@ footer { text-align: center; padding: 2rem; color: var(--text-muted); border-top
 
 @media (max-width: 480px) {
     .copy-btn {
-        padding: 0.3rem 0.55rem;
+        padding: 0.45rem 0.9rem;
         font-size: 0.6rem;
         letter-spacing: 0.3px;
     }

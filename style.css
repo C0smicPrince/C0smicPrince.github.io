@@ -135,15 +135,20 @@ nav a:hover, nav a.active { color: var(--accent); }
 .post-content li { margin-bottom: 0.4rem; }
 .post-content code { background: #2a2a2a; border: 1px solid var(--border); border-radius: 3px; padding: 0.15em 0.4em; font-size: 0.85em; font-family: 'Courier New', monospace; color: #f0f0f0; }
 
-/* Code blocks container layout */
+/* Code blocks wrapper to lock the copy button layout completely */
+.code-wrapper {
+    position: relative;
+    margin: 1rem 0;
+    width: 100%;
+}
+
 .post-content pre { 
     background: #151515; 
     border: 1px solid var(--border); 
     border-radius: 4px; 
     padding: 1.5rem; 
     overflow-x: auto; 
-    margin: 1rem 0; 
-    position: relative; /* Anchor for the absolute button */
+    margin: 0; /* Margins handled entirely by .code-wrapper */
 }
 .post-content pre code { background: none; border: none; padding: 0; font-size: 0.9rem; }
 .post-content blockquote { border-left: 3px solid var(--accent); padding-left: 1rem; margin: 1rem 0; color: var(--text-muted); font-style: italic; }
@@ -161,7 +166,7 @@ nav a:hover, nav a.active { color: var(--accent); }
     font-weight: 600;
 }
 
-/* Base Image Handling */
+/* Base Image Formatting */
 .post-content img {
     max-width: 100%;
     height: auto;
@@ -176,7 +181,7 @@ nav a:hover, nav a.active { color: var(--accent); }
     border-color: var(--accent);
 }
 
-/* Code block target absolute copy button */
+/* Code block dynamic element targets the non-scrolling wrapper */
 .copy-btn {
     position: absolute;
     top: 0.5rem;
@@ -199,8 +204,8 @@ nav a:hover, nav a.active { color: var(--accent); }
     pointer-events: none;
 }
 
-/* Desktop hover reveal */
-.post-content pre:hover .copy-btn {
+/* Desktop hover configuration on outer wrapper */
+.code-wrapper:hover .copy-btn {
     opacity: 1;
     pointer-events: auto;
 }
@@ -217,7 +222,7 @@ nav a:hover, nav a.active { color: var(--accent); }
     color: #9fef00;
 }
 
-/* Lightbox System Overlay */
+/* Lightbox Modal System Layout */
 .lightbox-modal {
     position: fixed;
     top: 0;
@@ -285,9 +290,9 @@ footer { text-align: center; padding: 2rem; color: var(--text-muted); border-top
 .socials a { color: var(--text-muted); transition: 0.3s; }
 .socials a:hover { color: var(--accent); }
 
-/* Cross-Platform Device Responsive Adjustments */
+/* Responsive Adjustments across target devices */
 @media (max-width: 1024px) {
-    /* Touch devices (tablets/mobile) don't hover; keep buttons naturally visible */
+    /* Touch interfaces don't provide native hovers; ensure button stays tracking and visible */
     .copy-btn {
         opacity: 1;
         pointer-events: auto;
@@ -322,7 +327,7 @@ footer { text-align: center; padding: 2rem; color: var(--text-muted); border-top
     }
     .post-content pre {
         padding: 1rem;
-        padding-top: 2.5rem; /* Offsets content downward so button doesn't overwrite first lines */
+        padding-top: 2.5rem; /* Forces content shift downward so copy elements don't overlay top string code lines */
     }
     .post-content {
         padding: 1rem;

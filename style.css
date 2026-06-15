@@ -134,7 +134,17 @@ nav a:hover, nav a.active { color: var(--accent); }
 .post-content ul, .post-content ol { color: var(--text-muted); margin: 0.75rem 0 1rem 1.5rem; }
 .post-content li { margin-bottom: 0.4rem; }
 .post-content code { background: #2a2a2a; border: 1px solid var(--border); border-radius: 3px; padding: 0.15em 0.4em; font-size: 0.85em; font-family: 'Courier New', monospace; color: #f0f0f0; }
-.post-content pre { background: #151515; border: 1px solid var(--border); border-radius: 4px; padding: 1.5rem; overflow-x: auto; margin: 1rem 0; position: relative; }
+
+/* Code blocks container layout */
+.post-content pre { 
+    background: #151515; 
+    border: 1px solid var(--border); 
+    border-radius: 4px; 
+    padding: 1.5rem; 
+    overflow-x: auto; 
+    margin: 1rem 0; 
+    position: relative; /* Anchor for the absolute button */
+}
 .post-content pre code { background: none; border: none; padding: 0; font-size: 0.9rem; }
 .post-content blockquote { border-left: 3px solid var(--accent); padding-left: 1rem; margin: 1rem 0; color: var(--text-muted); font-style: italic; }
 .post-content hr { border: none; border-top: 1px solid var(--border); margin: 2rem 0; }
@@ -151,7 +161,7 @@ nav a:hover, nav a.active { color: var(--accent); }
     font-weight: 600;
 }
 
-/* Image fixes - prevent overflow */
+/* Base Image Handling */
 .post-content img {
     max-width: 100%;
     height: auto;
@@ -159,29 +169,44 @@ nav a:hover, nav a.active { color: var(--accent); }
     margin: 1.5rem 0;
     border-radius: 4px;
     border: 1px solid var(--border);
+    cursor: zoom-in;
+    transition: border-color 0.2s ease;
+}
+.post-content img:hover {
+    border-color: var(--accent);
 }
 
-/* Copy button for code blocks */
+/* Code block target absolute copy button */
 .copy-btn {
-    position: fixed;
-    background: rgba(255, 77, 77, 0.2);
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    background: rgba(255, 77, 77, 0.15);
     border: 1px solid var(--accent);
     color: var(--accent);
     padding: 0.35rem 0.7rem;
     border-radius: 3px;
     font-size: 0.65rem;
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: all 0.2s ease;
     font-family: 'Inter', sans-serif;
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.5px;
-    z-index: 100;
+    z-index: 10;
     white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* Desktop hover reveal */
+.post-content pre:hover .copy-btn {
+    opacity: 1;
+    pointer-events: auto;
 }
 .copy-btn:hover {
     background: rgba(255, 77, 77, 0.3);
-    transform: scale(1.05);
+    transform: scale(1.03);
 }
 .copy-btn:active {
     transform: scale(0.98);
@@ -190,6 +215,40 @@ nav a:hover, nav a.active { color: var(--accent); }
     background: rgba(159, 239, 0, 0.2);
     border-color: #9fef00;
     color: #9fef00;
+}
+
+/* Lightbox System Overlay */
+.lightbox-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(10, 10, 10, 0.95);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+    cursor: zoom-out;
+}
+.lightbox-modal.active {
+    opacity: 1;
+    pointer-events: auto;
+}
+.lightbox-modal img {
+    max-width: 90%;
+    max-height: 90%;
+    object-fit: contain;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    transform: scale(0.95);
+    transition: transform 0.3s ease;
+}
+.lightbox-modal.active img {
+    transform: scale(1);
 }
 
 /* Toast notification */
@@ -209,50 +268,43 @@ nav a:hover, nav a.active { color: var(--accent); }
 }
 
 @keyframes slideInUp {
-    from {
-        opacity: 0;
-        transform: translateY(20px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
 }
-
 @keyframes slideOutDown {
-    from {
-        opacity: 1;
-        transform: translateY(0);
-    }
-    to {
-        opacity: 0;
-        transform: translateY(20px);
-    }
+    from { opacity: 1; transform: translateY(0); }
+    to { opacity: 0; transform: translateY(20px); }
 }
-
 .toast-notification.fade-out {
     animation: slideOutDown 0.3s ease forwards;
 }
 
 .loading { color: var(--text-muted); font-size: 0.9rem; padding: 2rem 0; }
-
 footer { text-align: center; padding: 2rem; color: var(--text-muted); border-top: 1px solid var(--border); margin-top: auto; }
 .socials { font-size: 1.2rem; display: flex; justify-content: center; gap: 2rem; }
 .socials a { color: var(--text-muted); transition: 0.3s; }
 .socials a:hover { color: var(--accent); }
 
-/* Mobile responsive adjustments */
+/* Cross-Platform Device Responsive Adjustments */
+@media (max-width: 1024px) {
+    /* Touch devices (tablets/mobile) don't hover; keep buttons naturally visible */
+    .copy-btn {
+        opacity: 1;
+        pointer-events: auto;
+        background: rgba(255, 77, 77, 0.25);
+        top: 0.4rem;
+        right: 0.4rem;
+    }
+}
+
 @media (max-width: 768px) {
     .copy-btn {
-        padding: 0.5rem 1rem;
-        font-size: 0.65rem;
-        letter-spacing: 0.3px;
+        padding: 0.4rem 0.8rem;
+        font-size: 0.6rem;
     }
-    
     .post-content {
         padding: 1.5rem;
     }
-    
     .toast-notification {
         bottom: 1rem;
         right: 1rem;
@@ -263,21 +315,19 @@ footer { text-align: center; padding: 2rem; color: var(--text-muted); border-top
 
 @media (max-width: 480px) {
     .copy-btn {
-        padding: 0.45rem 0.9rem;
-        font-size: 0.6rem;
-        letter-spacing: 0.3px;
+        padding: 0.35rem 0.7rem;
+        font-size: 0.55rem;
+        top: 0.25rem;
+        right: 0.25rem;
     }
-    
+    .post-content pre {
+        padding: 1rem;
+        padding-top: 2.5rem; /* Offsets content downward so button doesn't overwrite first lines */
+    }
     .post-content {
         padding: 1rem;
         font-size: 0.95rem;
     }
-    
-    .post-content pre {
-        padding: 1rem;
-        font-size: 0.8rem;
-    }
-    
     .toast-notification {
         bottom: 1rem;
         right: 0.5rem;

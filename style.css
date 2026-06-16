@@ -1,10 +1,10 @@
 :root {
-    --bg: #1a1a1a;
-    --card-bg: #222222;
+    --bg: #0d0d0d;  /* was #1a1a1a */
+    --card-bg: #141414;  /* was #222222 */
     --text-main: #ffffff;
     --text-muted: #888888;
     --accent: #ff4d4d;
-    --border: #2e2e2e;
+    --border: #1f1f1f;
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -49,7 +49,7 @@ nav a:hover, nav a.active { color: var(--accent); }
     content: '';
     position: absolute;
     inset: 0;
-    background-image: radial-gradient(circle, #3a3a3a 1px, transparent 1px);
+    background-image: radial-gradient(circle, #252525 1px, transparent 1px);  /* was #3a3a3a */
     background-size: 28px 28px;
     z-index: 0;
     pointer-events: none;

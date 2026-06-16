@@ -38,6 +38,39 @@ nav a:hover, nav a.active { color: var(--accent); }
 .header h1 { font-size: 3rem; font-weight: 600; letter-spacing: -1px; }
 .header p { color: var(--text-muted); margin-top: 0.5rem; }
 
+#home .header {
+    position: relative;
+    padding: 3rem 2rem;
+    margin-bottom: 0;
+    overflow: hidden;
+}
+
+#home .header::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(circle, #3a3a3a 1px, transparent 1px);
+    background-size: 28px 28px;
+    z-index: 0;
+    pointer-events: none;
+}
+
+#home .header::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+        radial-gradient(ellipse 60% 50% at 50% 50%, transparent 40%, var(--bg) 100%);
+    z-index: 1;
+    pointer-events: none;
+}
+
+#home .header h1,
+#home .header p {
+    position: relative;
+    z-index: 2;
+}
+
 .card-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));

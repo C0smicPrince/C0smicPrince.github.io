@@ -59,6 +59,12 @@ const MALWARE = [
         file:       "MalwareDev/Classic_Dll_Injection/DLLInjection.md",
         tags:       ["DLL", "Injection", "c++"],
         description: "Coding a classic DLL Injection in c++"
+    },
+    {
+        title:      "Indirect Syscalls Via Syswhispers3",
+        file:       "MalwareDev/IndirectSyscalls/IndirectSysCalls.md",
+        tags:       ["Indirect SysCalls", "Syswhispers3", "c++"],
+        description: "Showcasing how you can code indirect syscalls with process injection as example"
     }
 ];
 

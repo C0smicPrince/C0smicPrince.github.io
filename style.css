@@ -49,8 +49,8 @@ nav a:hover, nav a.active { color: var(--accent); }
     content: '';
     position: absolute;
     inset: 0;
-    background-image: radial-gradient(circle, #3a3a3a 1.5px, transparent 1.5px);  /* brighter + slightly bigger dot */
-    background-size: 24px 24px;  /* tighter grid */
+    background-image: radial-gradient(circle, #3a3a3a 1.5px, transparent 1.5px);
+    background-size: 24px 24px;
     z-index: 0;
     pointer-events: none;
 }
@@ -175,12 +175,12 @@ nav a:hover, nav a.active { color: var(--accent); }
     width: 100%;
 }
 
-.post-content pre { 
-    background: #151515; 
-    border: 1px solid var(--border); 
-    border-radius: 4px; 
-    padding: 1.5rem; 
-    overflow-x: auto; 
+.post-content pre {
+    background: #151515;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 1.5rem;
+    overflow-x: auto;
     margin: 0; /* Margins handled entirely by .code-wrapper */
 }
 .post-content pre code { background: none; border: none; padding: 0; font-size: 0.9rem; }
@@ -188,13 +188,13 @@ nav a:hover, nav a.active { color: var(--accent); }
 .post-content hr { border: none; border-top: 1px solid var(--border); margin: 2rem 0; }
 .post-content strong { color: var(--text-main); }
 .post-content table { width: 100%; border-collapse: collapse; margin: 1rem 0; }
-.post-content td { 
-    color: var(--text-muted); 
-    padding: 0.6rem 1rem; 
+.post-content td {
+    color: var(--text-muted);
+    padding: 0.6rem 1rem;
     text-align: left;
 }
 .post-content th { background: #2a2a2a; color: var(--text-main); }
-.post-content td strong { 
+.post-content td strong {
     color: var(--text-main);
     font-weight: 600;
 }
@@ -322,6 +322,81 @@ footer { text-align: center; padding: 2rem; color: var(--text-muted); border-top
 .socials { font-size: 1.2rem; display: flex; justify-content: center; gap: 2rem; }
 .socials a { color: var(--text-muted); transition: 0.3s; }
 .socials a:hover { color: var(--accent); }
+
+/* ─── Highlight.js theme override ──────────────────────────────────────────── */
+
+/* Strip hljs's own background/padding — let the pre block handle it */
+.post-content .hljs {
+    background: transparent;
+    padding: 0;
+    color: #e0e0e0;
+}
+
+/* Keywords: red-ish, ties to --accent */
+.post-content .hljs-keyword,
+.post-content .hljs-selector-tag,
+.post-content .hljs-built_in,
+.post-content .hljs-name {
+    color: #ff7070;
+}
+
+/* Strings: soft green */
+.post-content .hljs-string,
+.post-content .hljs-attribute,
+.post-content .hljs-selector-attr {
+    color: #98c379;
+}
+
+/* Numbers and literals: amber */
+.post-content .hljs-number,
+.post-content .hljs-literal,
+.post-content .hljs-symbol {
+    color: #d19a66;
+}
+
+/* Comments: very muted, italic */
+.post-content .hljs-comment,
+.post-content .hljs-quote {
+    color: #555555;
+    font-style: italic;
+}
+
+/* Functions and titles: blue */
+.post-content .hljs-function,
+.post-content .hljs-title,
+.post-content .hljs-section {
+    color: #61afef;
+}
+
+/* Types, classes: yellow */
+.post-content .hljs-type,
+.post-content .hljs-class,
+.post-content .hljs-variable.language_ {
+    color: #e5c07b;
+}
+
+/* Variables and attributes: light grey */
+.post-content .hljs-variable,
+.post-content .hljs-attr {
+    color: #c0c0c0;
+}
+
+/* Params: muted grey */
+.post-content .hljs-params {
+    color: #abb2bf;
+}
+
+/* Meta / preprocessor directives (e.g. #include, #define) */
+.post-content .hljs-meta,
+.post-content .hljs-meta .hljs-keyword {
+    color: #c678dd;
+}
+
+/* Operator symbols and punctuation */
+.post-content .hljs-operator,
+.post-content .hljs-punctuation {
+    color: #abb2bf;
+}
 
 /* Responsive Adjustments across target devices */
 @media (max-width: 1024px) {

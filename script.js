@@ -1,3 +1,16 @@
+// ─── Marked + Highlight.js Integration ──────────────────────────────────────
+
+marked.setOptions({
+    highlight: function(code, lang) {
+        if (lang && hljs.getLanguage(lang)) {
+            return hljs.highlight(code, { language: lang, ignoreIllegals: true }).value;
+        }
+        return hljs.highlightAuto(code).value;
+    }
+});
+
+// ─── Data ─────────────────────────────────────────────────────────────────────
+
 const WRITEUPS = [
     {
         title:      "Devvortex",
@@ -114,19 +127,27 @@ function showToast(message, duration = 2000) {
 // ─── Stationary Copy Button Engine ──────────────────────────────────────────
 
 /**
- * Wraps code blocks inside a structural container to prevent buttons tracking horizontal scroll shifts
+ * Wraps code blocks inside a structural container to prevent buttons tracking horizontal scroll shifts.
+ * Also runs hljs on any block that wasn't highlighted during markdown parsing (no language hint).
  */
 function addCopyButtonsToCodeBlocks() {
     const preBlocks = document.querySelectorAll('.post-content pre');
-    
+
     preBlocks.forEach((preBlock) => {
         // Idempotency check: Don't wrap blocks already processed
         if (preBlock.parentElement.classList.contains('code-wrapper')) return;
 
+        // Safety-net: highlight any code block that marked didn't highlight (missing lang hint)
+        const codeEl = preBlock.querySelector('code');
+        if (codeEl && !codeEl.classList.contains('hljs')) {
+            codeEl.classList.add('language-cpp');
+            hljs.highlightElement(codeEl);
+        }
+
         // 1. Create stationary wrapping container
         const wrapper = document.createElement('div');
         wrapper.className = 'code-wrapper';
-        
+
         // 2. Inject wrapper frame right before target block frame
         preBlock.parentNode.insertBefore(wrapper, preBlock);
         wrapper.appendChild(preBlock);
@@ -137,21 +158,21 @@ function addCopyButtonsToCodeBlocks() {
         copyBtn.textContent = 'COPY';
         copyBtn.type = 'button';
         copyBtn.setAttribute('aria-label', 'Copy code to clipboard');
-        
+
         wrapper.appendChild(copyBtn);
-        
+
         copyBtn.addEventListener('click', function(e) {
             e.preventDefault();
             e.stopPropagation();
-            
+
             const codeText = preBlock.querySelector('code')?.textContent || '';
-            
+
             navigator.clipboard.writeText(codeText).then(() => {
                 copyBtn.textContent = 'COPIED!';
                 copyBtn.classList.add('copied');
-                
+
                 showToast('✓ Code copied to clipboard!', 2000);
-                
+
                 setTimeout(() => {
                     copyBtn.textContent = 'COPY';
                     copyBtn.classList.remove('copied');
@@ -172,19 +193,19 @@ function addCopyButtonsToCodeBlocks() {
 function addImgLightboxListeners() {
     const images = document.querySelectorAll('.post-content img');
     let lightbox = document.querySelector('.lightbox-modal');
-    
+
     // Inject overlay container dynamically on page context layout frames if missing
     if (!lightbox) {
         lightbox = document.createElement('div');
         lightbox.className = 'lightbox-modal';
         lightbox.innerHTML = '<img src="" alt="Enlarged focus viewport">';
         document.body.appendChild(lightbox);
-        
+
         lightbox.addEventListener('click', () => {
             lightbox.classList.remove('active');
         });
     }
-    
+
     images.forEach(img => {
         img.addEventListener('click', () => {
             const lightboxImg = lightbox.querySelector('img');
@@ -309,7 +330,7 @@ function handleHash() {
             })
             .then(md => {
                 document.getElementById('post-content').innerHTML = marked.parse(md);
-                
+
                 // Initialize functional utilities immediately following native DOM mutations
                 addCopyButtonsToCodeBlocks();
                 addImgLightboxListeners();

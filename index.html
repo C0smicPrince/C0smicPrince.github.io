@@ -16,6 +16,7 @@
         <a onclick="navigate('home')" id="link-home" class="active">Home</a>
         <a onclick="navigate('writeups')" id="link-writeups">Writeups</a>
         <a onclick="navigate('malware')" id="link-malware">Malware Dev</a>
+        <a onclick="navigate('detection')" id="link-detection">Detection Engineering</a>
     </nav>
     <div class="container">
         <div id="home" class="view active-view">
@@ -42,6 +43,14 @@
                     <p>Blogs explaining tricks and techniques used by real threat actors.</p>
                     <div style="margin-top: 1rem; font-size: 0.75rem; color: var(--accent); letter-spacing: 0.05em;">Explore →</div>
                 </div>
+                <div class="card" onclick="navigate('detection')">
+                    <div style="width: 36px; height: 36px; border: 1px solid #2a2a2a; border-radius: 6px; display: flex; align-items: center; justify-content: center; margin-bottom: 1rem; color: var(--accent); font-size: 1rem;">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3>Detection Engineering</h3>
+                    <p>Analyzing offensive methodologies to create resilient detection strategies and rules.</p>
+                    <div style="margin-top: 1rem; font-size: 0.75rem; color: var(--accent); letter-spacing: 0.05em;">Explore →</div>
+                </div>
             </div>
         </div>
         <div id="writeups" class="view">
@@ -51,6 +60,10 @@
         <div id="malware" class="view">
             <div class="header"><h1>Malware Dev</h1></div>
             <div class="card-grid" id="malware-grid"></div>
+        </div>
+        <div id="detection" class="view">
+            <div class="header"><h1>Detection Engineering</h1></div>
+            <div class="card-grid" id="detection-grid"></div>
         </div>
         <div id="post" class="post-view">
             <button class="back-btn" id="back-btn" onclick="closePost()">← Back</button>

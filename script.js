@@ -81,6 +81,21 @@ const MALWARE = [
     }
 ];
 
+const DETECTION = [
+    {
+        title:      "Coming Soon: Defeating Direct Syscalls with Telemetry",
+        file:       "DetectionEng/DirectSyscalls/coming_soon.md",
+        tags:       ["EDR", "ETW", "Syscalls"],
+        description: "An analytical look into monitoring and catching direct system calls using ETWTI and kernel-level telemetry collection branches."
+    },
+    {
+        title:      "Coming Soon: Hunting Malicious Thread Creation Patterns",
+        file:       "DetectionEng/ThreadCreation/coming_soon.md",
+        tags:       ["Memory Forensics", "Threat Hunting", "YARA"],
+        description: "Spotting rogue memory allocations and anomalous CreateRemoteThread calls before they execute their payloads successfully."
+    }
+];
+
 // ─── Giscus comments config ─────────────────────────────────────────────────
 const GISCUS_CONFIG = {
     repo:          "C0smicPrince/C0smicPrince.github.io",
@@ -103,7 +118,12 @@ function toSlug(title) {
 }
 
 function findEntryBySlug(section, slug) {
-    const list = section === 'writeups' ? WRITEUPS : MALWARE;
+    let list;
+    if (section === 'writeups') list = WRITEUPS;
+    else if (section === 'malware') list = MALWARE;
+    else if (section === 'detection') list = DETECTION;
+    else return -1;
+    
     return list.findIndex(e => toSlug(e.title) === slug);
 }
 
@@ -291,14 +311,18 @@ function navigate(viewId) {
 }
 
 function openPost(section, index) {
-    const entry = section === 'writeups' ? WRITEUPS[index] : MALWARE[index];
+    let entry;
+    if (section === 'writeups') entry = WRITEUPS[index];
+    else if (section === 'malware') entry = MALWARE[index];
+    else if (section === 'detection') entry = DETECTION[index];
+    
     window.location.hash = `${section}/${toSlug(entry.title)}`;
 }
 
 function closePost() {
     const hash = window.location.hash.replace('#', '');
     const section = hash.split('/')[0];
-    navigate(['writeups', 'malware'].includes(section) ? section : 'home');
+    navigate(['writeups', 'malware', 'detection'].includes(section) ? section : 'home');
 }
 
 function handleHash() {
@@ -310,14 +334,18 @@ function handleHash() {
     document.querySelectorAll('.view, .post-view').forEach(v => v.classList.remove('active-view'));
     document.querySelectorAll('nav a').forEach(l => l.classList.remove('active'));
 
-    if (slug && (view === 'writeups' || view === 'malware')) {
+    if (slug && (view === 'writeups' || view === 'malware' || view === 'detection')) {
         const index = findEntryBySlug(view, slug);
         if (index === -1) {
             showView(view);
             return;
         }
-        const entry    = view === 'writeups' ? WRITEUPS[index] : MALWARE[index];
-        const backLabel = view === 'writeups' ? 'Writeups' : 'Malware Dev';
+        
+        let entry;
+        let backLabel;
+        if (view === 'writeups') { entry = WRITEUPS[index]; backLabel = 'Writeups'; }
+        else if (view === 'malware') { entry = MALWARE[index]; backLabel = 'Malware Dev'; }
+        else if (view === 'detection') { entry = DETECTION[index]; backLabel = 'Detection Eng'; }
 
         document.getElementById('back-btn').textContent = '← ' + backLabel;
         document.getElementById('post-content').innerHTML = '<p class="loading">Loading...</p>';
@@ -342,7 +370,7 @@ function handleHash() {
 
         loadComments(`${view}/${slug}`);
     } else {
-        showView(['home', 'writeups', 'malware'].includes(view) ? view : 'home');
+        showView(['home', 'writeups', 'malware', 'detection'].includes(view) ? view : 'home');
     }
 }
 
@@ -356,6 +384,7 @@ function showView(viewId) {
 
 renderGrid(WRITEUPS, 'writeups-grid', 'writeups');
 renderGrid(MALWARE,  'malware-grid',  'malware');
+renderGrid(DETECTION, 'detection-grid', 'detection');
 
 window.addEventListener('hashchange', handleHash);
 handleHash();

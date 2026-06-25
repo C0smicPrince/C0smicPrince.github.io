@@ -83,13 +83,13 @@ const MALWARE = [
 
 const DETECTION = [
     {
-        title:      "Coming Soon: Defeating Direct Syscalls with Telemetry",
+        title:      "Coming Soon: Writing Your First YARA Rule From Scratch (Against Real Malware)",
         file:       "DetectionEng/DirectSyscalls/coming_soon.md",
-        tags:       ["EDR", "ETW", "Syscalls"],
+        tags:       ["YARA", "ETW", "Malware"],
         description: "An analytical look into monitoring and catching direct system calls using ETWTI and kernel-level telemetry collection branches."
     },
     {
-        title:      "Coming Soon: Hunting Malicious Thread Creation Patterns",
+        title:      "Coming Soon: Fingerprinting My Own Malware: What I Left Behind",
         file:       "DetectionEng/ThreadCreation/coming_soon.md",
         tags:       ["Memory Forensics", "Threat Hunting", "YARA"],
         description: "Spotting rogue memory allocations and anomalous CreateRemoteThread calls before they execute their payloads successfully."

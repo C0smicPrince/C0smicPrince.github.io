@@ -43,6 +43,11 @@ nav a:hover, nav a.active { color: var(--accent); }
     padding: 3rem 2rem;
     margin-bottom: 0;
     overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
 }
 
 #home .header::before {
@@ -66,7 +71,8 @@ nav a:hover, nav a.active { color: var(--accent); }
 }
 
 #home .header h1,
-#home .header p {
+#home .header p,
+#home .header div {
     position: relative;
     z-index: 2;
 }

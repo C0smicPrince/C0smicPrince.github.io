@@ -126,6 +126,12 @@ const MALWARE = [
         file:       "MalwareDev/IndirectSyscalls/IndirectSysCalls.md",
         tags:       ["Indirect SysCalls", "Syswhispers3", "c++"],
         description: "Showcasing how you can code indirect syscalls with process injection as example"
+    },
+    {
+        title:      "Early Bird Injection using c++",
+        file:       "MalwareDev/EarlyBird/early-bird-injection.md",
+        tags:       ["EarlyBird", "Injections", "c++"],
+        description: "Showcasing how you can code a EarlyBird Injection in c++"
     }
 ];
 

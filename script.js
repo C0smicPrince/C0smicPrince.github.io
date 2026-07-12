@@ -83,6 +83,14 @@ const WRITEUPS = [
         difficulty: "Easy",
         tags:       ["Linux", "Web", "Privilege Escalation"],
         description: "Usage is an easy Linux machine that features a blog site vulnerable to SQL injection, which allows the administrator&amp;#039;s hashed password to be dumped and cracked. This leads to access to the admin panel, where an outdated module is abused to upload a PHP web shell and obtain remote code execution. On the machine, plaintext credentials stored in a file allow SSH access as another user, who can run a custom binary as . The tool makes an insecure call to , which is leveraged to read the user&amp;#039;s private SSH key and fully compromise the system."
+    },
+    {
+        title:      "BoardLight",
+        file:       "writeups/HTB_Boardlight.md",
+        platform:   "HTB",
+        difficulty: "Easy",
+        tags:       ["Linux", "Web", "Privilege Escalation"],
+        description: "BoardLight is an easy difficulty Linux machine that features a instance vulnerable to CVE-2023-30253. This vulnerability is leveraged to gain access as . After enumerating and dumping the web configuration file contents, plaintext credentials lead to access to the machine. Enumerating the system, a binary related to is identified which is vulnerable to privilege escalation via CVE-2022-37706 and can be abused to leverage a root shell."
     }
 ];
 

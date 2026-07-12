@@ -51,6 +51,14 @@ const WRITEUPS = [
         difficulty: "Easy",
         tags:       ["Linux", "Web", "Privilege Escalation"],
         description: "Chill Hack is an easy-difficulty TryHackMe room focusing on web exploitation, filter bypasses, and privilege escalation. After discovering a hidden web endpoint (/secret), players must exploit a command injection flaw, using piping or Base64 encoding to bypass string filters and gain a www-data shell. Lateral movement involves exploiting an insecure custom bash script running via sudo to become the user apaar. From there, players utilize Ligolo-NG to pivot into internal ports, access a portal, and crack an offline backup archive to harvest credentials for the user anurodh. Finally, root access is achieved by exploiting a dangerous Docker group misconfiguration, allowing players to mount the host filesystem."
+    },
+    {
+        title:      "Green Horn",
+        file:       "writeups/HTB_Greenhorn.md",
+        platform:   "HTB",
+        difficulty: "Easy",
+        tags:       ["Linux", "Web", "Privilege Escalation"],
+        description: "GreenHorn is an easy difficulty machine that takes advantage of an exploit in Pluck to achieve Remote Code Execution and then demonstrates the dangers of pixelated credentials. The machine also showcases that we must be careful when sharing open-source configurations to ensure that we do not reveal files containing passwords or other information that should be kept confidential."
     }
 ];
 

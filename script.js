@@ -75,6 +75,14 @@ const WRITEUPS = [
         difficulty: "Easy",
         tags:       ["Linux", "Web", "Privilege Escalation"],
         description: "Editorial is an easy difficulty Linux machine that features a publishing web application vulnerable to . This vulnerability is leveraged to gain access to an internal running API, which is then leveraged to obtain credentials that lead to access to the machine. Enumerating the system further reveals a Git repository that is leveraged to reveal credentials for a new user. The user can be obtained by exploiting CVE-2022-24439 and the sudo configuration."
+    },
+    {
+        title:      "Usage",
+        file:       "writeups/HTB_Usage.md",
+        platform:   "HTB",
+        difficulty: "Easy",
+        tags:       ["Linux", "Web", "Privilege Escalation"],
+        description: "Usage is an easy Linux machine that features a blog site vulnerable to SQL injection, which allows the administrator&amp;#039;s hashed password to be dumped and cracked. This leads to access to the admin panel, where an outdated module is abused to upload a PHP web shell and obtain remote code execution. On the machine, plaintext credentials stored in a file allow SSH access as another user, who can run a custom binary as . The tool makes an insecure call to , which is leveraged to read the user&amp;#039;s private SSH key and fully compromise the system."
     }
 ];
 

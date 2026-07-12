@@ -59,6 +59,14 @@ const WRITEUPS = [
         difficulty: "Easy",
         tags:       ["Linux", "Web", "Privilege Escalation"],
         description: "GreenHorn is an easy difficulty machine that takes advantage of an exploit in Pluck to achieve Remote Code Execution and then demonstrates the dangers of pixelated credentials. The machine also showcases that we must be careful when sharing open-source configurations to ensure that we do not reveal files containing passwords or other information that should be kept confidential."
+    },
+    {
+        title:      "PermX",
+        file:       "writeups/HTB_Permx.md",
+        platform:   "HTB",
+        difficulty: "Easy",
+        tags:       ["Linux", "Web", "Privilege Escalation"],
+        description: "PermX is an Easy Difficulty Linux machine featuring a learning management system vulnerable to unrestricted file uploads via CVE-2023-4220. This vulnerability is leveraged to gain a foothold on the machine. Enumerating the machine reveals credentials that lead to SSH access. A misconfiguration is then exploited to gain a shell."
     }
 ];
 

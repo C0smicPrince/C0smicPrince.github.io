@@ -91,6 +91,14 @@ const WRITEUPS = [
         difficulty: "Easy",
         tags:       ["Linux", "Web", "Privilege Escalation"],
         description: "BoardLight is an easy difficulty Linux machine that features a instance vulnerable to CVE-2023-30253. This vulnerability is leveraged to gain access as . After enumerating and dumping the web configuration file contents, plaintext credentials lead to access to the machine. Enumerating the system, a binary related to is identified which is vulnerable to privilege escalation via CVE-2022-37706 and can be abused to leverage a root shell."
+    },
+    {
+        title:      "Perfection",
+        file:       "writeups/HTB_Perfection.md",
+        platform:   "HTB",
+        difficulty: "Easy",
+        tags:       ["Linux", "Web", "Privilege Escalation"],
+        description: "Perfection is an easy Linux machine that features a web application with functionality to calculate student scores. This application is vulnerable to Server-Side Template Injection (SSTI) via regex filter bypass. A foothold can be gained by exploiting the SSTI vulnerability. Enumerating the user reveals they are part of the group. Further enumeration uncovers a database with password hashes, and the user&amp;#039;s mail reveals a possible password format. Using a mask attack on the hash, the user&amp;#039;s password is obtained, which is leveraged to gain access."
     }
 ];
 

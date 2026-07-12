@@ -67,6 +67,14 @@ const WRITEUPS = [
         difficulty: "Easy",
         tags:       ["Linux", "Web", "Privilege Escalation"],
         description: "PermX is an Easy Difficulty Linux machine featuring a learning management system vulnerable to unrestricted file uploads via CVE-2023-4220. This vulnerability is leveraged to gain a foothold on the machine. Enumerating the machine reveals credentials that lead to SSH access. A misconfiguration is then exploited to gain a shell."
+    },
+    {
+        title:      "Editorial",
+        file:       "writeups/HTB_Editorial.md",
+        platform:   "HTB",
+        difficulty: "Easy",
+        tags:       ["Linux", "Web", "Privilege Escalation"],
+        description: "Editorial is an easy difficulty Linux machine that features a publishing web application vulnerable to . This vulnerability is leveraged to gain access to an internal running API, which is then leveraged to obtain credentials that lead to access to the machine. Enumerating the system further reveals a Git repository that is leveraged to reveal credentials for a new user. The user can be obtained by exploiting CVE-2022-24439 and the sudo configuration."
     }
 ];
 

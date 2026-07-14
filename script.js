@@ -132,6 +132,12 @@ const MALWARE = [
         file:       "MalwareDev/EarlyBird/early-bird-injection.md",
         tags:       ["EarlyBird", "Injections", "c++"],
         description: "Showcasing how you can code a EarlyBird Injection in c++"
+    },
+    {
+        title:      "AES-Encrypted Shellcode Delivery Over Network Using Early Bird Injection",
+        file:       "MalwareDev/RemoteDownload/RemoteDownload.md",
+        tags:       ["Remote Download", "Encryption", "Early Bird", "Shellcode", "c++"],
+        description: "using AES to encrypt shellcode and then in loader decrypting it and using winHTTP to download the shellcode file and executing it with earlybird"
     }
 ];
 

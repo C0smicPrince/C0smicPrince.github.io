@@ -138,6 +138,12 @@ const MALWARE = [
         file:       "MalwareDev/RemoteDownload/RemoteDownload.md",
         tags:       ["Remote Download", "Encryption", "Early Bird", "Shellcode", "c++"],
         description: "using AES to encrypt shellcode and then in loader decrypting it and using winHTTP to download the shellcode file and executing it with earlybird"
+    },
+    {
+        title:      "Welcome to PE Madess - Writing a practical Loader",
+        file:       "MalwareDev/PE/PE Madness - Writing a basic Loader.md",
+        tags:       ["PE", "Loader", "c++"],
+        description: "Explaining how PE loader works, writing its structures and writing a practical loader."
     }
 ];
 

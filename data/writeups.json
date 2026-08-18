@@ -1,0 +1,90 @@
+[
+    {
+        "title":      "Devvortex",
+        "file":       "../writeups/HTB_devvortex.md",
+        "platform":   "HTB",
+        "difficulty": "Easy",
+        "tags":       ["linux", "web"],
+        "description": "Devvortex is an easy-difficulty Linux machine that features a Joomla CMS that is vulnerable to information disclosure. Accessing the service's configuration file reveals plaintext credentials that lead to Administrative access to the Joomla instance. With administrative access, the Joomla template is modified to include malicious PHP code and gain a shell. After gaining a shell and enumerating the database contents, hashed credentials are obtained, which are cracked and lead to SSH access to the machine. Post-exploitation enumeration reveals that the user is allowed to run apport-cli as root, which is leveraged to obtain a root shell."
+    },
+    {
+        "title":      "Forest",
+        "file":       "../writeups/HTB_forest.md",
+        "platform":   "HTB",
+        "difficulty": "Easy",
+        "tags":       ["windows", "Active Directory"],
+        "description": "Forest is an easy Windows machine that showcases a Domain Controller (DC) for a domain in which Exchange Server has been installed. The DC allows anonymous LDAP binds, which are used to enumerate domain objects. The password for a service account with Kerberos pre-authentication disabled can be cracked to gain a foothold. The service account is found to be a member of the Account Operators group, which can be used to add users to privileged Exchange groups. The Exchange group membership is leveraged to gain DCSync privileges on the domain and dump the NTLM hashes, compromising the system."
+    },
+    {
+        "title":      "Sauna",
+        "file":       "../writeups/HTB_sauna.md",
+        "platform":   "HTB",
+        "difficulty": "Easy",
+        "tags":       ["windows", "Active Directory"],
+        "description": "Sauna is an easy difficulty Windows machine that features Active Directory enumeration and exploitation. Possible usernames can be derived from employee full names listed on the website. With these usernames, an ASREPRoasting attack can be performed, which results in hash for an account that doesn't require Kerberos pre-authentication. This hash can be subjected to an offline brute force attack, in order to recover the plaintext password for a user that is able to WinRM to the box. Running WinPEAS reveals that another system user has been configured to automatically login and it identifies their password. This second user also has Windows remote management permissions. BloodHound reveals that this user has the DS-Replication-Get-Changes-All extended right, which allows them to dump password hashes from the Domain Controller in a DCSync attack."
+    },
+    {
+        "title":      "Heal",
+        "file":       "../writeups/HTB_heal.md",
+        "platform":   "HTB",
+        "difficulty": "Medium",
+        "tags":       ["Linux", "Web"],
+        "description": "Heal is a medium-difficult Linux machine that features a website vulnerable to arbitrary file read, allowing us to extract sensitive credentials. The server also hosts a LimeSurvey instance, where the leaked credentials can be used to log in as an administrator. Since administrators can upload plugins, we can exploit this to upload a malicious plugin and gain a reverse shell as the user. Further enumeration reveals the database password for LimeSurvey, which is reused by the system user, allowing us to escalate access. The server also runs a local instance of the Consul Agent. By registering a malicious service via the Consul API, we can escalate privileges and gain root access."
+    },
+    {
+        "title":      "Chill Hack",
+        "file":       "../writeups/THM_chillhack.md",
+        "platform":   "THM",
+        "difficulty": "Easy",
+        "tags":       ["Linux", "Web", "Privilege Escalation"],
+        "description": "Chill Hack is an easy-difficulty TryHackMe room focusing on web exploitation, filter bypasses, and privilege escalation. After discovering a hidden web endpoint (/secret), players must exploit a command injection flaw, using piping or Base64 encoding to bypass string filters and gain a www-data shell. Lateral movement involves exploiting an insecure custom bash script running via sudo to become the user apaar. From there, players utilize Ligolo-NG to pivot into internal ports, access a portal, and crack an offline backup archive to harvest credentials for the user anurodh. Finally, root access is achieved by exploiting a dangerous Docker group misconfiguration, allowing players to mount the host filesystem."
+    },
+    {
+        "title":      "Green Horn",
+        "file":       "../writeups/HTB_Greenhorn.md",
+        "platform":   "HTB",
+        "difficulty": "Easy",
+        "tags":       ["Linux", "Web", "Privilege Escalation"],
+        "description": "GreenHorn is an easy difficulty machine that takes advantage of an exploit in Pluck to achieve Remote Code Execution and then demonstrates the dangers of pixelated credentials. The machine also showcases that we must be careful when sharing open-source configurations to ensure that we do not reveal files containing passwords or other information that should be kept confidential."
+    },
+    {
+        "title":      "../PermX",
+        "file":       "writeups/HTB_Permx.md",
+        "platform":   "HTB",
+        "difficulty": "Easy",
+        "tags":       ["Linux", "Web", "Privilege Escalation"],
+        "description": "PermX is an Easy Difficulty Linux machine featuring a learning management system vulnerable to unrestricted file uploads via CVE-2023-4220. This vulnerability is leveraged to gain a foothold on the machine. Enumerating the machine reveals credentials that lead to SSH access. A misconfiguration is then exploited to gain a shell."
+    },
+    {
+        "title":      "../Editorial",
+        "file":       "writeups/HTB_Editorial.md",
+        "platform":   "HTB",
+        "difficulty": "Easy",
+        "tags":       ["Linux", "Web", "Privilege Escalation"],
+        "description": "Editorial is an easy difficulty Linux machine that features a publishing web application vulnerable to SSRF. This vulnerability is leveraged to gain access to an internal running API, which is then leveraged to obtain credentials that lead to access to the machine. Enumerating the system further reveals a Git repository that is leveraged to reveal credentials for a new user. The user can be obtained by exploiting CVE-2022-24439 and the sudo configuration."
+    },
+    {
+        "title":      "Usage",
+        "file":       "../writeups/HTB_Usage.md",
+        "platform":   "HTB",
+        "difficulty": "Easy",
+        "tags":       ["Linux", "Web", "Privilege Escalation"],
+        "description": "Usage is an easy Linux machine that features a blog site vulnerable to SQL injection, which allows the administrator's hashed password to be dumped and cracked. This leads to access to the admin panel, where an outdated module is abused to upload a PHP web shell and obtain remote code execution. On the machine, plaintext credentials stored in a file allow SSH access as another user, who can run a custom binary as root. The tool makes an insecure call, which is leveraged to read the user's private SSH key and fully compromise the system."
+    },
+    {
+        "title":      "BoardLight",
+        "file":       "../writeups/HTB_Boardlight.md",
+        "platform":   "HTB",
+        "difficulty": "Easy",
+        "tags":       ["Linux", "Web", "Privilege Escalation"],
+        "description": "BoardLight is an easy difficulty Linux machine that features a Dolibarr instance vulnerable to CVE-2023-30253. This vulnerability is leveraged to gain access as www-data. After enumerating and dumping the web configuration file contents, plaintext credentials lead to access to the machine. Enumerating the system, a binary related to Enlightenment is identified which is vulnerable to privilege escalation via CVE-2022-37706 and can be abused to leverage a root shell."
+    },
+    {
+        "title":      "Perfection",
+        "file":       "../writeups/HTB_Perfection.md",
+        "platform":   "HTB",
+        "difficulty": "Easy",
+        "tags":       ["Linux", "Web", "Privilege Escalation"],
+        "description": "Perfection is an easy Linux machine that features a web application with functionality to calculate student scores. This application is vulnerable to Server-Side Template Injection (SSTI) via regex filter bypass. A foothold can be gained by exploiting the SSTI vulnerability. Enumerating the user reveals they are part of the sudo group. Further enumeration uncovers a database with password hashes, and the user's mail reveals a possible password format. Using a mask attack on the hash, the user's password is obtained, which is leveraged to gain access."
+    }
+]

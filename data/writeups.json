@@ -86,5 +86,13 @@
         "difficulty": "Easy",
         "tags":       ["Linux", "Web", "Privilege Escalation"],
         "description": "Perfection is an easy Linux machine that features a web application with functionality to calculate student scores. This application is vulnerable to Server-Side Template Injection (SSTI) via regex filter bypass. A foothold can be gained by exploiting the SSTI vulnerability. Enumerating the user reveals they are part of the sudo group. Further enumeration uncovers a database with password hashes, and the user's mail reveals a possible password format. Using a mask attack on the hash, the user's password is obtained, which is leveraged to gain access."
+    },
+    {
+        "title":      "Operation EndGame",
+        "file":       "../writeups/THM_OperationEndgame.md",
+        "platform":   "THM",
+        "difficulty": "Hard",
+        "tags":       ["Windows", "Web", "AD"],
+        "description": "Operation Endgame focuses on Active Directory exploitation starting with unauthenticated guest access. The attack path leverages ldapsearch for user enumeration, Kerberoasting, and BloodHound enumeration. Exploiting guest privileges leads to a Resource-Based Constrained Delegation (RBCD) attack, allowing Kerberos ticket impersonation of Administrator, DCSync, and full domain takeover via smbexec. "
     }
 ]
